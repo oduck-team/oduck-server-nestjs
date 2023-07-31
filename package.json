@@ -7,6 +7,7 @@
   "license": "UNLICENSED",
   "scripts": {
     "migrate": "prisma migrate dev --name init",
+    "swag": "npx nestia swagger",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
@@ -18,21 +19,29 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "prepare": "ts-patch install"
   },
   "prisma": {
     "schema": "prisma/schema.prisma"
   },
   "dependencies": {
+    "@nestia/core": "^1.4.4",
     "@nestjs/common": "^10.0.0",
     "@nestjs/core": "^10.0.0",
     "@nestjs/platform-express": "^10.0.0",
+    "@nestjs/swagger": "^7.1.4",
     "@prisma/client": "^5.0.0",
     "dotenv": "^16.3.1",
+    "helmet": "^7.0.0",
     "reflect-metadata": "^0.1.13",
-    "rxjs": "^7.8.1"
+    "rxjs": "^7.8.1",
+    "typia": "^4.1.8",
+    "winston": "^3.10.0"
   },
   "devDependencies": {
+    "@nestia/e2e": "^0.3.6",
+    "@nestia/sdk": "^1.4.15",
     "@nestjs/cli": "^10.0.0",
     "@nestjs/schematics": "^10.0.0",
     "@nestjs/testing": "^10.0.0",
@@ -54,8 +63,9 @@
     "ts-jest": "^29.1.0",
     "ts-loader": "^9.4.3",
     "ts-node": "^10.9.1",
+    "ts-patch": "^3.0.2",
     "tsconfig-paths": "^4.2.0",
-    "typescript": "^5.1.3"
+    "typescript": "^5.1.6"
   },
   "jest": {
     "moduleFileExtensions": [
