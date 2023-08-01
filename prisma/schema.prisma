@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -10,18 +7,268 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id    Int     @default(autoincrement()) @id
-  email String  @unique
-  name  String?
-  posts Post[]
+model Member {
+  id            BigInt    @id @default(autoincrement())
+  loginType     LoginType
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  deletedAt     DateTime?
+
+  memberProfile MemberProfile?
+  authSocial    AuthSocial?
+  authPassword  AuthPassword?
+  threads       Thread[]
+  bookmarks     Bookmark[]
+  reviewLikes   ReviewLike[]
 }
 
-model Post {
-  id        Int      @default(autoincrement()) @id
+model MemberProfile {
+  id        BigInt    @id @default(autoincrement())
+  memberId  BigInt    @unique
+  name      String
+  role      Role      @default(USER)
+  imageUrl  String?
+  point     BigInt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  member    Member    @relation(fields: [memberId], references: [id])
+}
+
+model AuthSocial {
+  id        BigInt  @id @default(autoincrement())
+  memberId  BigInt  @unique
+  socialId  String
+  type      String
+  member    Member  @relation(fields: [memberId], references: [id])
+}
+
+model AuthPassword {
+  id        BigInt    @id @default(autoincrement())
+  memberId  BigInt    @unique
+  hash      String
+  password  String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  member    Member    @relation(fields: [memberId], references: [id])
+}
+
+model Animation {
+  id              BigInt    @id @default(autoincrement())
+  name            String
+  plot            String
+  broadcastType   BroadcastType
+  episodeNumber   Int
+  rating          Rating
+  primaryKeyword  String
+  status          Status
+  isReleased      Boolean
+  reviewCount     Int
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  deletedAt       DateTime?
+
+  genres          AnimationGenre[]
+  keywords        AnimationKeyword[]
+  studios         AnimationStudio[]
+  voiceActors     AnimationVoiceActor[]
+  seasons         AnimationSeason[]
+  originalWorkers AnimationOriginalWorker[]
+  images          AnimationImage[]
+  bookmarks       Bookmark[]
+}
+
+model AnimationGenre {
+  id          BigInt    @id @default(autoincrement())
+  animationId BigInt
+  type        GenreType
+  createdAt   DateTime  @default(now())
+  animation   Animation @relation(fields: [animationId], references: [id])
+}
+
+model AnimationKeyword {
+  id          BigInt    @id @default(autoincrement())
+  animationId BigInt
+  keyword     String
+  createdAt   DateTime  @default(now())
+  animation   Animation @relation(fields: [animationId], references: [id])
+}
+
+model AnimationStudio {
+  id          BigInt    @id @default(autoincrement())
+  animationId BigInt
+  name        String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  animation   Animation @relation(fields: [animationId], references: [id])
+}
+
+model AnimationVoiceActor {
+  id          BigInt    @id @default(autoincrement())
+  animationId BigInt
+  name        String
+  createdAt   DateTime  @default(now())
+  animation   Animation @relation(fields: [animationId], references: [id])
+}
+
+model AnimationSeason {
+  id          BigInt    @id @default(autoincrement())
+  animationId BigInt
+  year        Int
+  quarter     Int
+  createdAt   DateTime  @default(now())
+  animation   Animation @relation(fields: [animationId], references: [id])
+}
+
+model AnimationOriginalWorker {
+  id          BigInt    @id @default(autoincrement())
+  animationId BigInt
+  name        String
+  createdAt   DateTime  @default(now())
+  animation   Animation @relation(fields: [animationId], references: [id])
+}
+
+model AnimationImage {
+  id          BigInt    @id @default(autoincrement())
+  animationId BigInt
+  imageUrl    String
+  createdAt   DateTime  @default(now())
+  animation   Animation @relation(fields: [animationId], references: [id])
+}
+
+model Review {
+  id                BigInt    @id @default(autoincrement())
+  memberId          BigInt
+  animationId       BigInt
+  type              ReviewType
+  rating            Int
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  deletedAt         DateTime?
+
+  shortReview       ShortReview?
+  longReview        LongReview?
+  attractionPoints  AttractionPoint[]
+  reviewLikes       ReviewLike[]
+}
+
+model ShortReview {
+  id        BigInt  @id @default(autoincrement())
+  reviewId  BigInt  @unique
+  comment   String
+  review    Review  @relation(fields: [reviewId], references: [id])
+}
+
+model LongReview {
+  id        BigInt  @id @default(autoincrement())
+  reviewId  BigInt  @unique
   title     String
-  content   String?
-  published Boolean? @default(false)
-  author    User?    @relation(fields: [authorId], references: [id])
-  authorId  Int?
+  content   String
+  review    Review  @relation(fields: [reviewId], references: [id])
+  images    LongReviewImage[]
+}
+
+model LongReviewImage {
+  id            BigInt      @id @default(autoincrement())
+  longReviewId  BigInt
+  imageUrl      String
+  createdAt     DateTime    @default(now())
+  longReview    LongReview  @relation(fields: [longReviewId], references: [id])
+}
+
+model MemberPointLog {
+  id          BigInt    @id @default(autoincrement())
+  memberId    BigInt
+  reasonCode  String
+  reasonText  String
+  createdAt   DateTime  @default(now())
+}
+
+model AttractionPoint {
+  id                BigInt    @id @default(autoincrement())
+  reviewId          BigInt
+  attractionElement AttractionElement
+  createdAt         DateTime  @default(now())
+  review            Review    @relation(fields: [reviewId], references: [id])
+}
+
+model Thread {
+  id        BigInt    @id @default(autoincrement())
+  memberId  BigInt
+  groupId   BigInt
+  parentId  BigInt
+  title     String
+  comment   String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  member    Member    @relation(fields: [memberId], references: [id])
+  images    ThreadImage[]
+}
+
+model ThreadImage {
+  id        BigInt    @id @default(autoincrement())
+  threadId  BigInt
+  imageUrl  String
+  createdAt DateTime  @default(now())
+  thread    Thread    @relation(fields: [threadId], references: [id])
+}
+
+model Bookmark {
+  id          BigInt    @id @default(autoincrement())
+  memberId    BigInt
+  animationId BigInt
+  createdAt   DateTime  @default(now())
+
+  member      Member    @relation(fields: [memberId], references: [id])
+  animation   Animation @relation(fields: [animationId], references: [id])
+}
+
+model ReviewLike {
+  id        BigInt    @id @default(autoincrement())
+  memberId  BigInt
+  reviewId  BigInt
+  createdAt DateTime  @default(now())
+
+  member    Member    @relation(fields: [memberId], references: [id])
+  review    Review    @relation(fields: [reviewId], references: [id])
+}
+
+enum LoginType {
+  LOCAL
+  SOCIAL
+}
+
+enum Role {
+  GUEST
+  USER
+  ADMIN
+}
+
+enum BroadcastType {
+  TYPE
+}
+
+enum Rating {
+  RATING
+}
+
+enum Status {
+  FINISHED
+  ONGOING
+  UPCOMING
+  UNKNOWN
+}
+
+enum GenreType {
+  GENRE
+}
+
+enum ReviewType {
+  SHORT
+  LONG
+}
+
+enum AttractionElement {
+  ATTRACTION
 }
