@@ -53,39 +53,104 @@ model AuthPassword {
 }
 
 model Animation {
-  id              BigInt    @id @default(autoincrement())
-  name            String
-  plot            String
-  broadcastType   BroadcastType
-  episodeNumber   Int       @default(0)
-  rating          Rating
-  primaryKeyword  String
-  status          Status
-  isReleased      Boolean   @default(false)
-  reviewCount     Int       @default(0)
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  deletedAt       DateTime?
+  id                    BigInt    @id @default(autoincrement())
+  name                  String
+  plot                  String
+  broadcastType         BroadcastType
+  episodeNumber         Int       @default(0)
+  rating                Rating
+  primaryKeyword        String
+  status                Status
+  isReleased            Boolean   @default(false)
+  reviewCount           Int       @default(0)
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+  deletedAt             DateTime?
 
-  genres          AnimationGenre[]
-  keywords        AnimationKeyword[]
-  studios         AnimationStudio[]
-  voiceActors     AnimationVoiceActor[]
-  seasons         AnimationSeason[]
-  originalWorkers AnimationOriginalWorker[]
-  images          AnimationImage[]
-  bookmarks       Bookmark[]
+  animationGenres       AnimationGenre[]
+  animationStudioList   AnimationStudio[]
+  animationVoiceActors  AnimationVoiceActor[]
+  originalWorkers       AnimationOriginalWorker[]
+  images                AnimationImage[]
+  keywords              Keyword[]
+  seasons               Season[]
+  bookmarks             Bookmark[]
 }
 
 model AnimationGenre {
   id          BigInt    @id @default(autoincrement())
   animationId BigInt
-  type        GenreType
+  genreId     BigInt
+
+  animation   Animation @relation(fields: [animationId], references: [id])
+  genre       Genre     @relation(fields: [genreId], references: [id])
+}
+
+model AnimationStudio {
+  id          BigInt    @id @default(autoincrement())
+  animationId BigInt
+  studioId    BigInt
+
+  animation   Animation @relation(fields: [animationId], references: [id])
+  studio      Studio    @relation(fields: [studioId], references: [id])
+}
+
+model AnimationVoiceActor {
+  id            BigInt      @id @default(autoincrement())
+  animationId   BigInt
+  voiceActorId  BigInt
+
+  animation     Animation   @relation(fields: [animationId], references: [id])
+  voiceActor    VoiceActor  @relation(fields: [voiceActorId], references: [id])
+}
+
+model AnimationOriginalWorker {
+  id                BigInt          @id @default(autoincrement())
+  animationId       BigInt
+  originalWorkerId  BigInt
+
+  animation         Animation       @relation(fields: [animationId], references: [id])
+  originalWorker    OriginalWorker  @relation(fields: [originalWorkerId], references: [id])
+}
+
+model AnimationImage {
+  id          BigInt    @id @default(autoincrement())
+  animationId BigInt
+  imageUrl    String
   createdAt   DateTime  @default(now())
   animation   Animation @relation(fields: [animationId], references: [id])
 }
 
-model AnimationKeyword {
+model Genre {
+  id              BigInt    @id @default(autoincrement())
+  type            GenreType
+  createdAt       DateTime  @default(now())
+  animationGenres AnimationGenre[]
+}
+
+model Studio {
+  id                  BigInt    @id @default(autoincrement())
+  name                String
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+  animationStudioList AnimationStudio[]
+}
+
+model VoiceActor {
+  id                    BigInt    @id @default(autoincrement())
+  name                  String
+  createdAt             DateTime  @default(now())
+  animationVoiceActors  AnimationVoiceActor[]
+}
+
+model OriginalWorker {
+  id                        BigInt    @id @default(autoincrement())
+  name                      String
+  createdAt                 DateTime  @default(now())
+  animationOriginalWorkers  AnimationOriginalWorker[]
+}
+
+model Keyword {
   id          BigInt    @id @default(autoincrement())
   animationId BigInt
   keyword     String
@@ -93,44 +158,11 @@ model AnimationKeyword {
   animation   Animation @relation(fields: [animationId], references: [id])
 }
 
-model AnimationStudio {
-  id          BigInt    @id @default(autoincrement())
-  animationId BigInt
-  name        String
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
-  animation   Animation @relation(fields: [animationId], references: [id])
-}
-
-model AnimationVoiceActor {
-  id          BigInt    @id @default(autoincrement())
-  animationId BigInt
-  name        String
-  createdAt   DateTime  @default(now())
-  animation   Animation @relation(fields: [animationId], references: [id])
-}
-
-model AnimationSeason {
+model Season {
   id          BigInt    @id @default(autoincrement())
   animationId BigInt
   year        Int       @default(0)
   quarter     Int       @default(0)
-  createdAt   DateTime  @default(now())
-  animation   Animation @relation(fields: [animationId], references: [id])
-}
-
-model AnimationOriginalWorker {
-  id          BigInt    @id @default(autoincrement())
-  animationId BigInt
-  name        String
-  createdAt   DateTime  @default(now())
-  animation   Animation @relation(fields: [animationId], references: [id])
-}
-
-model AnimationImage {
-  id          BigInt    @id @default(autoincrement())
-  animationId BigInt
-  imageUrl    String
   createdAt   DateTime  @default(now())
   animation   Animation @relation(fields: [animationId], references: [id])
 }
