@@ -28,7 +28,7 @@ model MemberProfile {
   name      String
   role      Role      @default(USER)
   imageUrl  String?
-  point     BigInt
+  point     BigInt    @default(0)
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
   member    Member    @relation(fields: [memberId], references: [id])
@@ -57,12 +57,12 @@ model Animation {
   name            String
   plot            String
   broadcastType   BroadcastType
-  episodeNumber   Int
+  episodeNumber   Int       @default(0)
   rating          Rating
   primaryKeyword  String
   status          Status
-  isReleased      Boolean
-  reviewCount     Int
+  isReleased      Boolean   @default(false)
+  reviewCount     Int       @default(0)
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
   deletedAt       DateTime?
@@ -113,8 +113,8 @@ model AnimationVoiceActor {
 model AnimationSeason {
   id          BigInt    @id @default(autoincrement())
   animationId BigInt
-  year        Int
-  quarter     Int
+  year        Int       @default(0)
+  quarter     Int       @default(0)
   createdAt   DateTime  @default(now())
   animation   Animation @relation(fields: [animationId], references: [id])
 }
@@ -140,7 +140,7 @@ model Review {
   memberId          BigInt
   animationId       BigInt
   type              ReviewType
-  rating            Int
+  rating            Int       @default(0)
   createdAt         DateTime  @default(now())
   updatedAt         DateTime  @updatedAt
   deletedAt         DateTime?
