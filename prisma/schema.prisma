@@ -278,11 +278,16 @@ enum Role {
 }
 
 enum BroadcastType {
-  TYPE
+  TVA
+  OVA
+  THEATER
 }
 
 enum Rating {
-  RATING
+  ADULT
+  FIFTEEN
+  TWELVE
+  ALL
 }
 
 enum Status {
