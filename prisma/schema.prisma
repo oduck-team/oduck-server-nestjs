@@ -18,6 +18,7 @@ model Member {
   authSocial    AuthSocial?
   authPassword  AuthPassword?
   threads       Thread[]
+  reviews       Review[]
   bookmarks     Bookmark[]
   reviewLikes   ReviewLike[]
 }
@@ -178,6 +179,7 @@ model Review {
   updatedAt         DateTime  @updatedAt
   deletedAt         DateTime?
 
+  member            Member    @relation(fields: [memberId], references: [id])
   shortReview       ShortReview?
   longReview        LongReview?
   attractionPoints  AttractionPoint[]
