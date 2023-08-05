@@ -11,7 +11,7 @@ model Member {
   id            Int       @id @default(autoincrement())
   loginType     LoginType
   createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  updatedAt     DateTime  @updatedAt  @default(now())
   deletedAt     DateTime?
 
   memberProfile MemberProfile?
@@ -31,7 +31,7 @@ model MemberProfile {
   imageUrl  String?
   point     Int       @default(0)
   createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  updatedAt DateTime  @updatedAt  @default(now())
   member    Member    @relation(fields: [memberId], references: [id])
 }
 
@@ -49,7 +49,7 @@ model AuthPassword {
   hash      String
   password  String
   createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  updatedAt DateTime  @updatedAt  @default(now())
   member    Member    @relation(fields: [memberId], references: [id])
 }
 
@@ -67,7 +67,7 @@ model Animation {
   viewCount             Int       @default(0)
   reviewCount           Int       @default(0)
   createdAt             DateTime  @default(now())
-  updatedAt             DateTime  @updatedAt
+  updatedAt             DateTime  @updatedAt  @default(now())
   deletedAt             DateTime?
 
   animationGenres       AnimationGenre[]
@@ -126,7 +126,7 @@ model Studio {
   id                  Int       @id @default(autoincrement())
   name                String
   createdAt           DateTime  @default(now())
-  updatedAt           DateTime  @updatedAt
+  updatedAt           DateTime  @updatedAt  @default(now())
   animationStudioList AnimationStudio[]
 }
 
@@ -168,7 +168,7 @@ model Review {
   type              ReviewType
   rating            Int       @default(0)
   createdAt         DateTime  @default(now())
-  updatedAt         DateTime  @updatedAt
+  updatedAt         DateTime  @updatedAt  @default(now())
   deletedAt         DateTime?
 
   member            Member    @relation(fields: [memberId], references: [id])
@@ -226,7 +226,7 @@ model Thread {
   title     String
   comment   String
   createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
+  updatedAt DateTime  @updatedAt  @default(now())
   deletedAt DateTime?
 
   member    Member    @relation(fields: [memberId], references: [id])
