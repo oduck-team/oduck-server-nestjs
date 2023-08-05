@@ -10,7 +10,8 @@ async function bootstrap() {
   // swagger 적용
   setSwagger(app);
 
-  await app.listen(3000);
+  // 포트 설정후 실행
+  await app.listen(process.env.PORT ? parseInt(process.env.PORT) : 3000);
 }
 
 bootstrap();
