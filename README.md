@@ -1,5 +1,12 @@
 # oduck-server
 
+# How To Use?
+
+1. [환경 변수](./docs/env.md)
+2. [Prisma](./docs/prisma.md)
+3. [NestJS](./docs/nestjs.md)
+4. [Docker](./docs/docker.md)
+
 ## 커밋 메세지 컨벤션
 
 ### 커밋 형식

@@ -14,7 +14,7 @@ const config: INestiaConfig = {
     },
     servers: [
       {
-        url: 'http://localhost:3000',
+        url: `http://localhost:${process.env.PORT}`,
         description: 'Local Server',
       },
     ],

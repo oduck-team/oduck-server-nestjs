@@ -1,23 +1,23 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { INestApplication } from '@nestjs/common';
-import { SwaggerModule } from '@nestjs/swagger';
-import { readFileSync } from 'fs';
-import * as path from 'path';
-
-export const setSwagger = (app: INestApplication) => {
-  const swaagerConfig = readFileSync(
-    path.join(__dirname, '../swagger.json'),
-    'utf8',
-  );
-  const swaggerDocument = JSON.parse(swaagerConfig);
-
-  SwaggerModule.setup('api', app, swaggerDocument);
-};
+import helmet from 'helmet';
+import { setSwagger } from './global/config/swagger';
+import { winstonLogger } from './global/config/winston';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    logger: winstonLogger,
+  });
+  // swagger 적용
   setSwagger(app);
-  await app.listen(3000);
+
+  // helmet 헤더 보안 적용
+  app.use(helmet());
+
+  console.log(process.env)
+
+  // 포트 설정후 실행
+  await app.listen(process.env.PORT ? parseInt(process.env.PORT) : 3000);
 }
+
 bootstrap();
