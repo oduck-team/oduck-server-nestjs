@@ -35,4 +35,10 @@ export class AnimationRepository {
 
         return this.prisma.animation.findMany(prismaQuery);
     }
+
+    async getAnimationById(id: number): Promise<Animation> {
+        return this.prisma.animation.findFirstOrThrow({
+            where: { id }
+        })
+    }
 }

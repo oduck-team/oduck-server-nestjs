@@ -1,6 +1,6 @@
 import {Controller} from '@nestjs/common';
 import {AnimationService} from "./animation.service";
-import {TypedQuery, TypedRoute} from "@nestia/core";
+import {TypedParam, TypedQuery, TypedRoute} from "@nestia/core";
 import {Animation} from "@prisma/client";
 import {IAnimation} from "./model/animation.list.dto";
 
@@ -13,5 +13,12 @@ export class AnimationController {
         @TypedQuery() query: IAnimation.IList
     ): Promise<Animation[]> {
         return this.service.getAnimations(query);
+    }
+
+    @TypedRoute.Get("/:id")
+    async getOneById(
+        @TypedParam('id') id: number
+    ): Promise<Animation> {
+        return this.service.getAnimationById(id);
     }
 }

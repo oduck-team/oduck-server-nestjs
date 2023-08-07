@@ -10,4 +10,8 @@ export class AnimationService {
     async getAnimations(query: IAnimation.IList): Promise<Animation[]> {
         return this.repository.getAnimations(query);
     }
+
+    async getAnimationById(id: number): Promise<Animation> {
+        return this.repository.getAnimationById(id);
+    }
 }

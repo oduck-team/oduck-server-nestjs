@@ -46,4 +46,31 @@ describe('AnimationService', () => {
       expect(result[0].name).toContain('바키')
     })
   })
+
+  describe('getAnimation by id', () => {
+    it('should return an animation', async () => {
+      jest.spyOn(repository, 'getAnimationById').mockResolvedValue(
+        {
+          "id": 1,
+          "name": "바키",
+          "plot": "",
+          "broadcastType": "TVA",
+          "episodeNumber": 1,
+          "rating": "ADULT",
+          "primaryKeyword": "",
+          "status": "FINISHED",
+          "isReleased": false,
+          "viewCount": 0,
+          "reviewCount": 0,
+          "createdAt": new Date(),
+          "updatedAt": new Date(),
+          "deletedAt": null
+        },
+      );
+
+      const result = await (async () => await service.getAnimationById(1))();
+
+      expect(result.name).toContain('바키')
+    })
+  })
 });
