@@ -14,8 +14,6 @@ async function bootstrap() {
   // helmet 헤더 보안 적용
   app.use(helmet());
 
-  console.log(process.env)
-
   // 포트 설정후 실행
   await app.listen(process.env.PORT ? parseInt(process.env.PORT) : 3000);
 }
