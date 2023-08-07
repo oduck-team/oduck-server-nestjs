@@ -10,6 +10,12 @@
 > # 도커 컨테이너 실행
 > docker container run --name oduck-docker -d -p 8000:8000 oduck-nest
 >
+> # 도커 컨테이너 로그 확인
+> docker container logs oduck-docker
+>
+> # 도커 컨테이너 재실행
+> docker container restart oduck-docker
+>
 > # 도커 컨테이너 중단
 > docker container stop oduck-docker
 > ```
