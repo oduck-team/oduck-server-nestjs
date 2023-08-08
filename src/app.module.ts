@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './domain/user/users.module';
-import { AnimationModule } from "./domain/animation/animation.module";
+import { AnimationModule } from './domain/animation/animation.module';
 
 @Module({
   imports: [
@@ -18,7 +18,7 @@ import { AnimationModule } from "./domain/animation/animation.module";
           : '.env.local',
     }),
     UsersModule,
-    AnimationModule
+    AnimationModule,
   ],
   controllers: [],
   providers: [],

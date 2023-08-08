@@ -1,7 +1,7 @@
 import { INestiaConfig } from '@nestia/sdk';
 import { controllerFilePaths } from './src/global/utils/controllerPathfinder.util';
-import * as dotenv from 'dotenv'
-dotenv.config({ path: '.env.dev' })
+import * as dotenv from 'dotenv';
+dotenv.config({ path: '.env.dev' });
 
 const config: INestiaConfig = {
   input: controllerFilePaths,
@@ -16,7 +16,9 @@ const config: INestiaConfig = {
     },
     servers: [
       {
-        url: `http://localhost:${process.env.NO_DOCKER ? process.env.PORT : 8000}`,
+        url: `http://localhost:${
+          process.env.NO_DOCKER ? process.env.PORT : 8000
+        }`,
         description: 'Local Server',
       },
     ],
