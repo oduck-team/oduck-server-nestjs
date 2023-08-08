@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
 import { AnimationController } from './animation.controller';
 import { AnimationService } from './animation.service';
-import {AnimationRepository} from "./animation.repository";
-import {PrismaModule} from "../../global/database/prisma/prisma.module";
+import { AnimationRepository } from './animation.repository';
+import { PrismaModule } from '../../global/database/prisma/prisma.module';
 
 @Module({
   imports: [PrismaModule],
