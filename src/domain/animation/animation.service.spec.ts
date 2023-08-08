@@ -2,9 +2,9 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AnimationService } from './animation.service';
 import { AnimationRepository } from './animation.repository';
 import { PrismaService } from '../../global/database/prisma/prisma.service';
-import { BroadcastType, Rating, Status } from '@prisma/client';
+import { Animation, BroadcastType, Rating, Status } from '@prisma/client';
 
-const MOCK_RESULT = {
+const MOCK_RESULT: Animation = {
   id: 1,
   name: '바키',
   plot: '',
