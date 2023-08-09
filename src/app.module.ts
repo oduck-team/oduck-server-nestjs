@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './domain/user/users.module';
+import { ReviewsModule } from './domain/review/reviews.module';
 
 @Module({
   imports: [
@@ -17,6 +18,7 @@ import { UsersModule } from './domain/user/users.module';
           : '.env.local',
     }),
     UsersModule,
+    ReviewsModule,
   ],
   controllers: [],
   providers: [],
