@@ -38,6 +38,7 @@ model MemberProfile {
 model AuthSocial {
   id        Int     @id @default(autoincrement())
   memberId  Int     @unique
+  email     String  @unique
   socialId  String
   type      String
   member    Member  @relation(fields: [memberId], references: [id])
