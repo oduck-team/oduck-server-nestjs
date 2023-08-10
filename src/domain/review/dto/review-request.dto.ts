@@ -26,7 +26,7 @@ export interface CreateShortReviewDto extends CreateReviewDto {
    * @minItems 0
    * @maxItems 6
    */
-  attractionPoints: AttractionElement[];
+  readonly attractionPoints: AttractionElement[];
 }
 
 export interface ReviewPageQueryDto {

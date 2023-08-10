@@ -21,13 +21,21 @@ export class ShortReviewService {
     query: ReviewPageQueryDto,
   ): Promise<ShortReviewResponseDto[]> {
     const { lastId, pageSize, sortKey, sortDir } = query;
-    return await this.shortReviewRepository.selectShortReviewPage(
+    const shortReviews = await this.shortReviewRepository.selectShortReviewPage(
       animationId,
       lastId,
       pageSize,
       sortKey,
       sortDir,
     );
+
+    const shortReviewDtoList: ShortReviewResponseDto[] = [];
+    shortReviews.forEach((shortReview) => {
+      const shortReviewResponseDto = new ShortReviewResponseDto(shortReview);
+      shortReviewDtoList.push(shortReviewResponseDto);
+    });
+
+    return shortReviewDtoList;
   }
 
   async createShortReview(
