@@ -1,11 +1,11 @@
 import { TypedBody, TypedRoute } from '@nestia/core';
 import { Controller, Logger } from '@nestjs/common';
-import { TestDto } from './dto/create-user.dto';
+import { TestDto } from './dto/test.dto';
 
-@Controller('/users')
+@Controller('/members')
 export class UsersController {
   @TypedRoute.Post()
-  createUser(@TypedBody() body: TestDto) {
+  createMember(@TypedBody() body: TestDto) {
     Logger.error('hello', 'world');
     Logger.warn('hello', 'world');
     Logger.log('hello', 'world');
