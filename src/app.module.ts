@@ -1,6 +1,8 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { UsersModule } from './domain/user/users.module';
+import { AuthModule } from './global/auth/auth.module';
+import { UsersModule } from './domain/member/members.module';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
   imports: [
@@ -16,6 +18,8 @@ import { UsersModule } from './domain/user/users.module';
           ? '.env.dev'
           : '.env.local',
     }),
+    AuthModule,
+    PassportModule.register({ session: true }),
     UsersModule,
   ],
   controllers: [],
