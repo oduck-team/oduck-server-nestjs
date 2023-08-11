@@ -3,10 +3,11 @@ import { AnimationController } from './animation.controller';
 import { AnimationService } from './animation.service';
 import { AnimationRepository } from './animation.repository';
 import { PrismaModule } from '../../global/database/prisma/prisma.module';
+import { AdminAnimationController } from './admin.animation.controller';
 
 @Module({
   imports: [PrismaModule],
-  controllers: [AnimationController],
+  controllers: [AnimationController, AdminAnimationController],
   providers: [AnimationService, AnimationRepository],
   exports: [AnimationService],
 })

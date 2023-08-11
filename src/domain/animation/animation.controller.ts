@@ -10,11 +10,11 @@ export class AnimationController {
 
   @TypedRoute.Get('/')
   async getList(@TypedQuery() query: IList): Promise<Animation[]> {
-    return this.service.getAnimations(query);
+    return this.service.getList(query);
   }
 
   @TypedRoute.Get('/:id')
-  async getOneById(@TypedParam('id') id: number): Promise<Animation> {
-    return this.service.getAnimationById(id);
+  async show(@TypedParam('id') id: number): Promise<Animation> {
+    return this.service.getOneById(id);
   }
 }

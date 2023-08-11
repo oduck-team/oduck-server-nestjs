@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Prisma, Animation } from '@prisma/client';
 import { PrismaService } from '../../global/database/prisma/prisma.service';
 import { IList } from './model/animation.list.dto';
+import { AnimationCreateDto } from './model/animation.create.dto';
 
 @Injectable()
 export class AnimationRepository {
@@ -40,5 +41,24 @@ export class AnimationRepository {
     return this.prisma.animation.findFirstOrThrow({
       where: { id },
     });
+  }
+
+  async storeAnimation(body: AnimationCreateDto) {
+    // TODO: modify to store voice_actor, studio.... transaction
+    return this.prisma.animation.create({
+      data: body,
+    });
+  }
+
+  async updateAnimation(id: number, body: AnimationCreateDto) {
+    // TODO: modify to store voice_actor, studio.... transaction
+    return this.prisma.animation.update({
+      where: { id },
+      data: body,
+    });
+  }
+
+  async destroyById(id: number) {
+    return this.prisma.animation.delete({ where: { id } });
   }
 }

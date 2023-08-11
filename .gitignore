@@ -9,6 +9,7 @@
 
 # compiled output
 /dist
+!/dist/swagger.json
 /node_modules
 
 # Logs

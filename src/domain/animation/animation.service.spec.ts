@@ -43,7 +43,7 @@ describe('AnimationService', () => {
     it('should return all animations', async () => {
       jest.spyOn(repository, 'getAnimations').mockResolvedValue([MOCK_RESULT]);
 
-      const result = await (async () => await service.getAnimations({}))();
+      const result = await (async () => await service.getList({}))();
 
       expect(result[0].name).toContain('바키');
     });
@@ -53,7 +53,7 @@ describe('AnimationService', () => {
     it('should return an animation', async () => {
       jest.spyOn(repository, 'getAnimationById').mockResolvedValue(MOCK_RESULT);
 
-      const result = await (async () => await service.getAnimationById(1))();
+      const result = await (async () => await service.getOneById(1))();
 
       expect(result.name).toContain('바키');
     });
