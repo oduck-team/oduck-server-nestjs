@@ -17,6 +17,15 @@
         "tags": [],
         "parameters": [
           {
+            "name": "animationId",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "number"
+            },
+            "required": true
+          },
+          {
             "name": "query",
             "in": "query",
             "description": "",
@@ -48,7 +57,26 @@
       },
       "post": {
         "tags": [],
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "memberId",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "number"
+            },
+            "required": true
+          },
+          {
+            "name": "animationId",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "number"
+            },
+            "required": true
+          }
+        ],
         "requestBody": {
           "description": "",
           "content": {
@@ -79,10 +107,20 @@
         "x-nestia-method": "POST"
       }
     },
-    "/api/short-reviews/delete": {
+    "/api/short-reviews/{id}/delete": {
       "patch": {
         "tags": [],
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "schema": {
+              "type": "number"
+            },
+            "required": true
+          }
+        ],
         "responses": {
           "201": {
             "description": "",
@@ -154,7 +192,11 @@
           "sortKey": {
             "x-typia-required": false,
             "x-typia-optional": true,
-            "type": "string"
+            "type": "string",
+            "enum": [
+              "createdAt",
+              "rating"
+            ]
           },
           "sortDir": {
             "x-typia-required": false,
