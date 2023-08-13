@@ -1,9 +1,23 @@
-import { Injectable } from '@nestjs/common';
-import { Prisma, PrismaClient } from '@prisma/client';
-import { IShortReview } from './reviews.interface';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
+import {
+  AttractionElement,
+  Prisma,
+  PrismaClient,
+  Review,
+} from '@prisma/client';
+import { IReviewQuery, IShortReview } from './reviews.interface';
+import { SortKey } from './reviews.enum';
+import { PrismaService } from '../../global/config/prisma/prisma.service';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 
 @Injectable()
-export class ShortReviewRepository extends PrismaClient {
+export class ShortReviewRepository {
+  constructor(private readonly prisma: PrismaService) {}
+
   async selectShortReviewPage(
     animationId: number,
     lastId?: number,
@@ -11,16 +25,7 @@ export class ShortReviewRepository extends PrismaClient {
     sortKey?: string,
     sortDir?: string,
   ): Promise<IShortReview[]> {
-    const prismaQuery: {
-      where: {
-        reviewId: Prisma.ReviewWhereInput;
-        deletedAt: Date | null;
-      };
-      skip: number;
-      take: number;
-      cursor: NonNullable<any>;
-      orderBy: NonNullable<unknown>;
-    } = {
+    const prismaQuery: IReviewQuery = {
       where: {
         reviewId: Prisma.validator<Prisma.ReviewWhereInput>()({ animationId }),
         deletedAt: null,
@@ -33,7 +38,7 @@ export class ShortReviewRepository extends PrismaClient {
       },
     };
 
-    return this.review.findMany({
+    return this.prisma.review.findMany({
       select: {
         id: true,
         memberId: true,
@@ -49,5 +54,70 @@ export class ShortReviewRepository extends PrismaClient {
       },
       ...prismaQuery,
     });
+  }
+
+  async insertShortReview(
+    memberId: number,
+    animationId: number,
+    rating: number,
+    comment: string,
+    hasSpoiler: boolean,
+    attractionPoints: AttractionElement[],
+  ): Promise<Review> {
+    const review = await this.prisma.review.create({
+      data: {
+        memberId,
+        animationId,
+        type: 'SHORT',
+        rating,
+        shortReview: {
+          create: {
+            comment,
+            hasSpoiler,
+          },
+        },
+      },
+    });
+
+    const promises = attractionPoints.map(async (attractionElement) => {
+      await this.prisma.attractionPoint.create({
+        data: {
+          reviewId: review.id,
+          attractionElement,
+        },
+      });
+    });
+
+    await Promise.all(promises);
+    return review;
+  }
+
+  async softDeleteShortReview(id: number): Promise<Review> {
+    const review = await this.findShortReviewById(id);
+    return this.prisma.review.update({
+      where: { id: review.id },
+      data: { deletedAt: new Date() },
+    });
+  }
+
+  private async findShortReviewById(id: number): Promise<Review> {
+    return await this.prisma.review
+      .findUniqueOrThrow({
+        where: {
+          id,
+          deletedAt: null,
+        },
+      })
+      .catch((e) => {
+        if (e instanceof PrismaClientKnownRequestError) {
+          throw new NotFoundException({
+            code: e.code,
+            field: e.meta,
+            message: e.message,
+          });
+        } else {
+          throw new InternalServerErrorException(e);
+        }
+      });
   }
 }

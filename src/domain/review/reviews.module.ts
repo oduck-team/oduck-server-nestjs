@@ -1,12 +1,22 @@
 import { Module } from '@nestjs/common';
 import { ShortReviewController } from './controller/short-review.controller';
 import { ShortReviewService } from './service/short-review.service';
-import { ShortReviewRepository } from './repo/short-review.repository';
+import {
+  LongReviewRepository,
+  ShortReviewRepository,
+} from './reviews.repository';
+import { LongReviewService } from './service/long-review.service';
+import { PrismaModule } from '../../global/config/prisma/prisma.module';
 
 @Module({
-  imports: [],
+  imports: [PrismaModule],
   controllers: [ShortReviewController],
-  providers: [ShortReviewRepository, ShortReviewService],
+  providers: [
+    ShortReviewRepository,
+    LongReviewRepository,
+    ShortReviewService,
+    LongReviewService,
+  ],
   exports: [],
 })
 export class ReviewsModule {}

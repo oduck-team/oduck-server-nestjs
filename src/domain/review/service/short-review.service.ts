@@ -1,14 +1,8 @@
-import {
-  Injectable,
-  InternalServerErrorException,
-  NotFoundException,
-} from '@nestjs/common';
-import { Review } from '@prisma/client';
+import { Injectable } from '@nestjs/common';
 import {
   CreateShortReviewDto,
   ReviewPageQueryDto,
 } from '../dto/review-request.dto';
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { ShortReviewResponseDto } from '../dto/review-response.dto';
 import { ShortReviewRepository } from '../reviews.repository';
 
@@ -16,6 +10,8 @@ import { ShortReviewRepository } from '../reviews.repository';
 export class ShortReviewService {
   constructor(private readonly shortReviewRepository: ShortReviewRepository) {}
 
+  // TODO: 좋아요 순 정렬 방식 추가
+  // TODO: 작성자의 이름, 닉네임, 프로필 사진 추가
   async findShortReviewPage(
     animationId: number,
     query: ReviewPageQueryDto,
@@ -43,65 +39,25 @@ export class ShortReviewService {
     animationId: number,
     dto: CreateShortReviewDto,
   ): Promise<number> {
-    const review = await this.shortReviewRepository.review.create({
-      data: {
-        memberId,
-        animationId,
-        type: 'SHORT',
-        rating: dto.rating,
-        shortReview: {
-          create: {
-            comment: dto.comment,
-            hasSpoiler: dto.hasSpoiler,
-          },
-        },
-      },
-    });
+    const { rating, comment, hasSpoiler, attractionPoints } = dto;
+    const shortReview = await this.shortReviewRepository.insertShortReview(
+      memberId,
+      animationId,
+      rating,
+      comment,
+      hasSpoiler,
+      attractionPoints,
+    );
 
-    const promises = dto.attractionPoints.map(async (attractionElement) => {
-      await this.shortReviewRepository.attractionPoint.create({
-        data: {
-          reviewId: review.id,
-          attractionElement,
-        },
-      });
-    });
-
-    await Promise.all(promises);
-    return review.id;
+    return shortReview.id;
   }
 
   // TODO: 한줄 리뷰 수정 가능한지?
   async updateShortReview(): Promise<any> {}
 
   async deleteShortReview(id: number): Promise<string> {
-    const review = await this.findShortReviewById(id);
-    await this.shortReviewRepository.review.update({
-      where: { id: review.id },
-      data: { deletedAt: new Date() },
-    });
-
-    return `해당 리뷰를 성공적으로 삭제하였습니다. id = ${id}`;
-  }
-
-  private async findShortReviewById(id: number): Promise<Review> {
-    return await this.shortReviewRepository.review
-      .findUniqueOrThrow({
-        where: {
-          id,
-          deletedAt: null,
-        },
-      })
-      .catch((e) => {
-        if (e instanceof PrismaClientKnownRequestError) {
-          throw new NotFoundException({
-            code: e.code,
-            field: e.meta,
-            message: e.message,
-          });
-        } else {
-          throw new InternalServerErrorException(e);
-        }
-      });
+    const deletedShortReview =
+      await this.shortReviewRepository.softDeleteShortReview(id);
+    return `해당 한줄 리뷰를 성공적으로 삭제하였습니다. id = ${deletedShortReview.id}`;
   }
 }
