@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Prisma, PrismaClient } from '@prisma/client';
-import { IShortReview } from '../reviews.interface';
+import { IShortReview } from './reviews.interface';
 
 @Injectable()
 export class ShortReviewRepository extends PrismaClient {
@@ -12,13 +12,19 @@ export class ShortReviewRepository extends PrismaClient {
     sortDir?: string,
   ): Promise<IShortReview[]> {
     const prismaQuery: {
-      where: Prisma.ReviewWhereInput;
+      where: {
+        reviewId: Prisma.ReviewWhereInput;
+        deletedAt: Date | null;
+      };
       skip: number;
       take: number;
       cursor: NonNullable<any>;
       orderBy: NonNullable<unknown>;
     } = {
-      where: Prisma.validator<Prisma.ReviewWhereInput>()({ animationId }),
+      where: {
+        reviewId: Prisma.validator<Prisma.ReviewWhereInput>()({ animationId }),
+        deletedAt: null,
+      },
       skip: lastId ? 1 : 0,
       take: pageSize ?? 20,
       cursor: lastId && { id: lastId },

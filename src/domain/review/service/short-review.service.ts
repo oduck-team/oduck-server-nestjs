@@ -10,7 +10,7 @@ import {
 } from '../dto/review-request.dto';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { ShortReviewResponseDto } from '../dto/review-response.dto';
-import { ShortReviewRepository } from '../repo/short-review.repository';
+import { ShortReviewRepository } from '../reviews.repository';
 
 @Injectable()
 export class ShortReviewService {

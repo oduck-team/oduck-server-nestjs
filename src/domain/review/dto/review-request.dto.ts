@@ -4,7 +4,7 @@ import typia from 'typia';
 
 export const checkCommentTag = typia.createIs<ICommentTag>();
 
-export interface CreateReviewDto {
+interface CreateReviewDto {
   /**
    * @type int
    * @minimum 0
