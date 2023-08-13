@@ -1,53 +1,36 @@
-import { Injectable } from '@nestjs/common';
-import {
-  Member,
-  LoginType,
-  AuthSocial,
-  Role,
-  MemberProfile,
-} from '@prisma/client';
+import { Injectable, Logger } from '@nestjs/common';
+import { Member, LoginType, Role } from '@prisma/client';
 import prisma from '../../global/libs/prisma';
 
 @Injectable()
 export class MemberRepository {
-  async createMember(loginType: LoginType): Promise<Member> {
-    const member = await prisma.member.create({
-      data: { loginType },
-    });
-    return member;
-  }
-
-  async createAuthSocial(
+  async createMember(
+    loginType: LoginType,
     socialInfo: {
       email: string;
       socialId: string;
       type: string;
     },
-    memberId: number,
-  ): Promise<AuthSocial> {
-    const authSocial = await prisma.authSocial.create({
+  ): Promise<{ id: number; loginType: LoginType }> {
+    const member = await prisma.member.create({
       data: {
-        ...socialInfo,
-        memberId: memberId,
+        loginType,
+        authSocial: { create: { ...socialInfo } },
+        memberProfile: {
+          create: {
+            role: Role.GUEST,
+            name: socialInfo.email.split('@')[0],
+          },
+        },
+      },
+      select: {
+        id: true,
+        loginType: true,
       },
     });
 
-    return authSocial;
-  }
-
-  async createMemberProfile(
-    memberId: number,
-    name: string,
-  ): Promise<MemberProfile> {
-    const memberProfile = await prisma.memberProfile.create({
-      data: {
-        memberId,
-        role: Role.GUEST,
-        name,
-      },
-    });
-
-    return memberProfile;
+    Logger.log(`Member created: ${JSON.stringify(member)}`);
+    return member;
   }
 
   async findMemberById(id: number) {
@@ -70,10 +53,19 @@ export class MemberRepository {
 
   async findMemberProfile(memberId: number) {
     const member = await prisma.memberProfile.findUnique({
+      select: {
+        memberId: true,
+        name: true,
+        role: true,
+        imageUrl: true,
+        createdAt: true,
+        updatedAt: true,
+      },
       where: {
         memberId,
       },
     });
+    // .then(({ memberId, ...member }) => ({ id: memberId, ...member }));
 
     return member;
   }

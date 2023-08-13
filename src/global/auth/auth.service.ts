@@ -1,7 +1,6 @@
-import { LoginType, Role } from '@prisma/client';
+import { LoginType } from '@prisma/client';
 import { MemberRepository } from './../../domain/member/member.repository';
-import { Injectable, Logger } from '@nestjs/common';
-import prisma from '../libs/prisma';
+import { Injectable } from '@nestjs/common';
 
 @Injectable()
 export class AuthService {
@@ -18,30 +17,6 @@ export class AuthService {
       return await this.memberRepository.findMemberById(member.memberId);
     }
 
-    return await prisma.$transaction(async (tx) => {
-      const newMember = await tx.member.create({
-        data: {
-          loginType: LoginType.SOCIAL,
-        },
-      });
-
-      await tx.authSocial.create({
-        data: {
-          ...details,
-          memberId: newMember.id,
-        },
-      });
-
-      await tx.memberProfile.create({
-        data: {
-          memberId: newMember.id,
-          role: Role.GUEST,
-          name: details.email.split('@')[0],
-        },
-      });
-
-      Logger.log(`Member created: ${JSON.stringify(member)}`);
-      return newMember;
-    });
+    return await this.memberRepository.createMember(LoginType.SOCIAL, details);
   }
 }
