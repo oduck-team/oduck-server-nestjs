@@ -13,10 +13,7 @@ export interface IShortReview {
 }
 
 export interface IReviewQuery {
-  where: {
-    reviewId: Prisma.ReviewWhereInput;
-    deletedAt: Date | null;
-  };
+  where: Prisma.ReviewWhereInput;
   skip?: number;
   take?: number;
   cursor?: NonNullable<any>;

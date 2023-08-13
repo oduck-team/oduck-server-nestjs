@@ -33,7 +33,7 @@ export class PrismaService
   }
 
   async onModuleInit(): Promise<void> {
-    if (this.configService.get('NODE_ENV') == 'development') {
+    if (this.configService.get('NODE_ENV') == 'dev') {
       this.$on('query', (event) => {
         this.logger.verbose(event.query, event.duration);
       });

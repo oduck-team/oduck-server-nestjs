@@ -3,13 +3,8 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
-import {
-  AttractionElement,
-  Prisma,
-  PrismaClient,
-  Review,
-} from '@prisma/client';
-import { IReviewQuery, IShortReview } from './reviews.interface';
+import { AttractionElement, Prisma, Review, ReviewType } from '@prisma/client';
+import { ILongReview, IReviewQuery, IShortReview } from './reviews.interface';
 import { SortKey } from './reviews.enum';
 import { PrismaService } from '../../global/config/prisma/prisma.service';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
@@ -19,17 +14,22 @@ export class ShortReviewRepository {
   constructor(private readonly prisma: PrismaService) {}
 
   async selectShortReviewPage(
-    animationId: number,
+    memberId?: number,
+    animationId?: number,
     lastId?: number,
     pageSize?: number,
     sortKey?: string,
     sortDir?: string,
   ): Promise<IShortReview[]> {
+    const reviewWhere = Prisma.validator<Prisma.ReviewWhereInput>()({
+      memberId: memberId ?? undefined,
+      animationId: animationId ?? undefined,
+      type: ReviewType.SHORT,
+      deletedAt: null,
+    });
+
     const prismaQuery: IReviewQuery = {
-      where: {
-        reviewId: Prisma.validator<Prisma.ReviewWhereInput>()({ animationId }),
-        deletedAt: null,
-      },
+      where: reviewWhere,
       skip: lastId ? 1 : 0,
       take: pageSize ?? 20,
       cursor: lastId && { id: lastId },

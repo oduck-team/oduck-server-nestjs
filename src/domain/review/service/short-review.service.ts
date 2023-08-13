@@ -12,12 +12,12 @@ export class ShortReviewService {
 
   // TODO: 좋아요 순 정렬 방식 추가
   // TODO: 작성자의 이름, 닉네임, 프로필 사진 추가
-  async findShortReviewPage(
-    animationId: number,
+  async findShortReviewPageByQuery(
     query: ReviewPageQueryDto,
   ): Promise<ShortReviewResponseDto[]> {
-    const { lastId, pageSize, sortKey, sortDir } = query;
+    const { memberId, animationId, lastId, pageSize, sortKey, sortDir } = query;
     const shortReviews = await this.shortReviewRepository.selectShortReviewPage(
+      memberId,
       animationId,
       lastId,
       pageSize,
@@ -34,6 +34,7 @@ export class ShortReviewService {
     return shortReviewDtoList;
   }
 
+  // TODO: 한 사람이 같은 애니메이션에 중복으로 작성 가능한지?
   async createShortReview(
     memberId: number,
     animationId: number,

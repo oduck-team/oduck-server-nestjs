@@ -1,8 +1,9 @@
-import { Controller, Param, ParseIntPipe, Query } from '@nestjs/common';
-import { TypedBody, TypedQuery, TypedRoute } from '@nestia/core';
+import { Controller } from '@nestjs/common';
+import { TypedBody, TypedParam, TypedQuery, TypedRoute } from '@nestia/core';
 import { ShortReviewService } from '../service/short-review.service';
 import {
   CreateShortReviewDto,
+  MemberAnimationQueryDto,
   ReviewPageQueryDto,
 } from '../dto/review-request.dto';
 import { ShortReviewResponseDto } from '../dto/review-response.dto';
@@ -12,33 +13,27 @@ export class ShortReviewController {
   constructor(private readonly shortReviewService: ShortReviewService) {}
 
   @TypedRoute.Get()
-  async getShortReviewsByAnimation(
-    @Query('animationId', ParseIntPipe) animationId: number,
+  async getShortReviews(
     @TypedQuery() query: ReviewPageQueryDto,
   ): Promise<ShortReviewResponseDto[]> {
-    return await this.shortReviewService.findShortReviewPage(
-      animationId,
-      query,
-    );
+    return await this.shortReviewService.findShortReviewPageByQuery(query);
   }
 
   @TypedRoute.Post()
   async writeShortReview(
-    @Query('memberId', ParseIntPipe) memberId: number,
-    @Query('animationId', ParseIntPipe) animationId: number,
+    @TypedQuery() query: MemberAnimationQueryDto,
     @TypedBody() dto: CreateShortReviewDto,
   ): Promise<number> {
+    const { memberId, animationId } = query;
     return await this.shortReviewService.createShortReview(
-      memberId,
-      animationId,
+      Number(memberId),
+      Number(animationId),
       dto,
     );
   }
 
   @TypedRoute.Patch('/:id/delete')
-  async deleteShortReview(
-    @Param('id', ParseIntPipe) id: number,
-  ): Promise<string> {
+  async deleteShortReview(@TypedParam('id') id: number): Promise<string> {
     return await this.shortReviewService.deleteShortReview(id);
   }
 }

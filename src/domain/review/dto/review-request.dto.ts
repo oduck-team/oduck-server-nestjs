@@ -30,8 +30,29 @@ export interface CreateShortReviewDto extends CreateReviewDto {
 }
 
 export interface ReviewPageQueryDto {
+  /**
+   * @type int
+   */
+  readonly memberId?: number;
+
+  /**
+   * @type int
+   */
+  readonly animationId?: number;
+
+  /**
+   * @type int
+   */
   readonly lastId?: number;
+
+  /**
+   * @type int
+   */
   readonly pageSize?: number;
-  readonly sortKey?: string;
+
+  readonly sortKey?: SortKey;
   readonly sortDir?: string;
 }
+
+export interface MemberAnimationQueryDto
+  extends Pick<ReviewPageQueryDto, 'memberId' | 'animationId'> {}
