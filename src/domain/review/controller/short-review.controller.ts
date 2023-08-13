@@ -1,4 +1,4 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Param, ParseIntPipe, Query } from '@nestjs/common';
 import { TypedBody, TypedQuery, TypedRoute } from '@nestia/core';
 import { ShortReviewService } from '../service/short-review.service';
 import {
@@ -13,7 +13,7 @@ export class ShortReviewController {
 
   @TypedRoute.Get()
   async getShortReviewsByAnimation(
-    animationId: number,
+    @Query('animationId', ParseIntPipe) animationId: number,
     @TypedQuery() query: ReviewPageQueryDto,
   ): Promise<ShortReviewResponseDto[]> {
     return await this.shortReviewService.findShortReviewPage(
@@ -24,19 +24,21 @@ export class ShortReviewController {
 
   @TypedRoute.Post()
   async writeShortReview(
-    memberId: number,
-    reviewId: number,
+    @Query('memberId', ParseIntPipe) memberId: number,
+    @Query('animationId', ParseIntPipe) animationId: number,
     @TypedBody() dto: CreateShortReviewDto,
   ): Promise<number> {
     return await this.shortReviewService.createShortReview(
       memberId,
-      reviewId,
+      animationId,
       dto,
     );
   }
 
-  @TypedRoute.Patch('/delete')
-  async deleteShortReview(id: number): Promise<string> {
+  @TypedRoute.Patch('/:id/delete')
+  async deleteShortReview(
+    @Param('id', ParseIntPipe) id: number,
+  ): Promise<string> {
     return await this.shortReviewService.deleteShortReview(id);
   }
 }
