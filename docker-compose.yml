@@ -13,6 +13,9 @@ services:
     container_name: oDuckio-nestjs
     env_file:
       - .env.dev
+    # docer 환경에서는 localhost가 아닌 redis 컨테이너 이름으로 접근
+    environment:
+      - REDIS_HOST=redis
     depends_on:
       - redis
     ports:
