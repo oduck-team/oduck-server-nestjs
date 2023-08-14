@@ -15,7 +15,9 @@ export class AuthController {
   handleGoogleCallback(): void {}
 
   @TypedRoute.Get('status')
-  member(@User() user: MemberProfile): any | { msg: string } {
+  member(
+    @User() user: MemberProfile,
+  ): Omit<MemberProfile, 'id'> | { msg: string } {
     if (user) {
       console.log(user);
 

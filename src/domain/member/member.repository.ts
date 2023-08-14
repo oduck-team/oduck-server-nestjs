@@ -57,6 +57,7 @@ export class MemberRepository {
         memberId: true,
         name: true,
         role: true,
+        point: true,
         imageUrl: true,
         createdAt: true,
         updatedAt: true,
