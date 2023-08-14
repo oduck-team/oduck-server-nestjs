@@ -12,7 +12,7 @@
     "description": ""
   },
   "paths": {
-    "/users": {
+    "/members": {
       "post": {
         "tags": [],
         "parameters": [],
@@ -41,9 +41,59 @@
             "x-nestia-encrypted": false
           }
         },
-        "x-nestia-namespace": "users.createUser",
+        "x-nestia-namespace": "members.createMember",
         "x-nestia-jsDocTags": [],
         "x-nestia-method": "POST"
+      }
+    },
+    "/auth/google/login": {
+      "get": {
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "x-nestia-encrypted": false
+          }
+        },
+        "x-nestia-namespace": "auth.google.login.handleGoogleLogin",
+        "x-nestia-jsDocTags": [],
+        "x-nestia-method": "GET"
+      }
+    },
+    "/auth/google/callback": {
+      "get": {
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "x-nestia-encrypted": false
+          }
+        },
+        "x-nestia-namespace": "auth.google.callback.handleGoogleCallback",
+        "x-nestia-jsDocTags": [],
+        "x-nestia-method": "GET"
+      }
+    },
+    "/auth/status": {
+      "get": {
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "x-nestia-encrypted": false
+          }
+        },
+        "x-nestia-namespace": "auth.status.member",
+        "x-nestia-jsDocTags": [],
+        "x-nestia-method": "GET"
       }
     }
   },
