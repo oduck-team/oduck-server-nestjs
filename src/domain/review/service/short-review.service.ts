@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import {
   CreateShortReviewDto,
   ReviewPageQueryDto,
@@ -16,6 +16,7 @@ export class ShortReviewService {
     query: ReviewPageQueryDto,
   ): Promise<ShortReviewResponseDto[]> {
     const { memberId, animationId, lastId, pageSize, sortKey, sortDir } = query;
+    this.checkOnlyOneEnterOfTwoParams(memberId, animationId);
     const shortReviews = await this.shortReviewRepository.selectShortReviewPage(
       memberId,
       animationId,
@@ -60,5 +61,16 @@ export class ShortReviewService {
     const deletedShortReview =
       await this.shortReviewRepository.softDeleteShortReview(id);
     return `해당 한줄 리뷰를 성공적으로 삭제하였습니다. id = ${deletedShortReview.id}`;
+  }
+
+  private checkOnlyOneEnterOfTwoParams(
+    memberId: number | undefined,
+    animationId: number | undefined,
+  ): void {
+    if ((!memberId && !animationId) || !(memberId ?? animationId)) {
+      throw new BadRequestException(
+        `두 인자 중 하나만 입력 가능합니다. memberId: ${memberId}, animationId: ${animationId}`,
+      );
+    }
   }
 }
