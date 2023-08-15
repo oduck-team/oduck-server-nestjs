@@ -12,6 +12,19 @@ export interface IShortReview {
   } | null;
 }
 
+export interface ILongReview {
+  id: number;
+  memberId: number;
+  animationId: number;
+  createdAt?: Date;
+  updatedAt: Date;
+  imageUrls?: { imageUrl: string }[];
+  longReview: {
+    title: string;
+    content: string;
+  } | null;
+}
+
 export interface IReviewQuery {
   where: Prisma.ReviewWhereInput;
   skip?: number;
@@ -19,3 +32,12 @@ export interface IReviewQuery {
   cursor?: NonNullable<any>;
   orderBy?: NonNullable<any>;
 }
+
+export type SortCondition = (typeof SORTING)[keyof typeof SORTING];
+
+const SORTING = {
+  CREATED: 'createdAt|desc',
+  HIGH_RATING: 'rating|desc',
+  LOW_RATING: 'rating|asc',
+  // FAVORITE: 'favorite|desc',
+} as const;

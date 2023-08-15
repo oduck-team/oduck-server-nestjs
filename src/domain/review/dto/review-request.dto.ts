@@ -1,5 +1,6 @@
 import { AttractionElement } from '@prisma/client';
 import { ICommentTag } from 'typia/lib/metadata/ICommentTag';
+import { SortCondition } from '../reviews.interface';
 import typia from 'typia';
 
 export const checkCommentTag = typia.createIs<ICommentTag>();
@@ -29,6 +30,27 @@ export interface CreateShortReviewDto extends CreateReviewDto {
   readonly attractionPoints: AttractionElement[];
 }
 
+export interface CreateLongReviewDto extends CreateReviewDto {
+  /**
+   * @minLength 5
+   * @maxLength 30
+   */
+  readonly title: string;
+
+  /**
+   * @minLength 10
+   * @maxLength 2000
+   */
+  readonly content: string;
+
+  /**
+   * @minItems 0
+   */
+  readonly imageUrls: string[];
+}
+
+export interface UpdateLongReviewDto extends CreateLongReviewDto {}
+
 export interface ReviewPageQueryDto {
   /**
    * @type int
@@ -50,8 +72,7 @@ export interface ReviewPageQueryDto {
    */
   readonly pageSize?: number;
 
-  readonly sortKey?: SortKey;
-  readonly sortDir?: string;
+  readonly sortCondition?: SortCondition;
 }
 
 export interface MemberAnimationQueryDto

@@ -15,15 +15,14 @@ export class ShortReviewService {
   async findShortReviewPageByQuery(
     query: ReviewPageQueryDto,
   ): Promise<ShortReviewResponseDto[]> {
-    const { memberId, animationId, lastId, pageSize, sortKey, sortDir } = query;
+    const { memberId, animationId, lastId, pageSize, sortCondition } = query;
     this.checkOnlyOneEnterOfTwoParams(memberId, animationId);
     const shortReviews = await this.shortReviewRepository.selectShortReviewPage(
       memberId,
       animationId,
       lastId,
       pageSize,
-      sortKey,
-      sortDir,
+      sortCondition,
     );
 
     const shortReviewDtoList: ShortReviewResponseDto[] = [];
@@ -58,9 +57,8 @@ export class ShortReviewService {
   async updateShortReview(): Promise<any> {}
 
   async deleteShortReview(id: number): Promise<string> {
-    const deletedShortReview =
-      await this.shortReviewRepository.softDeleteShortReview(id);
-    return `해당 한줄 리뷰를 성공적으로 삭제하였습니다. id = ${deletedShortReview.id}`;
+    const reviewId = await this.shortReviewRepository.softDeleteShortReview(id);
+    return `해당 한줄 리뷰를 성공적으로 삭제하였습니다. id = ${reviewId}`;
   }
 
   private checkOnlyOneEnterOfTwoParams(
