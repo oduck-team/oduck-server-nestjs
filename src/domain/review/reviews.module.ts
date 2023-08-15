@@ -7,10 +7,11 @@ import {
 } from './reviews.repository';
 import { LongReviewService } from './service/long-review.service';
 import { PrismaModule } from '../../global/config/prisma/prisma.module';
+import { LongReviewController } from './controller/long-review.controller';
 
 @Module({
   imports: [PrismaModule],
-  controllers: [ShortReviewController],
+  controllers: [ShortReviewController, LongReviewController],
   providers: [
     ShortReviewRepository,
     LongReviewRepository,
