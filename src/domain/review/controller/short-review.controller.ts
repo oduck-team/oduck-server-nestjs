@@ -32,7 +32,7 @@ export class ShortReviewController {
     );
   }
 
-  @TypedRoute.Patch('/:id/delete')
+  @TypedRoute.Delete('/:id')
   async deleteShortReview(@TypedParam('id') id: number): Promise<string> {
     return await this.shortReviewService.deleteShortReview(id);
   }

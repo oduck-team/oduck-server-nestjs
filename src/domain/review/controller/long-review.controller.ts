@@ -48,7 +48,7 @@ export class LongReviewController {
     return await this.longReviewService.updateLongReview(id, dto);
   }
 
-  @TypedRoute.Patch('/:id')
+  @TypedRoute.Delete('/:id')
   async deleteLongReview(@TypedParam('id') id: number): Promise<string> {
     return await this.longReviewService.deleteLongReview(id);
   }
