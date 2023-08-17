@@ -1,6 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { Member, LoginType, Role } from '@prisma/client';
+import { LoginType, Role } from '@prisma/client';
 import prisma from '../../global/libs/prisma';
+import { randomUUID } from 'crypto';
 
 @Injectable()
 export class MemberRepository {
@@ -19,7 +20,7 @@ export class MemberRepository {
         memberProfile: {
           create: {
             role: Role.GUEST,
-            name: socialInfo.email.split('@')[0],
+            name: randomUUID(),
           },
         },
       },
@@ -41,10 +42,10 @@ export class MemberRepository {
     });
   }
 
-  async findMemberByEmail(email: string) {
+  async findMemberBySocialId(socialId: string) {
     const member = await prisma.authSocial.findUnique({
       where: {
-        email,
+        socialId,
       },
     });
 

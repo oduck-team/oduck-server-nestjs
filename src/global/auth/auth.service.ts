@@ -11,7 +11,9 @@ export class AuthService {
     socialId: string;
     type: string;
   }) {
-    const member = await this.memberRepository.findMemberByEmail(details.email);
+    const member = await this.memberRepository.findMemberBySocialId(
+      details.socialId,
+    );
 
     if (member) {
       return await this.memberRepository.findMemberById(member.memberId);

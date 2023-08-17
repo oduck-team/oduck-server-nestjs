@@ -5,10 +5,17 @@ import { NaverStrategy } from './strategy/naver.starategy';
 import { UsersModule } from '../../domain/member/members.module';
 import { AuthService } from './auth.service';
 import { SessionSerializer } from './serializer';
+import { KakaoStrategy } from './strategy/kakao.strategy';
 
 @Module({
   imports: [UsersModule],
   controllers: [AuthController],
-  providers: [GoogleStrategy, NaverStrategy, SessionSerializer, AuthService],
+  providers: [
+    GoogleStrategy,
+    NaverStrategy,
+    KakaoStrategy,
+    SessionSerializer,
+    AuthService,
+  ],
 })
 export class AuthModule {}
