@@ -1,9 +1,10 @@
 import { TypedRoute } from '@nestia/core';
 import { Controller, UseGuards } from '@nestjs/common';
-import { GoogleAuthGuard } from './guards/google.auth.guard';
 import { MemberProfile } from '@prisma/client';
 import { User } from '../common/decoratror/user.decorator';
 import { AuthGuard } from '@nestjs/passport';
+import { GoogleAuthGuard } from './guards/google.auth.guard';
+import { NaverAuthGuard } from './guards/naver.auth.guard';
 import { KakaoAuthGuard } from './guards/kakao.auth.guard';
 
 @Controller('auth')
@@ -13,7 +14,7 @@ export class AuthController {
   handleGoogleLogin(): void {}
 
   @TypedRoute.Get('naver/login')
-  @UseGuards(AuthGuard('naver'))
+  @UseGuards(NaverAuthGuard)
   handleNaverLogin(): void {}
 
   @TypedRoute.Get('kakao/login')
@@ -25,7 +26,7 @@ export class AuthController {
   handleGoogleCallback(): void {}
 
   @TypedRoute.Get('naver/callback')
-  @UseGuards(AuthGuard('naver'))
+  @UseGuards(NaverAuthGuard)
   handleNaverCallback(): void {}
 
   @TypedRoute.Get('kakao/callback')
