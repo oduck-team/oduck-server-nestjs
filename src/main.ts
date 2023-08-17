@@ -18,4 +18,6 @@ async function bootstrap() {
   await app.listen(process.env.PORT ? parseInt(process.env.PORT) : 3000);
 }
 
-bootstrap();
+bootstrap().then(() => {
+  console.log(process.env.PORT);
+});

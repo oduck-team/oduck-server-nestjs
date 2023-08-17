@@ -3,8 +3,10 @@ import { AnimationService } from './animation.service';
 import { TypedParam, TypedQuery, TypedRoute } from '@nestia/core';
 import { Animation } from '@prisma/client';
 import { IList } from './model/animation.list.dto';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('animation')
+@ApiTags('Animation')
 export class AnimationController {
   constructor(private readonly service: AnimationService) {}
 

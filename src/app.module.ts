@@ -2,6 +2,8 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './domain/user/users.module';
 import { AnimationModule } from './domain/animation/animation.module';
+import { StudioModule } from './domain/studio/studio.module';
+import { PrismaModule } from './global/database/prisma/prisma.module';
 
 @Module({
   imports: [
@@ -17,8 +19,10 @@ import { AnimationModule } from './domain/animation/animation.module';
           ? '.env.dev'
           : '.env.local',
     }),
+    PrismaModule,
     UsersModule,
     AnimationModule,
+    StudioModule,
   ],
   controllers: [],
   providers: [],

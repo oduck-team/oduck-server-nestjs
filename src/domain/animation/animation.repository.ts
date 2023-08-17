@@ -43,9 +43,9 @@ export class AnimationRepository {
     });
   }
 
-  async storeAnimation(body: AnimationCreateDto) {
+  async storeAnimation(body: AnimationCreateDto, prisma = this.prisma) {
     // TODO: modify to store voice_actor, studio.... transaction
-    return this.prisma.animation.create({
+    return prisma.animation.create({
       data: body,
     });
   }

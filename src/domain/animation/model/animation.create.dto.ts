@@ -45,4 +45,10 @@ export interface AnimationCreateDto {
    * @default https://placehold.co/600x400
    * */
   imageUrl: string;
+
+  //========  relation studio
+  /**
+   * @default 가이낙스
+   * */
+  studioName: string;
 }
