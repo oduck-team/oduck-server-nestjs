@@ -61,6 +61,36 @@
         "x-nestia-method": "GET"
       }
     },
+    "/auth/naver/login": {
+      "get": {
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "x-nestia-encrypted": false
+          }
+        },
+        "x-nestia-namespace": "auth.naver.login.handleNaverLogin",
+        "x-nestia-jsDocTags": [],
+        "x-nestia-method": "GET"
+      }
+    },
+    "/auth/kakao/login": {
+      "get": {
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "x-nestia-encrypted": false
+          }
+        },
+        "x-nestia-namespace": "auth.kakao.login.handleKakaoLogin",
+        "x-nestia-jsDocTags": [],
+        "x-nestia-method": "GET"
+      }
+    },
     "/auth/google/callback": {
       "get": {
         "tags": [],
@@ -76,6 +106,36 @@
         "x-nestia-method": "GET"
       }
     },
+    "/auth/naver/callback": {
+      "get": {
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "x-nestia-encrypted": false
+          }
+        },
+        "x-nestia-namespace": "auth.naver.callback.handleNaverCallback",
+        "x-nestia-jsDocTags": [],
+        "x-nestia-method": "GET"
+      }
+    },
+    "/auth/kakao/callback": {
+      "get": {
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "x-nestia-encrypted": false
+          }
+        },
+        "x-nestia-namespace": "auth.kakao.callback.handleKakaoCallback",
+        "x-nestia-jsDocTags": [],
+        "x-nestia-method": "GET"
+      }
+    },
     "/auth/status": {
       "get": {
         "tags": [],
@@ -85,7 +145,16 @@
             "description": "",
             "content": {
               "application/json": {
-                "schema": {}
+                "schema": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/__type"
+                    },
+                    {
+                      "$ref": "#/components/schemas/Omit_lt_GetResult_lt__blt__space_id:_space_number;_space_memberId:_space_number;_space_name:_space_string;_space_role:_space_Role;_space_imageUrl:_space_string_space__or__space_null;_space_point:_space_number;_space_createdAt:_space_Date;_space_updatedAt:_space_Date;_space__bgt__comma__space_unknown_gt__space__and__space__blt__bgt__comma__space__doublequote_id_doublequote__gt_"
+                    }
+                  ]
+                }
               }
             },
             "x-nestia-encrypted": false
@@ -133,6 +202,81 @@
         ],
         "description": "@minimum 10",
         "x-typia-jsDocTags": []
+      },
+      "__type": {
+        "type": "object",
+        "properties": {
+          "msg": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          }
+        },
+        "nullable": false,
+        "required": [
+          "msg"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "Omit_lt_GetResult_lt__blt__space_id:_space_number;_space_memberId:_space_number;_space_name:_space_string;_space_role:_space_Role;_space_imageUrl:_space_string_space__or__space_null;_space_point:_space_number;_space_createdAt:_space_Date;_space_updatedAt:_space_Date;_space__bgt__comma__space_unknown_gt__space__and__space__blt__bgt__comma__space__doublequote_id_doublequote__gt_": {
+        "type": "object",
+        "properties": {
+          "memberId": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "number"
+          },
+          "name": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "role": {
+            "$ref": "#/components/schemas/Role"
+          },
+          "imageUrl": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "nullable": true
+          },
+          "point": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "number"
+          },
+          "createdAt": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "nullable": false,
+        "required": [
+          "memberId",
+          "name",
+          "role",
+          "imageUrl",
+          "point",
+          "createdAt",
+          "updatedAt"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "Role": {
+        "type": "string",
+        "enum": [
+          "GUEST",
+          "USER",
+          "ADMIN"
+        ]
       }
     },
     "securitySchemes": {
