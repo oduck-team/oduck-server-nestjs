@@ -43,10 +43,31 @@ export class AnimationRepository {
     });
   }
 
-  async storeAnimation(body: AnimationCreateDto, prisma = this.prisma) {
+  async storeAnimation(body: AnimationCreateDto) {
     // TODO: modify to store voice_actor, studio.... transaction
-    return prisma.animation.create({
-      data: body,
+    const { studioName, ...animationBody } = body;
+
+    return this.prisma.$transaction(async (tx) => {
+      let studio = await tx.studio.findFirst({ where: { name: studioName } });
+
+      if (!studio) {
+        studio = await tx.studio.create({ data: { name: studioName } });
+      }
+
+      const animation = await tx.animation.create({
+        data: {
+          ...animationBody,
+        },
+      });
+
+      await tx.animationStudio.create({
+        data: {
+          studioId: studio.id,
+          animationId: animation.id,
+        },
+      });
+
+      return animation;
     });
   }
 
