@@ -2,7 +2,6 @@ import { TypedRoute } from '@nestia/core';
 import { Controller, UseGuards } from '@nestjs/common';
 import { MemberProfile } from '@prisma/client';
 import { User } from '../common/decoratror/user.decorator';
-import { AuthGuard } from '@nestjs/passport';
 import { GoogleAuthGuard } from './guards/google.auth.guard';
 import { NaverAuthGuard } from './guards/naver.auth.guard';
 import { KakaoAuthGuard } from './guards/kakao.auth.guard';
@@ -38,8 +37,6 @@ export class AuthController {
     @User() user: MemberProfile,
   ): Omit<MemberProfile, 'id'> | { msg: string } {
     if (user) {
-      console.log(user);
-
       return user;
     } else {
       return { msg: '로그인 상태가 아닙니다.' };
