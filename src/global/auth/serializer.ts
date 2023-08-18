@@ -9,8 +9,6 @@ export class SessionSerializer extends PassportSerializer {
     super();
   }
   serializeUser(member: Member, done: Function) {
-    console.log('serializeUser', member);
-
     done(null, member);
   }
 
