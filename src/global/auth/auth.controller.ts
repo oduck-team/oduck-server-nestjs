@@ -2,9 +2,9 @@ import { TypedRoute } from '@nestia/core';
 import { Controller, Req, Res, UseGuards } from '@nestjs/common';
 import { MemberProfile } from '@prisma/client';
 import { User } from '../common/decoratror/user.decorator';
-import { GoogleAuthGuard } from './guards/google.auth.guard';
-import { NaverAuthGuard } from './guards/naver.auth.guard';
-import { KakaoAuthGuard } from './guards/kakao.auth.guard';
+import { GoogleAuthGuard } from './guard/google.auth.guard';
+import { NaverAuthGuard } from './guard/naver.auth.guard';
+import { KakaoAuthGuard } from './guard/kakao.auth.guard';
 import { Request, Response } from 'express';
 
 @Controller('auth')
