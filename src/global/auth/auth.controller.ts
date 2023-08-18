@@ -1,10 +1,11 @@
 import { TypedRoute } from '@nestia/core';
-import { Controller, UseGuards } from '@nestjs/common';
+import { Controller, Req, Res, UseGuards } from '@nestjs/common';
 import { MemberProfile } from '@prisma/client';
 import { User } from '../common/decoratror/user.decorator';
 import { GoogleAuthGuard } from './guards/google.auth.guard';
 import { NaverAuthGuard } from './guards/naver.auth.guard';
 import { KakaoAuthGuard } from './guards/kakao.auth.guard';
+import { Request, Response } from 'express';
 
 @Controller('auth')
 export class AuthController {
@@ -31,6 +32,16 @@ export class AuthController {
   @TypedRoute.Get('kakao/callback')
   @UseGuards(KakaoAuthGuard)
   handleKakaoCallback(): void {}
+
+  @TypedRoute.Delete('logout')
+  handleLogout(@Req() req: Request, @Res() res: Response) {
+    req.logout((err) => {
+      if (err) {
+        throw err;
+      }
+      res.redirect('/');
+    });
+  }
 
   @TypedRoute.Get('status')
   member(
