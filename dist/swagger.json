@@ -136,6 +136,21 @@
         "x-nestia-method": "GET"
       }
     },
+    "/auth/logout": {
+      "delete": {
+        "tags": [],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "x-nestia-encrypted": false
+          }
+        },
+        "x-nestia-namespace": "auth.logout.handleLogout",
+        "x-nestia-jsDocTags": [],
+        "x-nestia-method": "DELETE"
+      }
+    },
     "/auth/status": {
       "get": {
         "tags": [],
