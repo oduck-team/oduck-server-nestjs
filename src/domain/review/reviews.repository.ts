@@ -73,7 +73,7 @@ export class ShortReviewRepository {
       data: {
         memberId,
         animationId,
-        type: 'SHORT',
+        type: ReviewType.SHORT,
         rating,
         shortReview: {
           create: {
@@ -222,7 +222,7 @@ export class LongReviewRepository {
       data: {
         memberId,
         animationId,
-        type: 'LONG',
+        type: ReviewType.LONG,
         rating,
         longReview: {
           create: {

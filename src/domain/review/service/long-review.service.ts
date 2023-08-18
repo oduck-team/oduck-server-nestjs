@@ -69,7 +69,7 @@ export class LongReviewService {
     memberId: number | undefined,
     animationId: number | undefined,
   ): void {
-    if ((!memberId && !animationId) || !(memberId ?? animationId)) {
+    if ((!memberId && !animationId) || (memberId && animationId)) {
       throw new BadRequestException(
         `두 인자 중 하나만 입력 가능합니다. memberId: ${memberId}, animationId: ${animationId}`,
       );
