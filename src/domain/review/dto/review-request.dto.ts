@@ -30,6 +30,9 @@ export interface CreateShortReviewDto extends CreateReviewDto {
   readonly attractionPoints: AttractionElement[];
 }
 
+export interface UpdateShortReviewDto
+  extends Omit<CreateShortReviewDto, 'attractionPoints'> {}
+
 export interface CreateLongReviewDto extends CreateReviewDto {
   /**
    * @minLength 5

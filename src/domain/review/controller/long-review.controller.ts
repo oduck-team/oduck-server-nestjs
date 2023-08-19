@@ -7,7 +7,7 @@ import {
   ReviewPageQueryDto,
   UpdateLongReviewDto,
 } from '../dto/review-request.dto';
-import { ILongReview } from '../reviews.interface';
+import { LongReviewResponseDto } from '../dto/review-response.dto';
 
 @Controller('/api/long-reviews')
 export class LongReviewController {
@@ -16,14 +16,14 @@ export class LongReviewController {
   @TypedRoute.Get()
   async getLongReviewPageByAnimation(
     @TypedQuery() query: ReviewPageQueryDto,
-  ): Promise<ILongReview[]> {
+  ): Promise<LongReviewResponseDto[]> {
     return await this.longReviewService.findLongReviewPageByQuery(query);
   }
 
   @TypedRoute.Get('/:id')
   async getLongReviewDetail(
     @TypedParam('id') id: number,
-  ): Promise<ILongReview> {
+  ): Promise<LongReviewResponseDto> {
     return await this.longReviewService.findLongReviewDetail(id);
   }
 
@@ -31,7 +31,7 @@ export class LongReviewController {
   async writeLongReview(
     @TypedQuery() query: MemberAnimationQueryDto,
     @TypedBody() dto: CreateLongReviewDto,
-  ): Promise<ILongReview> {
+  ): Promise<LongReviewResponseDto> {
     const { memberId, animationId } = query;
     return await this.longReviewService.createLongReview(
       Number(memberId),
@@ -44,7 +44,7 @@ export class LongReviewController {
   async updateLongReview(
     @TypedParam('id') id: number,
     @TypedBody() dto: UpdateLongReviewDto,
-  ): Promise<ILongReview> {
+  ): Promise<LongReviewResponseDto> {
     return await this.longReviewService.updateLongReview(id, dto);
   }
 

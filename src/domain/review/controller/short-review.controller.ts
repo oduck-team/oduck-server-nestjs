@@ -5,6 +5,7 @@ import {
   CreateShortReviewDto,
   MemberAnimationQueryDto,
   ReviewPageQueryDto,
+  UpdateShortReviewDto,
 } from '../dto/review-request.dto';
 import { ShortReviewResponseDto } from '../dto/review-response.dto';
 
@@ -30,6 +31,14 @@ export class ShortReviewController {
       Number(animationId),
       dto,
     );
+  }
+
+  @TypedRoute.Patch('/:id')
+  async updateShortReview(
+    @TypedParam('id') id: number,
+    @TypedBody() dto: UpdateShortReviewDto,
+  ): Promise<number> {
+    return await this.shortReviewService.updateShortReview(id, dto);
   }
 
   @TypedRoute.Delete('/:id')

@@ -2,9 +2,10 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import {
   CreateShortReviewDto,
   ReviewPageQueryDto,
+  UpdateShortReviewDto,
 } from '../dto/review-request.dto';
 import { ShortReviewResponseDto } from '../dto/review-response.dto';
-import { ShortReviewRepository } from '../reviews.repository';
+import { ShortReviewRepository } from '../repository/short-review.repository';
 
 @Injectable()
 export class ShortReviewService {
@@ -34,14 +35,13 @@ export class ShortReviewService {
     return shortReviewDtoList;
   }
 
-  // TODO: 한 사람이 같은 애니메이션에 중복으로 작성 가능한지?
   async createShortReview(
     memberId: number,
     animationId: number,
     dto: CreateShortReviewDto,
   ): Promise<number> {
     const { rating, comment, hasSpoiler, attractionPoints } = dto;
-    const shortReview = await this.shortReviewRepository.insertShortReview(
+    return await this.shortReviewRepository.insertShortReview(
       memberId,
       animationId,
       rating,
@@ -49,13 +49,22 @@ export class ShortReviewService {
       hasSpoiler,
       attractionPoints,
     );
-
-    return shortReview.id;
   }
 
-  // TODO: 한줄 리뷰 수정 가능한지?
-  async updateShortReview(): Promise<any> {}
+  async updateShortReview(
+    id: number,
+    dto: UpdateShortReviewDto,
+  ): Promise<number> {
+    const { rating, comment, hasSpoiler } = dto;
+    return await this.shortReviewRepository.updateShortReview(
+      id,
+      rating,
+      comment,
+      hasSpoiler,
+    );
+  }
 
+  // TODO: soft delete 할 때, AttractionPoint 를 삭제하지 않는지??
   async deleteShortReview(id: number): Promise<string> {
     const reviewId = await this.shortReviewRepository.softDeleteShortReview(id);
     return `해당 한줄 리뷰를 성공적으로 삭제하였습니다. id = ${reviewId}`;

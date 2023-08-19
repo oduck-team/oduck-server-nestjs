@@ -1,41 +1,51 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { LongReviewRepository } from '../reviews.repository';
 import {
   CreateLongReviewDto,
   ReviewPageQueryDto,
   UpdateLongReviewDto,
 } from '../dto/review-request.dto';
-import { ILongReview } from '../reviews.interface';
+import { LongReviewResponseDto } from '../dto/review-response.dto';
+import { LongReviewRepository } from '../repository/long-review.repository';
 
 @Injectable()
 export class LongReviewService {
   constructor(private readonly longReviewRepository: LongReviewRepository) {}
 
+  // TODO: 장문 리뷰 리스트 조회 시 content 길이 제한?
   async findLongReviewPageByQuery(
     query: ReviewPageQueryDto,
-  ): Promise<ILongReview[]> {
+  ): Promise<LongReviewResponseDto[]> {
     const { memberId, animationId, lastId, pageSize, sortCondition } = query;
     this.checkOnlyOneEnterOfTwoParams(memberId, animationId);
-    return await this.longReviewRepository.selectLongReviewPage(
+    const longReviews = await this.longReviewRepository.selectLongReviewPage(
       memberId,
       animationId,
       lastId,
       pageSize,
       sortCondition,
     );
+
+    const longReviewDtoList: LongReviewResponseDto[] = [];
+    longReviews.forEach((longReview) => {
+      const longReviewResponseDto = new LongReviewResponseDto(longReview);
+      longReviewDtoList.push(longReviewResponseDto);
+    });
+
+    return longReviewDtoList;
   }
 
-  async findLongReviewDetail(id: number): Promise<ILongReview> {
-    return await this.longReviewRepository.selectLongReviewById(id);
+  async findLongReviewDetail(id: number): Promise<LongReviewResponseDto> {
+    const longReview = await this.longReviewRepository.selectLongReviewById(id);
+    return new LongReviewResponseDto(longReview);
   }
 
   async createLongReview(
     memberId: number,
     animationId: number,
     dto: CreateLongReviewDto,
-  ): Promise<ILongReview> {
+  ): Promise<LongReviewResponseDto> {
     const { rating, title, content, imageUrls } = dto;
-    return await this.longReviewRepository.insertLongReview(
+    const longReview = await this.longReviewRepository.insertLongReview(
       memberId,
       animationId,
       rating,
@@ -43,21 +53,25 @@ export class LongReviewService {
       content,
       imageUrls,
     );
+
+    return new LongReviewResponseDto(longReview);
   }
 
   // TODO: 장문 리뷰 수정 가능 항목 리스트?
   async updateLongReview(
     id: number,
     dto: UpdateLongReviewDto,
-  ): Promise<ILongReview> {
+  ): Promise<LongReviewResponseDto> {
     const { rating, title, content, imageUrls } = dto;
-    return await this.longReviewRepository.updateLongReview(
+    const longReview = await this.longReviewRepository.updateLongReview(
       id,
       rating,
       title,
       content,
       imageUrls,
     );
+
+    return new LongReviewResponseDto(longReview);
   }
 
   async deleteLongReview(id: number): Promise<string> {
