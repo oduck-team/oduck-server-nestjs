@@ -34,7 +34,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/ILongReview"
+                    "$ref": "#/components/schemas/LongReviewResponseDto"
                   }
                 }
               }
@@ -77,7 +77,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ILongReview"
+                  "$ref": "#/components/schemas/LongReviewResponseDto"
                 }
               }
             },
@@ -109,7 +109,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ILongReview"
+                  "$ref": "#/components/schemas/LongReviewResponseDto"
                 }
               }
             },
@@ -151,7 +151,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ILongReview"
+                  "$ref": "#/components/schemas/LongReviewResponseDto"
                 }
               }
             },
@@ -162,7 +162,7 @@
         "x-nestia-jsDocTags": [],
         "x-nestia-method": "PUT"
       },
-      "patch": {
+      "delete": {
         "tags": [],
         "parameters": [
           {
@@ -176,7 +176,7 @@
           }
         ],
         "responses": {
-          "201": {
+          "200": {
             "description": "",
             "content": {
               "application/json": {
@@ -190,7 +190,7 @@
         },
         "x-nestia-namespace": "api.long-reviews.deleteLongReview",
         "x-nestia-jsDocTags": [],
-        "x-nestia-method": "PATCH"
+        "x-nestia-method": "DELETE"
       }
     },
     "/api/short-reviews": {
@@ -270,7 +270,7 @@
         "x-nestia-method": "POST"
       }
     },
-    "/api/short-reviews/{id}/delete": {
+    "/api/short-reviews/{id}": {
       "patch": {
         "tags": [],
         "parameters": [
@@ -284,8 +284,50 @@
             "required": true
           }
         ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateShortReviewDto"
+              }
+            }
+          },
+          "required": true,
+          "x-nestia-encrypted": false
+        },
         "responses": {
           "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "number"
+                }
+              }
+            },
+            "x-nestia-encrypted": false
+          }
+        },
+        "x-nestia-namespace": "api.short-reviews.updateShortReview",
+        "x-nestia-jsDocTags": [],
+        "x-nestia-method": "PATCH"
+      },
+      "delete": {
+        "tags": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "schema": {
+              "type": "number"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
             "description": "",
             "content": {
               "application/json": {
@@ -297,9 +339,9 @@
             "x-nestia-encrypted": false
           }
         },
-        "x-nestia-namespace": "api.short-reviews.delete.deleteShortReview",
+        "x-nestia-namespace": "api.short-reviews.deleteShortReview",
         "x-nestia-jsDocTags": [],
-        "x-nestia-method": "PATCH"
+        "x-nestia-method": "DELETE"
       }
     },
     "/users": {
@@ -449,9 +491,29 @@
         "description": "@type int",
         "x-typia-jsDocTags": []
       },
-      "ILongReview": {
+      "LongReviewResponseDto": {
         "type": "object",
         "properties": {
+          "title": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "content": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "imageUrls": {
+            "x-typia-required": false,
+            "x-typia-optional": true,
+            "type": "array",
+            "items": {
+              "x-typia-required": false,
+              "x-typia-optional": true,
+              "type": "string"
+            }
+          },
           "id": {
             "x-typia-required": true,
             "x-typia-optional": false,
@@ -472,68 +534,15 @@
             "x-typia-optional": true,
             "type": "string",
             "format": "date-time"
-          },
-          "updatedAt": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string",
-            "format": "date-time"
-          },
-          "imageUrls": {
-            "x-typia-required": false,
-            "x-typia-optional": true,
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/__type"
-            }
-          },
-          "longReview": {
-            "$ref": "#/components/schemas/__type.o1.Nullable"
           }
         },
         "nullable": false,
-        "required": [
-          "id",
-          "memberId",
-          "animationId",
-          "updatedAt",
-          "longReview"
-        ],
-        "x-typia-jsDocTags": []
-      },
-      "__type": {
-        "type": "object",
-        "properties": {
-          "imageUrl": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string"
-          }
-        },
-        "nullable": false,
-        "required": [
-          "imageUrl"
-        ],
-        "x-typia-jsDocTags": []
-      },
-      "__type.o1.Nullable": {
-        "type": "object",
-        "properties": {
-          "title": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string"
-          },
-          "content": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string"
-          }
-        },
-        "nullable": true,
         "required": [
           "title",
-          "content"
+          "content",
+          "id",
+          "memberId",
+          "animationId"
         ],
         "x-typia-jsDocTags": []
       },
@@ -974,13 +983,13 @@
             "type": "number"
           },
           "comment": {
-            "x-typia-required": false,
-            "x-typia-optional": true,
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "string"
           },
           "hasSpoiler": {
-            "x-typia-required": false,
-            "x-typia-optional": true,
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "boolean"
           },
           "id": {
@@ -999,8 +1008,8 @@
             "type": "number"
           },
           "createdAt": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
+            "x-typia-required": false,
+            "x-typia-optional": true,
             "type": "string",
             "format": "date-time"
           }
@@ -1008,10 +1017,11 @@
         "nullable": false,
         "required": [
           "rating",
+          "comment",
+          "hasSpoiler",
           "id",
           "memberId",
-          "animationId",
-          "createdAt"
+          "animationId"
         ],
         "x-typia-jsDocTags": []
       },
@@ -1174,6 +1184,112 @@
           "ACTION",
           "IMMERSIBILITY"
         ]
+      },
+      "UpdateShortReviewDto": {
+        "type": "object",
+        "properties": {
+          "comment": {
+            "description": "@minLength 10\n@maxLength 100",
+            "x-typia-metaTags": [
+              {
+                "kind": "minLength",
+                "value": 10
+              },
+              {
+                "kind": "maxLength",
+                "value": 100
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "minLength",
+                "text": [
+                  {
+                    "text": "10",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "maxLength",
+                "text": [
+                  {
+                    "text": "100",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 100
+          },
+          "hasSpoiler": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "boolean"
+          },
+          "rating": {
+            "description": "@type int\n@minimum 0\n@maximum 5",
+            "x-typia-metaTags": [
+              {
+                "kind": "type",
+                "value": "int"
+              },
+              {
+                "kind": "minimum",
+                "value": 0
+              },
+              {
+                "kind": "maximum",
+                "value": 5
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "type",
+                "text": [
+                  {
+                    "text": "int",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "minimum",
+                "text": [
+                  {
+                    "text": "0",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "maximum",
+                "text": [
+                  {
+                    "text": "5",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 5
+          }
+        },
+        "nullable": false,
+        "required": [
+          "comment",
+          "hasSpoiler",
+          "rating"
+        ],
+        "x-typia-jsDocTags": []
       },
       "TestDto": {
         "type": "object",
