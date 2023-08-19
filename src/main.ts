@@ -23,6 +23,7 @@ async function bootstrap() {
 
   // swagger 적용
   setSwagger(app);
+  app.setGlobalPrefix('api');
 
   // helmet 헤더 보안 적용
   app.use(helmet());
