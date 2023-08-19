@@ -193,8 +193,8 @@ model LongReview {
 }
 
 model LongReviewImage {
-  id            Int       @default(autoincrement())
-  longReviewId  Int       @unique
+  id            Int       @id @default(autoincrement())
+  longReviewId  Int
   imageUrl      String
   createdAt     DateTime  @default(now())
 }
