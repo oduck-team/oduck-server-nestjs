@@ -10,7 +10,7 @@ import {
   IShortReview,
   SortCondition,
 } from '../reviews.interface';
-import { AttractionElement, Prisma, Review, ReviewType } from '@prisma/client';
+import { AttractionElement, Prisma, ReviewType } from '@prisma/client';
 
 @Injectable()
 export class ShortReviewRepository {
@@ -118,10 +118,10 @@ export class ShortReviewRepository {
     comment: string,
     hasSpoiler: boolean,
   ): Promise<number> {
-    const shortReview = await this.findShortReviewById(id);
+    const review = await this.findShortReviewById(id);
     return await this.prisma.review
       .update({
-        where: { id: shortReview!.id },
+        where: { id: review!.id },
         data: {
           rating,
           shortReview: {
@@ -136,18 +136,19 @@ export class ShortReviewRepository {
   }
 
   async softDeleteShortReview(id: number): Promise<number> {
-    const shortReview = await this.findShortReviewById(id);
+    const review = await this.findShortReviewById(id);
     return await this.prisma.review
       .update({
-        where: { id: shortReview!.id },
+        where: { id: review!.id },
         data: { deletedAt: new Date() },
       })
       .then((review) => review.id);
   }
 
-  private async findShortReviewById(id: number): Promise<Review | void> {
+  private async findShortReviewById(id: number) {
     return await this.prisma.review
       .findUniqueOrThrow({
+        include: { shortReview: true },
         where: {
           id,
           type: ReviewType.SHORT,

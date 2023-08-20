@@ -5,7 +5,7 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from '../../../global/config/prisma/prisma.service';
 import { ILongReview, IReviewQuery, SortCondition } from '../reviews.interface';
-import { LongReviewImage, Prisma, Review, ReviewType } from '@prisma/client';
+import { LongReviewImage, Prisma, ReviewType } from '@prisma/client';
 
 @Injectable()
 export class LongReviewRepository {
@@ -51,48 +51,24 @@ export class LongReviewRepository {
   }
 
   async selectLongReviewById(id: number): Promise<ILongReview> {
-    return await this.prisma.$transaction(async (prisma) => {
-      const longReview = await prisma.review
-        .findUniqueOrThrow({
-          select: {
-            id: true,
-            memberId: true,
-            animationId: true,
-            createdAt: true,
-            updatedAt: true,
-            longReview: {
-              select: {
-                title: true,
-                content: true,
-              },
-            },
-          },
-          where: {
-            id,
-            type: ReviewType.LONG,
-            deletedAt: null,
-          },
-        })
-        .catch((e) => {
-          console.log(e);
-          if (e instanceof Prisma.PrismaClientKnownRequestError) {
-            if (e.code == 'P2025') {
-              throw new NotFoundException(
-                `해당 리뷰를 찾을 수 없습니다. id: ${id}`,
-              );
-            }
-          } else {
-            throw new InternalServerErrorException(e);
-          }
-        });
-
-      const imageUrls = await prisma.longReviewImage.findMany({
-        select: { imageUrl: true },
-        where: { longReviewId: longReview!.id },
-      });
-
-      return { ...longReview!, imageUrls };
+    const review = await this.findLongReviewById(id);
+    const imageUrls = await this.prisma.longReviewImage.findMany({
+      select: { imageUrl: true },
+      where: { longReviewId: review!.id },
     });
+
+    return {
+      id: review!.id,
+      memberId: review!.memberId,
+      animationId: review!.animationId,
+      createdAt: review!.createdAt,
+      updatedAt: review!.updatedAt,
+      imageUrls,
+      longReview: {
+        title: review!.longReview!.title,
+        content: review!.longReview!.content,
+      },
+    };
   }
 
   async insertLongReview(
@@ -165,8 +141,8 @@ export class LongReviewRepository {
     const found = await this.findLongReviewById(id);
     const images: LongReviewImage[] = [];
 
-    const review = await this.prisma.$transaction(async (prisma) => {
-      const longReview = await prisma.review.update({
+    const longReview = await this.prisma.$transaction(async (prisma) => {
+      const updatedReview = await prisma.review.update({
         data: {
           rating,
           longReview: {
@@ -181,15 +157,15 @@ export class LongReviewRepository {
         where: { id: found!.id },
       });
 
+      await prisma.longReviewImage.deleteMany({
+        where: { longReviewId: updatedReview.id },
+      });
+
       await Promise.all(
         imageUrls.map(async (imageUrl) => {
-          await prisma.longReviewImage.deleteMany({
-            where: { longReviewId: longReview.id },
-          });
-
           const image = await prisma.longReviewImage.create({
             data: {
-              longReviewId: longReview.id,
+              longReviewId: updatedReview.id,
               imageUrl,
             },
           });
@@ -198,7 +174,7 @@ export class LongReviewRepository {
         }),
       );
 
-      return longReview;
+      return updatedReview;
     });
 
     const urls: { imageUrl: string }[] = [];
@@ -207,11 +183,11 @@ export class LongReviewRepository {
     });
 
     return {
-      id: review.id,
-      memberId: review.memberId,
-      animationId: review.animationId,
-      createdAt: review.createdAt,
-      updatedAt: review.updatedAt,
+      id: longReview.id,
+      memberId: longReview.memberId,
+      animationId: longReview.animationId,
+      createdAt: longReview.createdAt,
+      updatedAt: longReview.updatedAt,
       imageUrls: urls,
       longReview: {
         title,
@@ -221,24 +197,27 @@ export class LongReviewRepository {
   }
 
   async softDeleteLongReview(id: number): Promise<number> {
-    const longReview = await this.findLongReviewById(id);
-    const longReviewId = await this.prisma.review
-      .update({
-        where: { id: longReview!.id },
-        data: { deletedAt: new Date() },
-      })
-      .then((review) => review.id);
+    const review = await this.findLongReviewById(id);
+    return await this.prisma.$transaction(async (prisma) => {
+      const longReviewId = await prisma.review
+        .update({
+          where: { id: review!.id },
+          data: { deletedAt: new Date() },
+        })
+        .then((review) => review.id);
 
-    await this.prisma.longReviewImage.deleteMany({
-      where: { longReviewId },
+      await prisma.longReviewImage.deleteMany({
+        where: { longReviewId },
+      });
+
+      return longReviewId;
     });
-
-    return longReviewId;
   }
 
-  private async findLongReviewById(id: number): Promise<Review | void> {
+  private async findLongReviewById(id: number) {
     return await this.prisma.review
       .findUniqueOrThrow({
+        include: { longReview: true },
         where: {
           id,
           type: ReviewType.LONG,
