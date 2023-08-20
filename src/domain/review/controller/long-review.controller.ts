@@ -9,7 +9,7 @@ import {
 } from '../dto/review-request.dto';
 import { LongReviewResponseDto } from '../dto/review-response.dto';
 
-@Controller('/api/long-reviews')
+@Controller('/long-reviews')
 export class LongReviewController {
   constructor(private readonly longReviewService: LongReviewService) {}
 

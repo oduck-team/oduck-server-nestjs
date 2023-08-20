@@ -9,7 +9,7 @@ import {
 } from '../dto/review-request.dto';
 import { ShortReviewResponseDto } from '../dto/review-response.dto';
 
-@Controller('/api/short-reviews')
+@Controller('/short-reviews')
 export class ShortReviewController {
   constructor(private readonly shortReviewService: ShortReviewService) {}
 
