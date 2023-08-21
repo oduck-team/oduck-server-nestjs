@@ -1,7 +1,8 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { LoginType, Role } from '@prisma/client';
 import prisma from '../../global/libs/prisma';
 import { randomUUID } from 'crypto';
+import { IMemerProfile } from './member.interface';
 
 @Injectable()
 export class MemberRepository {
@@ -32,6 +33,18 @@ export class MemberRepository {
 
     Logger.log(`Member created: ${JSON.stringify(member)}`);
     return member;
+  }
+
+  async signup(id: number, name: string): Promise<void> {
+    await prisma.memberProfile.update({
+      where: {
+        memberId: id,
+      },
+      data: {
+        name,
+        role: Role.MEMBER,
+      },
+    });
   }
 
   async findMemberById(id: number) {
@@ -70,5 +83,39 @@ export class MemberRepository {
     // .then(({ memberId, ...member }) => ({ id: memberId, ...member }));
 
     return member;
+  }
+
+  async findMemberProfileByName(name: string): Promise<IMemerProfile> {
+    try {
+      const member = await prisma.memberProfile.findFirstOrThrow({
+        select: {
+          memberId: true,
+          name: true,
+          role: true,
+          point: true,
+          imageUrl: true,
+          createdAt: true,
+          updatedAt: true,
+        },
+        where: {
+          name,
+        },
+      });
+
+      return member;
+    } catch (e) {
+      throw new NotFoundException('Member not found');
+    }
+  }
+
+  async updateName(id: number, name: string): Promise<void> {
+    await prisma.memberProfile.update({
+      where: {
+        memberId: id,
+      },
+      data: {
+        name,
+      },
+    });
   }
 }
