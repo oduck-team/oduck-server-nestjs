@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "servers": [
     {
-      "url": "http://localhost:8000",
+      "url": "http://localhost:8000/api",
       "description": "Local Server"
     }
   ],
@@ -12,7 +12,7 @@
     "description": ""
   },
   "paths": {
-    "/members": {
+    "/members/signup": {
       "post": {
         "tags": [],
         "parameters": [],
@@ -21,7 +21,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/TestDto"
+                "$ref": "#/components/schemas/UpdateNameDto"
               }
             }
           },
@@ -31,19 +31,71 @@
         "responses": {
           "201": {
             "description": "",
+            "x-nestia-encrypted": false
+          }
+        },
+        "x-nestia-namespace": "members.signup.handleSignup",
+        "x-nestia-jsDocTags": [],
+        "x-nestia-method": "POST"
+      }
+    },
+    "/members/name": {
+      "patch": {
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateNameDto"
+              }
+            }
+          },
+          "required": true,
+          "x-nestia-encrypted": false
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "x-nestia-encrypted": false
+          }
+        },
+        "x-nestia-namespace": "members.name.handleUpdateName",
+        "x-nestia-jsDocTags": [],
+        "x-nestia-method": "PATCH"
+      }
+    },
+    "/members/{name}": {
+      "get": {
+        "tags": [],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/MemberProfileDto"
                 }
               }
             },
             "x-nestia-encrypted": false
           }
         },
-        "x-nestia-namespace": "members.createMember",
+        "x-nestia-namespace": "members.handleGetProfile",
         "x-nestia-jsDocTags": [],
-        "x-nestia-method": "POST"
+        "x-nestia-method": "GET"
       }
     },
     "/auth/google/login": {
@@ -161,21 +213,14 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "oneOf": [
-                    {
-                      "$ref": "#/components/schemas/__type"
-                    },
-                    {
-                      "$ref": "#/components/schemas/Omit_lt_GetResult_lt__blt__space_id:_space_number;_space_memberId:_space_number;_space_name:_space_string;_space_role:_space_Role;_space_imageUrl:_space_string_space__or__space_null;_space_point:_space_number;_space_createdAt:_space_Date;_space_updatedAt:_space_Date;_space__bgt__comma__space_unknown_gt__space__and__space__blt__bgt__comma__space__doublequote_id_doublequote__gt_"
-                    }
-                  ]
+                  "$ref": "#/components/schemas/Omit_lt_GetResult_lt__blt__space_id:_space_number;_space_memberId:_space_number;_space_name:_space_string;_space_role:_space_Role;_space_imageUrl:_space_string_space__or__space_null;_space_point:_space_number;_space_createdAt:_space_Date;_space_updatedAt:_space_Date;_space__bgt__comma__space_unknown_gt__space__and__space__blt__bgt__comma__space__doublequote_id_doublequote__gt_"
                 }
               }
             },
             "x-nestia-encrypted": false
           }
         },
-        "x-nestia-namespace": "auth.status.member",
+        "x-nestia-namespace": "auth.status.handleStatus",
         "x-nestia-jsDocTags": [],
         "x-nestia-method": "GET"
       }
@@ -183,20 +228,33 @@
   },
   "components": {
     "schemas": {
-      "TestDto": {
+      "UpdateNameDto": {
         "type": "object",
         "properties": {
-          "age": {
-            "description": "@minimum 10",
+          "name": {
+            "description": "@minLength 2\n@maxLength 10",
             "x-typia-metaTags": [
               {
-                "kind": "minimum",
+                "kind": "minLength",
+                "value": 2
+              },
+              {
+                "kind": "maxLength",
                 "value": 10
               }
             ],
             "x-typia-jsDocTags": [
               {
-                "name": "minimum",
+                "name": "minLength",
+                "text": [
+                  {
+                    "text": "2",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "maxLength",
                 "text": [
                   {
                     "text": "10",
@@ -207,31 +265,92 @@
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
-            "type": "number",
-            "minimum": 10
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 10
           }
         },
         "nullable": false,
         "required": [
-          "age"
+          "name"
         ],
-        "description": "@minimum 10",
+        "description": "@minLength 2\n@maxLength 10",
         "x-typia-jsDocTags": []
       },
-      "__type": {
+      "MemberProfileDto": {
         "type": "object",
         "properties": {
-          "msg": {
+          "isMine": {
+            "description": "\n@nullable\n@session\n",
+            "x-typia-jsDocTags": [
+              {
+                "name": "nullable"
+              },
+              {
+                "name": "session"
+              }
+            ],
+            "x-typia-required": false,
+            "x-typia-optional": true,
+            "type": "boolean"
+          },
+          "memberId": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "number"
+          },
+          "name": {
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
+          },
+          "role": {
+            "$ref": "#/components/schemas/Role"
+          },
+          "imageUrl": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "nullable": true
+          },
+          "point": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "number"
+          },
+          "createdAt": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "format": "date-time"
           }
         },
         "nullable": false,
         "required": [
-          "msg"
+          "memberId",
+          "name",
+          "role",
+          "imageUrl",
+          "point",
+          "createdAt",
+          "updatedAt"
         ],
+        "description": "\n@nullable\n@session\n",
         "x-typia-jsDocTags": []
+      },
+      "Role": {
+        "type": "string",
+        "enum": [
+          "GUEST",
+          "MEMBER",
+          "ADMIN"
+        ]
       },
       "Omit_lt_GetResult_lt__blt__space_id:_space_number;_space_memberId:_space_number;_space_name:_space_string;_space_role:_space_Role;_space_imageUrl:_space_string_space__or__space_null;_space_point:_space_number;_space_createdAt:_space_Date;_space_updatedAt:_space_Date;_space__bgt__comma__space_unknown_gt__space__and__space__blt__bgt__comma__space__doublequote_id_doublequote__gt_": {
         "type": "object",
@@ -284,27 +403,19 @@
           "updatedAt"
         ],
         "x-typia-jsDocTags": []
-      },
-      "Role": {
-        "type": "string",
-        "enum": [
-          "GUEST",
-          "USER",
-          "ADMIN"
-        ]
       }
     },
     "securitySchemes": {
-      "bearer": {
+      "apiCookie": {
         "type": "apiKey",
-        "name": "Authorization",
-        "in": "header"
+        "in": "cookie",
+        "name": "connect.sid"
       }
     }
   },
   "security": [
     {
-      "bearer": []
+      "apiCookie": []
     }
   ]
 }
