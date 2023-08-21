@@ -1,78 +1,87 @@
 import { Injectable } from '@nestjs/common';
-import { Prisma, Animation } from '@prisma/client';
 import { PrismaService } from '../../global/database/prisma/prisma.service';
-import { IList } from './model/animation.list.dto';
-import { AnimationCreateDto } from './model/animation.create.dto';
+import { AnimationListDto } from './dto/animation.req.dto';
+import { AnimationReqDto, AnimationUpdateDto } from './dto/animation.req.dto';
+import { AnimationItemResDto } from './dto/animation.res.dto';
 
 @Injectable()
 export class AnimationRepository {
   constructor(private prisma: PrismaService) {}
 
-  async getAnimations(params: IList): Promise<Animation[]> {
-    const prismaQuery: {
-      skip: number;
-      take: number;
-      ['where']?: Prisma.AnimationWhereInput;
-      orderBy: NonNullable<unknown>;
-    } = {
+  async getAnimations(
+    params: AnimationListDto,
+  ): Promise<AnimationItemResDto[]> {
+    return this.prisma.animation.findMany({
       skip: ((params.page ?? 1) - 1) * (params.length ?? 20),
       take: params.length ?? 20,
       // 정렬은 키와 정방향, 역방향 여부
+      //TODO:
+      // cursor: ?,
       orderBy: {
         [params.sortKey ?? 'createdAt']: params.sort ?? 'desc',
       },
-    };
-
-    // search 키 없으면 전체
-    if (params.search) {
-      prismaQuery.where = Prisma.validator<Prisma.AnimationWhereInput>()({
-        OR: [
-          { name: { contains: params.search } },
-          { plot: { contains: params.search } },
-          { primaryKeyword: { contains: params.search } },
-        ],
-      });
-    }
-
-    return this.prisma.animation.findMany(prismaQuery);
+      where: {
+        OR: params.search
+          ? [
+              { name: { contains: params.search } },
+              { plot: { contains: params.search } },
+              { primaryKeyword: { contains: params.search } },
+            ]
+          : [],
+      },
+      include: {
+        studios: {
+          select: {
+            studio: true,
+          },
+        },
+      },
+    });
   }
 
-  async getAnimationById(id: number): Promise<Animation> {
-    return this.prisma.animation.findFirstOrThrow({
+  async getAnimationById(id: number) {
+    return this.prisma.animation.findFirst({
       where: { id },
+      include: { studios: { select: { studio: true } } },
     });
   }
 
-  async storeAnimation(body: AnimationCreateDto) {
+  async storeAnimation(body: AnimationReqDto): Promise<AnimationItemResDto> {
     // TODO: modify to store voice_actor, studio.... transaction
-    const { studioName, ...animationBody } = body;
+    const { studioNames, ...animationBody } = body;
 
-    return this.prisma.$transaction(async (tx) => {
-      let studio = await tx.studio.findFirst({ where: { name: studioName } });
-
-      if (!studio) {
-        studio = await tx.studio.create({ data: { name: studioName } });
-      }
-
-      const animation = await tx.animation.create({
-        data: {
-          ...animationBody,
+    return this.prisma.animation.create({
+      data: {
+        ...animationBody,
+        studios: {
+          create: studioNames.map((s) => ({
+            studio: {
+              connectOrCreate: {
+                where: { name: s },
+                create: { name: s },
+              },
+            },
+          })),
         },
-      });
-
-      await tx.animationStudio.create({
-        data: {
-          studioId: studio.id,
-          animationId: animation.id,
+        // TODO: other relations
+        // TODO: other relations
+        // TODO: other relations
+      },
+      include: {
+        studios: {
+          select: {
+            studio: true,
+          },
         },
-      });
-
-      return animation;
+        // TODO: other relations
+        // TODO: other relations
+        // TODO: other relations
+        // TODO: other relations
+      },
     });
   }
 
-  async updateAnimation(id: number, body: AnimationCreateDto) {
-    // TODO: modify to store voice_actor, studio.... transaction
+  async updateAnimation(id: number, body: AnimationUpdateDto) {
     return this.prisma.animation.update({
       where: { id },
       data: body,

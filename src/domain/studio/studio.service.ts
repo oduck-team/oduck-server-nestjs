@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { StudioCreateDto } from './model/studio.create.dto';
+import { StudioCreateDto } from './dto/studio.create.dto';
 import { StudioRepository } from './studio.repository';
 
 @Injectable()
