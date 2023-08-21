@@ -8,12 +8,12 @@ datasource db {
 }
 
 model Member {
-  id        Int       @id @default(autoincrement())
-  loginType LoginType
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @default(now()) @updatedAt
-  deletedAt DateTime?
-
+  id            Int       @id @default(autoincrement())
+  loginType     LoginType
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt  @default(now())
+  deletedAt     DateTime?
+  
   memberProfile MemberProfile?
   authSocial    AuthSocial?
   authPassword  AuthPassword?
@@ -24,106 +24,106 @@ model Member {
 }
 
 model MemberProfile {
-  id        Int      @id @default(autoincrement())
-  memberId  Int      @unique
+  id        Int       @id @default(autoincrement())
+  memberId  Int       @unique
   name      String
-  role      Role     @default(USER)
+  role      Role      @default(USER)
   imageUrl  String?
-  point     Int      @default(0)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
-  member    Member   @relation(fields: [memberId], references: [id])
+  point     Int       @default(0)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt  @default(now())
+  member    Member    @relation(fields: [memberId], references: [id])
 }
 
 model AuthSocial {
-  id       Int    @id @default(autoincrement())
-  memberId Int    @unique
-  socialId String
-  type     String
-  member   Member @relation(fields: [memberId], references: [id])
+  id        Int     @id @default(autoincrement())
+  memberId  Int     @unique
+  socialId  String
+  type      String
+  member    Member  @relation(fields: [memberId], references: [id])
 }
 
 model AuthPassword {
-  id        Int      @id @default(autoincrement())
-  memberId  Int      @unique
+  id        Int       @id @default(autoincrement())
+  memberId  Int       @unique
   hash      String
   password  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
-  member    Member   @relation(fields: [memberId], references: [id])
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt  @default(now())
+  member    Member    @relation(fields: [memberId], references: [id])
 }
 
 model Animation {
-  id             Int           @id @default(autoincrement())
-  name           String
-  plot           String
-  broadcastType  BroadcastType
-  episodeNumber  Int           @default(0)
-  imageUrl       String
-  rating         Rating
-  primaryKeyword String
-  status         Status
-  isReleased     Boolean       @default(false)
-  viewCount      Int           @default(0)
-  reviewCount    Int           @default(0)
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime      @default(now()) @updatedAt
-  deletedAt      DateTime?
+  id                    Int       @id @default(autoincrement())
+  name                  String
+  plot                  String
+  broadcastType         BroadcastType
+  episodeNumber         Int       @default(0)
+  imageUrl              String
+  rating                Rating
+  primaryKeyword        String
+  status                Status
+  isReleased            Boolean   @default(false)
+  viewCount             Int       @default(0)
+  reviewCount           Int       @default(0)
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt  @default(now())
+  deletedAt             DateTime?
 
-  studios AnimationStudio[]
-
-  animationGenres      AnimationGenre[]
-  animationVoiceActors AnimationVoiceActor[]
-  originalWorkers      AnimationOriginalWorker[]
-  keywords             Keyword[]
-  seasons              Season[]
-  bookmarks            Bookmark[]
+  animationGenres       AnimationGenre[]
+  animationStudioList   AnimationStudio[]
+  animationVoiceActors  AnimationVoiceActor[]
+  originalWorkers       AnimationOriginalWorker[]
+  keywords              Keyword[]
+  seasons               Season[]
+  bookmarks             Bookmark[]
 }
 
 model AnimationGenre {
-  id          Int @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   animationId Int
   genreId     Int
 
-  animation Animation @relation(fields: [animationId], references: [id])
-  genre     Genre     @relation(fields: [genreId], references: [id])
+  animation   Animation @relation(fields: [animationId], references: [id])
+  genre       Genre     @relation(fields: [genreId], references: [id])
 }
 
 model AnimationStudio {
+  id          Int       @id @default(autoincrement())
   animationId Int
   studioId    Int
+
   animation   Animation @relation(fields: [animationId], references: [id])
   studio      Studio    @relation(fields: [studioId], references: [id])
-
-  @@id([animationId, studioId])
 }
 
 model AnimationVoiceActor {
-  id           Int @id @default(autoincrement())
-  animationId  Int
-  voiceActorId Int
+  id            Int         @id @default(autoincrement())
+  animationId   Int
+  voiceActorId  Int
 
-  animation  Animation  @relation(fields: [animationId], references: [id])
-  voiceActor VoiceActor @relation(fields: [voiceActorId], references: [id])
+  animation     Animation   @relation(fields: [animationId], references: [id])
+  voiceActor    VoiceActor  @relation(fields: [voiceActorId], references: [id])
 }
 
 model AnimationOriginalWorker {
-  id               Int @id @default(autoincrement())
-  animationId      Int
-  originalWorkerId Int
+  id                Int             @id @default(autoincrement())
+  animationId       Int
+  originalWorkerId  Int
 
-  animation      Animation      @relation(fields: [animationId], references: [id])
-  originalWorker OriginalWorker @relation(fields: [originalWorkerId], references: [id])
+  animation         Animation       @relation(fields: [animationId], references: [id])
+  originalWorker    OriginalWorker  @relation(fields: [originalWorkerId], references: [id])
 }
 
 model Genre {
-  id              Int              @id @default(autoincrement())
+  id              Int       @id @default(autoincrement())
   type            GenreType
-  createdAt       DateTime         @default(now())
+  createdAt       DateTime  @default(now())
   animationGenres AnimationGenre[]
 }
 
 model Studio {
+
   id        Int      @id @default(autoincrement())
   name      String   @unique
   createdAt DateTime @default(now())
@@ -164,60 +164,60 @@ model Season {
 }
 
 model Review {
-  id          Int        @id @default(autoincrement())
-  memberId    Int
-  animationId Int
-  type        ReviewType
-  rating      Int        @default(0)
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @default(now()) @updatedAt
-  deletedAt   DateTime?
+  id                Int       @id @default(autoincrement())
+  memberId          Int
+  animationId       Int
+  type              ReviewType
+  rating            Int       @default(0)
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt  @default(now())
+  deletedAt         DateTime?
 
-  member           Member            @relation(fields: [memberId], references: [id])
-  shortReview      ShortReview?
-  longReview       LongReview?
-  attractionPoints AttractionPoint[]
-  reviewLikes      ReviewLike[]
+  member            Member    @relation(fields: [memberId], references: [id])
+  shortReview       ShortReview?
+  longReview        LongReview?
+  attractionPoints  AttractionPoint[]
+  reviewLikes       ReviewLike[]
 }
 
 model ShortReview {
-  id       Int    @id @default(autoincrement())
-  reviewId Int    @unique
-  comment  String
-  review   Review @relation(fields: [reviewId], references: [id])
+  id        Int     @id @default(autoincrement())
+  reviewId  Int     @unique
+  comment   String
+  review    Review  @relation(fields: [reviewId], references: [id])
 }
 
 model LongReview {
-  id       Int               @id @default(autoincrement())
-  reviewId Int               @unique
-  title    String
-  content  String
-  review   Review            @relation(fields: [reviewId], references: [id])
-  images   LongReviewImage[]
+  id        Int     @id @default(autoincrement())
+  reviewId  Int     @unique
+  title     String
+  content   String
+  review    Review  @relation(fields: [reviewId], references: [id])
+  images    LongReviewImage[]
 }
 
 model LongReviewImage {
-  id           Int        @id @default(autoincrement())
-  longReviewId Int
-  imageUrl     String
-  createdAt    DateTime   @default(now())
-  longReview   LongReview @relation(fields: [longReviewId], references: [id])
+  id            Int         @id @default(autoincrement())
+  longReviewId  Int
+  imageUrl      String
+  createdAt     DateTime    @default(now())
+  longReview    LongReview  @relation(fields: [longReviewId], references: [id])
 }
 
 model MemberPointLog {
-  id         Int      @id @default(autoincrement())
-  memberId   Int
-  reasonCode String
-  reasonText String
-  createdAt  DateTime @default(now())
+  id          Int       @id @default(autoincrement())
+  memberId    Int
+  reasonCode  String
+  reasonText  String
+  createdAt   DateTime  @default(now())
 }
 
 model AttractionPoint {
-  id                Int               @id @default(autoincrement())
+  id                Int       @id @default(autoincrement())
   reviewId          Int
   attractionElement AttractionElement
-  createdAt         DateTime          @default(now())
-  review            Review            @relation(fields: [reviewId], references: [id])
+  createdAt         DateTime  @default(now())
+  review            Review    @relation(fields: [reviewId], references: [id])
 }
 
 model Thread {
@@ -228,39 +228,39 @@ model Thread {
   title     String
   comment   String
   createdAt DateTime  @default(now())
-  updatedAt DateTime  @default(now()) @updatedAt
+  updatedAt DateTime  @updatedAt  @default(now())
   deletedAt DateTime?
 
-  member Member        @relation(fields: [memberId], references: [id])
-  images ThreadImage[]
+  member    Member    @relation(fields: [memberId], references: [id])
+  images    ThreadImage[]
 }
 
 model ThreadImage {
-  id        Int      @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   threadId  Int
   imageUrl  String
-  createdAt DateTime @default(now())
-  thread    Thread   @relation(fields: [threadId], references: [id])
+  createdAt DateTime  @default(now())
+  thread    Thread    @relation(fields: [threadId], references: [id])
 }
 
 model Bookmark {
-  id          Int      @id @default(autoincrement())
+  id          Int       @id @default(autoincrement())
   memberId    Int
   animationId Int
-  createdAt   DateTime @default(now())
+  createdAt   DateTime  @default(now())
 
-  member    Member    @relation(fields: [memberId], references: [id])
-  animation Animation @relation(fields: [animationId], references: [id])
+  member      Member    @relation(fields: [memberId], references: [id])
+  animation   Animation @relation(fields: [animationId], references: [id])
 }
 
 model ReviewLike {
-  id        Int      @id @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   memberId  Int
   reviewId  Int
-  createdAt DateTime @default(now())
+  createdAt DateTime  @default(now())
 
-  member Member @relation(fields: [memberId], references: [id])
-  review Review @relation(fields: [reviewId], references: [id])
+  member    Member    @relation(fields: [memberId], references: [id])
+  review    Review    @relation(fields: [reviewId], references: [id])
 }
 
 enum LoginType {
@@ -322,3 +322,4 @@ enum AttractionElement {
   ACTION
   IMMERSIBILITY
 }
+
