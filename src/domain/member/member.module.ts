@@ -7,6 +7,6 @@ import { MemberRepository } from './member.repository';
   imports: [],
   controllers: [MemberController],
   providers: [MemberService, MemberRepository],
-  exports: [MemberService],
+  exports: [MemberService, MemberRepository],
 })
 export class MemberModule {}

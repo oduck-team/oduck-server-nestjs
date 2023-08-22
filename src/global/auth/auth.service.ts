@@ -1,24 +1,21 @@
-import { LoginType } from '@prisma/client';
-import { MemberRepository } from './../../domain/member/member.repository';
 import { Injectable } from '@nestjs/common';
+import { LoginType } from '@prisma/client';
+import { MemberService } from '../../domain/member/member.service';
+import { IAuthSocial } from 'src/domain/member/interface/member.interface';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly memberRepository: MemberRepository) {}
+  constructor(private readonly memberService: MemberService) {}
 
-  async validateUser(details: {
-    email: string;
-    socialId: string;
-    type: string;
-  }) {
-    const member = await this.memberRepository.findMemberBySocialId(
+  async validateUser(details: IAuthSocial) {
+    const member = await this.memberService.findAuthSocialBySocialId(
       details.socialId,
     );
 
     if (member) {
-      return await this.memberRepository.findMemberById(member.memberId);
+      return await this.memberService.findMemberById(member.memberId);
     }
 
-    return await this.memberRepository.createMember(LoginType.SOCIAL, details);
+    return await this.memberService.createMember(LoginType.SOCIAL, details);
   }
 }
