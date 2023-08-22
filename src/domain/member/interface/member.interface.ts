@@ -9,3 +9,9 @@ export interface IMemerProfile {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface IAuthSocial {
+  email: string;
+  socialId: string;
+  type: string;
+}

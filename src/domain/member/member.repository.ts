@@ -2,22 +2,18 @@ import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { LoginType, Role } from '@prisma/client';
 import prisma from '../../global/libs/prisma';
 import { randomUUID } from 'crypto';
-import { IMemerProfile } from './member.interface';
+import { IMemerProfile, IAuthSocial } from './interface/member.interface';
 
 @Injectable()
 export class MemberRepository {
   async createMember(
     loginType: LoginType,
-    socialInfo: {
-      email: string;
-      socialId: string;
-      type: string;
-    },
+    details: IAuthSocial,
   ): Promise<{ id: number; loginType: LoginType }> {
     const member = await prisma.member.create({
       data: {
         loginType,
-        authSocial: { create: { ...socialInfo } },
+        authSocial: { create: { ...details } },
         memberProfile: {
           create: {
             role: Role.GUEST,
@@ -55,7 +51,7 @@ export class MemberRepository {
     });
   }
 
-  async findMemberBySocialId(socialId: string) {
+  async findAuthSocialBySocialId(socialId: string) {
     const member = await prisma.authSocial.findUnique({
       where: {
         socialId,
@@ -80,7 +76,6 @@ export class MemberRepository {
         memberId,
       },
     });
-    // .then(({ memberId, ...member }) => ({ id: memberId, ...member }));
 
     return member;
   }
