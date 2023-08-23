@@ -8,7 +8,7 @@
 /prisma/migrations
 
 # compiled output
-/dist/*
+/dist
 !/dist/swagger.json
 /node_modules
 
@@ -29,6 +29,7 @@ lerna-debug.log*
 /.nyc_output
 
 # IDEs and editors
+local
 /.idea
 .project
 .classpath
