@@ -44,45 +44,58 @@ export class MemberRepository {
   }
 
   async findMemberById(id: number) {
-    return await prisma.member.findUnique({
-      where: {
-        id,
-      },
-    });
+    try {
+      const member = await prisma.member.findUniqueOrThrow({
+        where: {
+          id,
+        },
+      });
+      return member;
+    } catch (e) {
+      throw new NotFoundException('Member not found');
+    }
   }
 
   async findAuthSocialBySocialId(socialId: string) {
-    const member = await prisma.authSocial.findUnique({
-      where: {
-        socialId,
-      },
-    });
+    try {
+      const authSocial = await prisma.authSocial.findUniqueOrThrow({
+        where: {
+          socialId,
+        },
+      });
 
-    return member;
+      return authSocial;
+    } catch (e) {
+      throw new NotFoundException('Member not found');
+    }
   }
 
   async findMemberProfile(memberId: number) {
-    const member = await prisma.memberProfile.findUnique({
-      select: {
-        memberId: true,
-        name: true,
-        role: true,
-        point: true,
-        imageUrl: true,
-        createdAt: true,
-        updatedAt: true,
-      },
-      where: {
-        memberId,
-      },
-    });
+    try {
+      const memberProfile = await prisma.memberProfile.findUniqueOrThrow({
+        select: {
+          memberId: true,
+          name: true,
+          role: true,
+          point: true,
+          imageUrl: true,
+          createdAt: true,
+          updatedAt: true,
+        },
+        where: {
+          memberId,
+        },
+      });
 
-    return member;
+      return memberProfile;
+    } catch (e) {
+      throw new NotFoundException('Member not found');
+    }
   }
 
   async findMemberProfileByName(name: string): Promise<IMemerProfile> {
     try {
-      const member = await prisma.memberProfile.findFirstOrThrow({
+      const memberProfile = await prisma.memberProfile.findFirstOrThrow({
         select: {
           memberId: true,
           name: true,
@@ -97,7 +110,7 @@ export class MemberRepository {
         },
       });
 
-      return member;
+      return memberProfile;
     } catch (e) {
       throw new NotFoundException('Member not found');
     }
