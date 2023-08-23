@@ -181,35 +181,24 @@ model Review {
 }
 
 model ShortReview {
-  id        Int     @id @default(autoincrement())
-  reviewId  Int     @unique
-  comment   String
-  review    Review  @relation(fields: [reviewId], references: [id])
+  reviewId    Int     @unique
+  comment     String  @db.VarChar(150)
+  hasSpoiler  Boolean
+  review      Review  @relation(fields: [reviewId], references: [id])
 }
 
 model LongReview {
-  id        Int     @id @default(autoincrement())
   reviewId  Int     @unique
   title     String
-  content   String
+  content   String  @db.VarChar(2000)
   review    Review  @relation(fields: [reviewId], references: [id])
-  images    LongReviewImage[]
 }
 
 model LongReviewImage {
-  id            Int         @id @default(autoincrement())
+  id            Int       @id @default(autoincrement())
   longReviewId  Int
   imageUrl      String
-  createdAt     DateTime    @default(now())
-  longReview    LongReview  @relation(fields: [longReviewId], references: [id])
-}
-
-model MemberPointLog {
-  id          Int       @id @default(autoincrement())
-  memberId    Int
-  reasonCode  String
-  reasonText  String
-  createdAt   DateTime  @default(now())
+  createdAt     DateTime  @default(now())
 }
 
 model AttractionPoint {
@@ -218,6 +207,14 @@ model AttractionPoint {
   attractionElement AttractionElement
   createdAt         DateTime  @default(now())
   review            Review    @relation(fields: [reviewId], references: [id])
+}
+
+model MemberPointLog {
+  id          Int       @id @default(autoincrement())
+  memberId    Int
+  reasonCode  String
+  reasonText  String
+  createdAt   DateTime  @default(now())
 }
 
 model Thread {

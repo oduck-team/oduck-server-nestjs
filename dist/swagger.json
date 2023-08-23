@@ -1,0 +1,1343 @@
+{
+  "openapi": "3.0.1",
+  "servers": [
+    {
+      "url": "http://localhost:8000",
+      "description": "Local Server"
+    }
+  ],
+  "info": {
+    "version": "0.0.1",
+    "title": "oduck-server",
+    "description": ""
+  },
+  "paths": {
+    "/api/long-reviews": {
+      "get": {
+        "tags": [],
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "$ref": "#/components/schemas/ReviewPageQueryDto"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/LongReviewResponseDto"
+                  }
+                }
+              }
+            },
+            "x-nestia-encrypted": false
+          }
+        },
+        "x-nestia-namespace": "api.long-reviews.getLongReviewPageByAnimation",
+        "x-nestia-jsDocTags": [],
+        "x-nestia-method": "GET"
+      },
+      "post": {
+        "tags": [],
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "$ref": "#/components/schemas/MemberAnimationQueryDto"
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateLongReviewDto"
+              }
+            }
+          },
+          "required": true,
+          "x-nestia-encrypted": false
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LongReviewResponseDto"
+                }
+              }
+            },
+            "x-nestia-encrypted": false
+          }
+        },
+        "x-nestia-namespace": "api.long-reviews.writeLongReview",
+        "x-nestia-jsDocTags": [],
+        "x-nestia-method": "POST"
+      }
+    },
+    "/api/long-reviews/{id}": {
+      "get": {
+        "tags": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "schema": {
+              "type": "number"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LongReviewResponseDto"
+                }
+              }
+            },
+            "x-nestia-encrypted": false
+          }
+        },
+        "x-nestia-namespace": "api.long-reviews.getLongReviewDetail",
+        "x-nestia-jsDocTags": [],
+        "x-nestia-method": "GET"
+      },
+      "put": {
+        "tags": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "schema": {
+              "type": "number"
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateLongReviewDto"
+              }
+            }
+          },
+          "required": true,
+          "x-nestia-encrypted": false
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LongReviewResponseDto"
+                }
+              }
+            },
+            "x-nestia-encrypted": false
+          }
+        },
+        "x-nestia-namespace": "api.long-reviews.updateLongReview",
+        "x-nestia-jsDocTags": [],
+        "x-nestia-method": "PUT"
+      },
+      "delete": {
+        "tags": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "schema": {
+              "type": "number"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "x-nestia-encrypted": false
+          }
+        },
+        "x-nestia-namespace": "api.long-reviews.deleteLongReview",
+        "x-nestia-jsDocTags": [],
+        "x-nestia-method": "DELETE"
+      }
+    },
+    "/api/short-reviews": {
+      "get": {
+        "tags": [],
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "$ref": "#/components/schemas/ReviewPageQueryDto"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ShortReviewResponseDto"
+                  }
+                }
+              }
+            },
+            "x-nestia-encrypted": false
+          }
+        },
+        "x-nestia-namespace": "api.short-reviews.getShortReviews",
+        "x-nestia-jsDocTags": [],
+        "x-nestia-method": "GET"
+      },
+      "post": {
+        "tags": [],
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "$ref": "#/components/schemas/MemberAnimationQueryDto"
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateShortReviewDto"
+              }
+            }
+          },
+          "required": true,
+          "x-nestia-encrypted": false
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "number"
+                }
+              }
+            },
+            "x-nestia-encrypted": false
+          }
+        },
+        "x-nestia-namespace": "api.short-reviews.writeShortReview",
+        "x-nestia-jsDocTags": [],
+        "x-nestia-method": "POST"
+      }
+    },
+    "/api/short-reviews/{id}": {
+      "patch": {
+        "tags": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "schema": {
+              "type": "number"
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateShortReviewDto"
+              }
+            }
+          },
+          "required": true,
+          "x-nestia-encrypted": false
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "number"
+                }
+              }
+            },
+            "x-nestia-encrypted": false
+          }
+        },
+        "x-nestia-namespace": "api.short-reviews.updateShortReview",
+        "x-nestia-jsDocTags": [],
+        "x-nestia-method": "PATCH"
+      },
+      "delete": {
+        "tags": [],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "schema": {
+              "type": "number"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "x-nestia-encrypted": false
+          }
+        },
+        "x-nestia-namespace": "api.short-reviews.deleteShortReview",
+        "x-nestia-jsDocTags": [],
+        "x-nestia-method": "DELETE"
+      }
+    },
+    "/users": {
+      "post": {
+        "tags": [],
+        "parameters": [],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TestDto"
+              }
+            }
+          },
+          "required": true,
+          "x-nestia-encrypted": false
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            },
+            "x-nestia-encrypted": false
+          }
+        },
+        "x-nestia-namespace": "users.createUser",
+        "x-nestia-jsDocTags": [],
+        "x-nestia-method": "POST"
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ReviewPageQueryDto": {
+        "type": "object",
+        "properties": {
+          "memberId": {
+            "description": "@type int",
+            "x-typia-metaTags": [
+              {
+                "kind": "type",
+                "value": "int"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "type",
+                "text": [
+                  {
+                    "text": "int",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": false,
+            "x-typia-optional": true,
+            "type": "integer"
+          },
+          "animationId": {
+            "description": "@type int",
+            "x-typia-metaTags": [
+              {
+                "kind": "type",
+                "value": "int"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "type",
+                "text": [
+                  {
+                    "text": "int",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": false,
+            "x-typia-optional": true,
+            "type": "integer"
+          },
+          "lastId": {
+            "description": "@type int",
+            "x-typia-metaTags": [
+              {
+                "kind": "type",
+                "value": "int"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "type",
+                "text": [
+                  {
+                    "text": "int",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": false,
+            "x-typia-optional": true,
+            "type": "integer"
+          },
+          "pageSize": {
+            "description": "@type int",
+            "x-typia-metaTags": [
+              {
+                "kind": "type",
+                "value": "int"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "type",
+                "text": [
+                  {
+                    "text": "int",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": false,
+            "x-typia-optional": true,
+            "type": "integer"
+          },
+          "sortCondition": {
+            "x-typia-required": false,
+            "x-typia-optional": true,
+            "type": "string",
+            "enum": [
+              "createdAt|desc",
+              "rating|desc",
+              "rating|asc"
+            ]
+          }
+        },
+        "nullable": false,
+        "description": "@type int",
+        "x-typia-jsDocTags": []
+      },
+      "LongReviewResponseDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "content": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "imageUrls": {
+            "x-typia-required": false,
+            "x-typia-optional": true,
+            "type": "array",
+            "items": {
+              "x-typia-required": false,
+              "x-typia-optional": true,
+              "type": "string"
+            }
+          },
+          "id": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "number"
+          },
+          "memberId": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "number"
+          },
+          "animationId": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "number"
+          },
+          "createdAt": {
+            "x-typia-required": false,
+            "x-typia-optional": true,
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "nullable": false,
+        "required": [
+          "title",
+          "content",
+          "id",
+          "memberId",
+          "animationId"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "MemberAnimationQueryDto": {
+        "type": "object",
+        "properties": {
+          "memberId": {
+            "description": "@type int",
+            "x-typia-metaTags": [
+              {
+                "kind": "type",
+                "value": "int"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "type",
+                "text": [
+                  {
+                    "text": "int",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": false,
+            "x-typia-optional": true,
+            "type": "integer"
+          },
+          "animationId": {
+            "description": "@type int",
+            "x-typia-metaTags": [
+              {
+                "kind": "type",
+                "value": "int"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "type",
+                "text": [
+                  {
+                    "text": "int",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": false,
+            "x-typia-optional": true,
+            "type": "integer"
+          }
+        },
+        "nullable": false,
+        "x-typia-jsDocTags": []
+      },
+      "CreateLongReviewDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "description": "@minLength 5\n@maxLength 30",
+            "x-typia-metaTags": [
+              {
+                "kind": "minLength",
+                "value": 5
+              },
+              {
+                "kind": "maxLength",
+                "value": 30
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "minLength",
+                "text": [
+                  {
+                    "text": "5",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "maxLength",
+                "text": [
+                  {
+                    "text": "30",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "minLength": 5,
+            "maxLength": 30
+          },
+          "content": {
+            "description": "@minLength 10\n@maxLength 2000",
+            "x-typia-metaTags": [
+              {
+                "kind": "minLength",
+                "value": 10
+              },
+              {
+                "kind": "maxLength",
+                "value": 2000
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "minLength",
+                "text": [
+                  {
+                    "text": "10",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "maxLength",
+                "text": [
+                  {
+                    "text": "2000",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 2000
+          },
+          "imageUrls": {
+            "description": "@minItems 0",
+            "x-typia-metaTags": [
+              {
+                "kind": "minItems",
+                "value": 0
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "minItems",
+                "text": [
+                  {
+                    "text": "0",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "array",
+            "items": {
+              "description": "@minItems 0",
+              "x-typia-metaTags": [
+                {
+                  "kind": "minItems",
+                  "value": 0
+                }
+              ],
+              "x-typia-jsDocTags": [
+                {
+                  "name": "minItems",
+                  "text": [
+                    {
+                      "text": "0",
+                      "kind": "text"
+                    }
+                  ]
+                }
+              ],
+              "x-typia-required": true,
+              "x-typia-optional": false,
+              "type": "string"
+            },
+            "minItems": 0
+          },
+          "rating": {
+            "description": "@type int\n@minimum 0\n@maximum 5",
+            "x-typia-metaTags": [
+              {
+                "kind": "type",
+                "value": "int"
+              },
+              {
+                "kind": "minimum",
+                "value": 0
+              },
+              {
+                "kind": "maximum",
+                "value": 5
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "type",
+                "text": [
+                  {
+                    "text": "int",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "minimum",
+                "text": [
+                  {
+                    "text": "0",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "maximum",
+                "text": [
+                  {
+                    "text": "5",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 5
+          }
+        },
+        "nullable": false,
+        "required": [
+          "title",
+          "content",
+          "imageUrls",
+          "rating"
+        ],
+        "description": "@minItems 0",
+        "x-typia-jsDocTags": []
+      },
+      "UpdateLongReviewDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "description": "@minLength 5\n@maxLength 30",
+            "x-typia-metaTags": [
+              {
+                "kind": "minLength",
+                "value": 5
+              },
+              {
+                "kind": "maxLength",
+                "value": 30
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "minLength",
+                "text": [
+                  {
+                    "text": "5",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "maxLength",
+                "text": [
+                  {
+                    "text": "30",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "minLength": 5,
+            "maxLength": 30
+          },
+          "content": {
+            "description": "@minLength 10\n@maxLength 2000",
+            "x-typia-metaTags": [
+              {
+                "kind": "minLength",
+                "value": 10
+              },
+              {
+                "kind": "maxLength",
+                "value": 2000
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "minLength",
+                "text": [
+                  {
+                    "text": "10",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "maxLength",
+                "text": [
+                  {
+                    "text": "2000",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 2000
+          },
+          "imageUrls": {
+            "description": "@minItems 0",
+            "x-typia-metaTags": [
+              {
+                "kind": "minItems",
+                "value": 0
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "minItems",
+                "text": [
+                  {
+                    "text": "0",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "array",
+            "items": {
+              "description": "@minItems 0",
+              "x-typia-metaTags": [
+                {
+                  "kind": "minItems",
+                  "value": 0
+                }
+              ],
+              "x-typia-jsDocTags": [
+                {
+                  "name": "minItems",
+                  "text": [
+                    {
+                      "text": "0",
+                      "kind": "text"
+                    }
+                  ]
+                }
+              ],
+              "x-typia-required": true,
+              "x-typia-optional": false,
+              "type": "string"
+            },
+            "minItems": 0
+          },
+          "rating": {
+            "description": "@type int\n@minimum 0\n@maximum 5",
+            "x-typia-metaTags": [
+              {
+                "kind": "type",
+                "value": "int"
+              },
+              {
+                "kind": "minimum",
+                "value": 0
+              },
+              {
+                "kind": "maximum",
+                "value": 5
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "type",
+                "text": [
+                  {
+                    "text": "int",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "minimum",
+                "text": [
+                  {
+                    "text": "0",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "maximum",
+                "text": [
+                  {
+                    "text": "5",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 5
+          }
+        },
+        "nullable": false,
+        "required": [
+          "title",
+          "content",
+          "imageUrls",
+          "rating"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "ShortReviewResponseDto": {
+        "type": "object",
+        "properties": {
+          "rating": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "number"
+          },
+          "comment": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "hasSpoiler": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "boolean"
+          },
+          "id": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "number"
+          },
+          "memberId": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "number"
+          },
+          "animationId": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "number"
+          },
+          "createdAt": {
+            "x-typia-required": false,
+            "x-typia-optional": true,
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "nullable": false,
+        "required": [
+          "rating",
+          "comment",
+          "hasSpoiler",
+          "id",
+          "memberId",
+          "animationId"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "CreateShortReviewDto": {
+        "type": "object",
+        "properties": {
+          "comment": {
+            "description": "@minLength 10\n@maxLength 100",
+            "x-typia-metaTags": [
+              {
+                "kind": "minLength",
+                "value": 10
+              },
+              {
+                "kind": "maxLength",
+                "value": 100
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "minLength",
+                "text": [
+                  {
+                    "text": "10",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "maxLength",
+                "text": [
+                  {
+                    "text": "100",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 100
+          },
+          "hasSpoiler": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "boolean"
+          },
+          "attractionPoints": {
+            "description": "@minItems 0\n@maxItems 6",
+            "x-typia-metaTags": [
+              {
+                "kind": "minItems",
+                "value": 0
+              },
+              {
+                "kind": "maxItems",
+                "value": 6
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "minItems",
+                "text": [
+                  {
+                    "text": "0",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "maxItems",
+                "text": [
+                  {
+                    "text": "6",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AttractionElement"
+            },
+            "minItems": 0,
+            "maxItems": 6
+          },
+          "rating": {
+            "description": "@type int\n@minimum 0\n@maximum 5",
+            "x-typia-metaTags": [
+              {
+                "kind": "type",
+                "value": "int"
+              },
+              {
+                "kind": "minimum",
+                "value": 0
+              },
+              {
+                "kind": "maximum",
+                "value": 5
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "type",
+                "text": [
+                  {
+                    "text": "int",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "minimum",
+                "text": [
+                  {
+                    "text": "0",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "maximum",
+                "text": [
+                  {
+                    "text": "5",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 5
+          }
+        },
+        "nullable": false,
+        "required": [
+          "comment",
+          "hasSpoiler",
+          "attractionPoints",
+          "rating"
+        ],
+        "description": "@minItems 0\n@maxItems 6",
+        "x-typia-jsDocTags": []
+      },
+      "AttractionElement": {
+        "type": "string",
+        "enum": [
+          "PAINTING",
+          "STORY",
+          "BGM",
+          "CHARACTER",
+          "ACTION",
+          "IMMERSIBILITY"
+        ]
+      },
+      "UpdateShortReviewDto": {
+        "type": "object",
+        "properties": {
+          "comment": {
+            "description": "@minLength 10\n@maxLength 100",
+            "x-typia-metaTags": [
+              {
+                "kind": "minLength",
+                "value": 10
+              },
+              {
+                "kind": "maxLength",
+                "value": 100
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "minLength",
+                "text": [
+                  {
+                    "text": "10",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "maxLength",
+                "text": [
+                  {
+                    "text": "100",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 100
+          },
+          "hasSpoiler": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "boolean"
+          },
+          "rating": {
+            "description": "@type int\n@minimum 0\n@maximum 5",
+            "x-typia-metaTags": [
+              {
+                "kind": "type",
+                "value": "int"
+              },
+              {
+                "kind": "minimum",
+                "value": 0
+              },
+              {
+                "kind": "maximum",
+                "value": 5
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "type",
+                "text": [
+                  {
+                    "text": "int",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "minimum",
+                "text": [
+                  {
+                    "text": "0",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "maximum",
+                "text": [
+                  {
+                    "text": "5",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 5
+          }
+        },
+        "nullable": false,
+        "required": [
+          "comment",
+          "hasSpoiler",
+          "rating"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "TestDto": {
+        "type": "object",
+        "properties": {
+          "age": {
+            "description": "@minimum 10",
+            "x-typia-metaTags": [
+              {
+                "kind": "minimum",
+                "value": 10
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "minimum",
+                "text": [
+                  {
+                    "text": "10",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "number",
+            "minimum": 10
+          }
+        },
+        "nullable": false,
+        "required": [
+          "age"
+        ],
+        "description": "@minimum 10",
+        "x-typia-jsDocTags": []
+      }
+    },
+    "securitySchemes": {
+      "bearer": {
+        "type": "apiKey",
+        "name": "Authorization",
+        "in": "header"
+      }
+    }
+  },
+  "security": [
+    {
+      "bearer": []
+    }
+  ]
+}
