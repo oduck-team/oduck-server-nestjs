@@ -6,6 +6,7 @@ import { PassportModule } from '@nestjs/passport';
 import { AnimationModule } from './domain/animation/animation.module';
 import { StudioModule } from './domain/studio/studio.module';
 import { PrismaModule } from './global/database/prisma/prisma.module';
+import { ReviewsModule } from './domain/review/reviews.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { PrismaModule } from './global/database/prisma/prisma.module';
     MemberModule,
     AnimationModule,
     StudioModule,
+    ReviewsModule,
   ],
   controllers: [],
   providers: [],
