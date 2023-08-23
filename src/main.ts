@@ -10,6 +10,7 @@ import { redisClient } from './global/libs/redis';
 import { Logger } from '@nestjs/common';
 
 const TTL = 60 * 60 * 24 * 14; // 14일
+import { VersioningType } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -23,7 +24,6 @@ async function bootstrap() {
 
   // swagger 적용
   setSwagger(app);
-  app.setGlobalPrefix('api');
 
   // helmet 헤더 보안 적용
   app.use(helmet());
@@ -45,12 +45,18 @@ async function bootstrap() {
   app.use(passport.initialize());
   app.use(passport.session());
 
+  app.setGlobalPrefix('api').enableVersioning({
+    type: VersioningType.URI,
+    defaultVersion: '20230821',
+    prefix: 'v',
+  });
+
   // 포트 설정후 실행
   await app
     .listen(process.env.PORT ? parseInt(process.env.PORT) : 3000)
     .then(() => {
       Logger.log(
-        `Server listening on... ${
+        `Server listening on ${
           process.env.PORT ? parseInt(process.env.PORT) : 3000
         } port`,
       );

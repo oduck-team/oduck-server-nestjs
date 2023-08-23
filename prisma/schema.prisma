@@ -13,7 +13,7 @@ model Member {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt  @default(now())
   deletedAt     DateTime?
-
+  
   memberProfile MemberProfile?
   authSocial    AuthSocial?
   authPassword  AuthPassword?
@@ -124,25 +124,27 @@ model Genre {
 }
 
 model Studio {
-  id                  Int       @id @default(autoincrement())
-  name                String
-  createdAt           DateTime  @default(now())
-  updatedAt           DateTime  @updatedAt  @default(now())
-  animationStudioList AnimationStudio[]
+
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  animations AnimationStudio[]
 }
 
 model VoiceActor {
-  id                    Int       @id @default(autoincrement())
-  name                  String
-  createdAt             DateTime  @default(now())
-  animationVoiceActors  AnimationVoiceActor[]
+  id                   Int                   @id @default(autoincrement())
+  name                 String
+  createdAt            DateTime              @default(now())
+  animationVoiceActors AnimationVoiceActor[]
 }
 
 model OriginalWorker {
-  id                        Int       @id @default(autoincrement())
-  name                      String
-  createdAt                 DateTime  @default(now())
-  animationOriginalWorkers  AnimationOriginalWorker[]
+  id                       Int                       @id @default(autoincrement())
+  name                     String
+  createdAt                DateTime                  @default(now())
+  animationOriginalWorkers AnimationOriginalWorker[]
 }
 
 model Keyword {
@@ -321,3 +323,4 @@ enum AttractionElement {
   ACTION
   IMMERSIBILITY
 }
+

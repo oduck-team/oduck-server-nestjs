@@ -3,6 +3,9 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './global/auth/auth.module';
 import { MemberModule } from './domain/member/member.module';
 import { PassportModule } from '@nestjs/passport';
+import { AnimationModule } from './domain/animation/animation.module';
+import { StudioModule } from './domain/studio/studio.module';
+import { PrismaModule } from './global/database/prisma/prisma.module';
 
 @Module({
   imports: [
@@ -18,9 +21,12 @@ import { PassportModule } from '@nestjs/passport';
           ? '.env.dev'
           : '.env.local',
     }),
-    AuthModule,
+    PrismaModule,
     PassportModule.register({ session: true }),
+    AuthModule,
     MemberModule,
+    AnimationModule,
+    StudioModule,
   ],
   controllers: [],
   providers: [],
