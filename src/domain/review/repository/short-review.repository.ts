@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -55,15 +54,11 @@ export class ShortReviewRepository {
     });
   }
 
-  async insertShortReview(
+  async isShortReviewExist(
     memberId: number,
     animationId: number,
-    rating: number,
-    comment: string,
-    hasSpoiler: boolean,
-    attractionPoints: AttractionElement[],
-  ): Promise<number> {
-    const exist = await this.prisma.review
+  ): Promise<boolean> {
+    return await this.prisma.review
       .findFirst({
         where: {
           memberId,
@@ -73,12 +68,16 @@ export class ShortReviewRepository {
         },
       })
       .then((shortReview) => Boolean(shortReview));
+  }
 
-    if (exist) {
-      throw new BadRequestException(
-        `해당 애니메이션에 이미 작성한 한줄 리뷰가 존재합니다.`,
-      );
-    }
+  async insertShortReview(
+    memberId: number,
+    animationId: number,
+    rating: number,
+    comment: string,
+    hasSpoiler: boolean,
+    attractionPoints: AttractionElement[],
+  ): Promise<number> {
     return await this.prisma.$transaction(async (prisma) => {
       const shortReviewId = await prisma.review
         .create({
@@ -98,8 +97,8 @@ export class ShortReviewRepository {
         .then((shortReview) => shortReview.id);
 
       await Promise.all(
-        attractionPoints.map(async (attractionElement) => {
-          await prisma.attractionPoint.create({
+        attractionPoints.map((attractionElement) => {
+          prisma.attractionPoint.create({
             data: {
               reviewId: shortReviewId,
               attractionElement,

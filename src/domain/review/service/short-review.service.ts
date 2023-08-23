@@ -41,6 +41,16 @@ export class ShortReviewService {
     dto: CreateShortReviewDto,
   ): Promise<number> {
     const { rating, comment, hasSpoiler, attractionPoints } = dto;
+    const exist = await this.shortReviewRepository.isShortReviewExist(
+      memberId,
+      animationId,
+    );
+
+    if (exist) {
+      throw new BadRequestException(
+        `해당 애니메이션에 이미 작성한 한줄 리뷰가 존재합니다.`,
+      );
+    }
     return await this.shortReviewRepository.insertShortReview(
       memberId,
       animationId,
