@@ -1,0 +1,27 @@
+services:
+  redis:
+    image: redis:latest
+    command: redis-server
+    container_name: oDuckio-redis
+    ports:
+      - '6379:6379'
+
+  nestjs:
+    build:
+      context: .
+      dockerfile: ./dockerfile
+    container_name: oDuckio-nestjs
+    env_file:
+      - .env.dev
+    # docer 환경에서는 localhost가 아닌 redis 컨테이너 이름으로 접근
+    environment:
+      - REDIS_HOST=redis
+    depends_on:
+      - redis
+    ports:
+      - '8000:8000'
+    volumes:
+      # 로컬 logs < - > 컨테이너 logs 연결
+      # 로컬 /logs랑 안 섞이게 /data/logs로 연결
+      # 컨테이너상 서버 실행 경로 var/app/
+      - ./data/logs:/var/app/logs
