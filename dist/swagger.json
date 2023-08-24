@@ -2,7 +2,6 @@
   "openapi": "3.0.1",
   "servers": [
     {
-
       "url": "http://localhost:8000/api/v20230821",
       "description": "Local Server"
     },
@@ -17,17 +16,17 @@
     "description": ""
   },
   "paths": {
-
     "/animation": {
       "post": {
-        "tags": [],
+        "tags": [
+          "admin/animation"
+        ],
         "parameters": [],
         "requestBody": {
           "description": "",
           "content": {
             "application/json": {
               "schema": {
-
                 "$ref": "#/components/schemas/AnimationReqDto"
               }
             }
@@ -48,12 +47,25 @@
             "x-nestia-encrypted": false
           }
         },
+        "description": "@tag admin/animation",
         "x-nestia-namespace": "animation.store",
-        "x-nestia-jsDocTags": [],
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "admin/animation",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
         "x-nestia-method": "POST"
       },
       "get": {
-        "tags": [],
+        "tags": [
+          "animation"
+        ],
         "parameters": [
           {
             "name": "query",
@@ -81,14 +93,27 @@
             "x-nestia-encrypted": false
           }
         },
+        "description": "@tag animation",
         "x-nestia-namespace": "animation.getList",
-        "x-nestia-jsDocTags": [],
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "animation",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
         "x-nestia-method": "GET"
       }
     },
     "/animation/{id}": {
       "put": {
-        "tags": [],
+        "tags": [
+          "admin/animation"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -105,9 +130,7 @@
           "content": {
             "application/json": {
               "schema": {
-
                 "$ref": "#/components/schemas/Partial_lt_AnimationBaseDto_gt_"
-
               }
             }
           },
@@ -127,12 +150,25 @@
             "x-nestia-encrypted": false
           }
         },
+        "description": "@tag admin/animation",
         "x-nestia-namespace": "animation.update",
-        "x-nestia-jsDocTags": [],
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "admin/animation",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
         "x-nestia-method": "PUT"
       },
       "delete": {
-        "tags": [],
+        "tags": [
+          "admin/animation"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -157,12 +193,25 @@
             "x-nestia-encrypted": false
           }
         },
+        "description": "@tag admin/animation",
         "x-nestia-namespace": "animation.destroy",
-        "x-nestia-jsDocTags": [],
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "admin/animation",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
         "x-nestia-method": "DELETE"
       },
       "get": {
-        "tags": [],
+        "tags": [
+          "animation"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -187,14 +236,107 @@
             "x-nestia-encrypted": false
           }
         },
+        "description": "@tag animation",
         "x-nestia-namespace": "animation.show",
-        "x-nestia-jsDocTags": [],
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "animation",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
         "x-nestia-method": "GET"
       }
     },
-    "/long-reviews": {
+    "/members/signup": {
+      "post": {
+        "tags": [
+          "member"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateNameDto"
+              }
+            }
+          },
+          "required": true,
+          "x-nestia-encrypted": false
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "x-nestia-encrypted": false
+          }
+        },
+        "description": "@tag member",
+        "x-nestia-namespace": "members.signup.handleSignup",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "member",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
+        "x-nestia-method": "POST"
+      }
+    },
+    "/members/name": {
+      "patch": {
+        "tags": [
+          "member"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateNameDto"
+              }
+            }
+          },
+          "required": true,
+          "x-nestia-encrypted": false
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "x-nestia-encrypted": false
+          }
+        },
+        "description": "@tag member",
+        "x-nestia-namespace": "members.name.handleUpdateName",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "member",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
+        "x-nestia-method": "PATCH"
+      }
+    },
+    "/members/{name}": {
       "get": {
-        "tags": [],
+        "tags": [
+          "member"
+        ],
         "parameters": [
           {
             "name": "name",
@@ -202,6 +344,46 @@
             "description": "",
             "schema": {
               "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MemberProfileDto"
+                }
+              }
+            },
+            "x-nestia-encrypted": false
+          }
+        },
+        "description": "@tag member",
+        "x-nestia-namespace": "members.handleGetProfile",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "member",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
+        "x-nestia-method": "GET"
+      }
+    },
+    "/long-reviews": {
+      "get": {
+        "tags": [
+          "long-reviews"
+        ],
+        "parameters": [
+          {
             "name": "query",
             "in": "query",
             "description": "",
@@ -217,7 +399,6 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/MemberProfileDto"
                   "type": "array",
                   "items": {
                     "$ref": "#/components/schemas/LongReviewResponseDto"
@@ -228,13 +409,25 @@
             "x-nestia-encrypted": false
           }
         },
-
+        "description": "@tag long-reviews",
         "x-nestia-namespace": "long-reviews.getLongReviewPageByAnimation",
-        "x-nestia-jsDocTags": [],
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "long-reviews",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
         "x-nestia-method": "GET"
       },
       "post": {
-        "tags": [],
+        "tags": [
+          "long-reviews"
+        ],
         "parameters": [
           {
             "name": "query",
@@ -271,14 +464,27 @@
             "x-nestia-encrypted": false
           }
         },
+        "description": "@tag long-reviews",
         "x-nestia-namespace": "long-reviews.writeLongReview",
-        "x-nestia-jsDocTags": [],
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "long-reviews",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
         "x-nestia-method": "POST"
       }
     },
     "/long-reviews/{id}": {
       "get": {
-        "tags": [],
+        "tags": [
+          "long-reviews"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -296,7 +502,6 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Omit_lt_GetResult_lt__blt__space_id:_space_number;_space_memberId:_space_number;_space_name:_space_string;_space_role:_space_Role;_space_imageUrl:_space_string_space__or__space_null;_space_point:_space_number;_space_createdAt:_space_Date;_space_updatedAt:_space_Date;_space__bgt__comma__space_unknown_gt__space__and__space__blt__bgt__comma__space__doublequote_id_doublequote__gt_"
                   "$ref": "#/components/schemas/LongReviewResponseDto"
                 }
               }
@@ -304,14 +509,25 @@
             "x-nestia-encrypted": false
           }
         },
-
+        "description": "@tag long-reviews",
         "x-nestia-namespace": "long-reviews.getLongReviewDetail",
-
-        "x-nestia-jsDocTags": [],
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "long-reviews",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
         "x-nestia-method": "GET"
       },
       "put": {
-        "tags": [],
+        "tags": [
+          "long-reviews"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -348,12 +564,25 @@
             "x-nestia-encrypted": false
           }
         },
+        "description": "@tag long-reviews",
         "x-nestia-namespace": "long-reviews.updateLongReview",
-        "x-nestia-jsDocTags": [],
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "long-reviews",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
         "x-nestia-method": "PUT"
       },
       "delete": {
-        "tags": [],
+        "tags": [
+          "long-reviews"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -378,14 +607,27 @@
             "x-nestia-encrypted": false
           }
         },
+        "description": "@tag long-reviews",
         "x-nestia-namespace": "long-reviews.deleteLongReview",
-        "x-nestia-jsDocTags": [],
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "long-reviews",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
         "x-nestia-method": "DELETE"
       }
     },
     "/short-reviews": {
       "get": {
-        "tags": [],
+        "tags": [
+          "short-reviews"
+        ],
         "parameters": [
           {
             "name": "query",
@@ -413,12 +655,25 @@
             "x-nestia-encrypted": false
           }
         },
+        "description": "@tag short-reviews",
         "x-nestia-namespace": "short-reviews.getShortReviews",
-        "x-nestia-jsDocTags": [],
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "short-reviews",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
         "x-nestia-method": "GET"
       },
       "post": {
-        "tags": [],
+        "tags": [
+          "short-reviews"
+        ],
         "parameters": [
           {
             "name": "query",
@@ -455,14 +710,27 @@
             "x-nestia-encrypted": false
           }
         },
+        "description": "@tag short-reviews",
         "x-nestia-namespace": "short-reviews.writeShortReview",
-        "x-nestia-jsDocTags": [],
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "short-reviews",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
         "x-nestia-method": "POST"
       }
     },
     "/short-reviews/{id}": {
       "patch": {
-        "tags": [],
+        "tags": [
+          "short-reviews"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -499,12 +767,25 @@
             "x-nestia-encrypted": false
           }
         },
+        "description": "@tag short-reviews",
         "x-nestia-namespace": "short-reviews.updateShortReview",
-        "x-nestia-jsDocTags": [],
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "short-reviews",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
         "x-nestia-method": "PATCH"
       },
       "delete": {
-        "tags": [],
+        "tags": [
+          "short-reviews"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -529,14 +810,27 @@
             "x-nestia-encrypted": false
           }
         },
+        "description": "@tag short-reviews",
         "x-nestia-namespace": "short-reviews.deleteShortReview",
-        "x-nestia-jsDocTags": [],
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "short-reviews",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
         "x-nestia-method": "DELETE"
       }
     },
     "/studio": {
       "post": {
-        "tags": [],
+        "tags": [
+          "admin/studio"
+        ],
         "parameters": [],
         "requestBody": {
           "description": "",
@@ -563,43 +857,251 @@
             "x-nestia-encrypted": false
           }
         },
+        "description": "@tag admin/studio",
         "x-nestia-namespace": "studio.store",
-        "x-nestia-jsDocTags": [],
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "admin/studio",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
         "x-nestia-method": "POST"
       }
     },
-    "/users": {
-      "post": {
-        "tags": [],
+    "/auth/google/login": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
         "parameters": [],
-        "requestBody": {
-          "description": "",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/TestDto"
-              }
-            }
-          },
-          "required": true,
-          "x-nestia-encrypted": false
-        },
         "responses": {
-          "201": {
+          "200": {
+            "description": "",
+            "x-nestia-encrypted": false
+          }
+        },
+        "description": "@tag auth",
+        "x-nestia-namespace": "auth.google.login.handleGoogleLogin",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "auth",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
+        "x-nestia-method": "GET"
+      }
+    },
+    "/auth/naver/login": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "x-nestia-encrypted": false
+          }
+        },
+        "description": "@tag auth",
+        "x-nestia-namespace": "auth.naver.login.handleNaverLogin",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "auth",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
+        "x-nestia-method": "GET"
+      }
+    },
+    "/auth/kakao/login": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "x-nestia-encrypted": false
+          }
+        },
+        "description": "@tag auth",
+        "x-nestia-namespace": "auth.kakao.login.handleKakaoLogin",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "auth",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
+        "x-nestia-method": "GET"
+      }
+    },
+    "/auth/google/callback": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "x-nestia-encrypted": false
+          }
+        },
+        "description": "@tag auth",
+        "x-nestia-namespace": "auth.google.callback.handleGoogleCallback",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "auth",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
+        "x-nestia-method": "GET"
+      }
+    },
+    "/auth/naver/callback": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "x-nestia-encrypted": false
+          }
+        },
+        "description": "@tag auth",
+        "x-nestia-namespace": "auth.naver.callback.handleNaverCallback",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "auth",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
+        "x-nestia-method": "GET"
+      }
+    },
+    "/auth/kakao/callback": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "x-nestia-encrypted": false
+          }
+        },
+        "description": "@tag auth",
+        "x-nestia-namespace": "auth.kakao.callback.handleKakaoCallback",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "auth",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
+        "x-nestia-method": "GET"
+      }
+    },
+    "/auth/logout": {
+      "delete": {
+        "tags": [
+          "auth"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "x-nestia-encrypted": false
+          }
+        },
+        "description": "@tag auth",
+        "x-nestia-namespace": "auth.logout.handleLogout",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "auth",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
+        "x-nestia-method": "DELETE"
+      }
+    },
+    "/auth/status": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
             "description": "",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "string"
+                  "$ref": "#/components/schemas/Omit_lt_GetResult_lt__blt__space_id:_space_number;_space_memberId:_space_number;_space_name:_space_string;_space_role:_space_Role;_space_imageUrl:_space_string_space__or__space_null;_space_point:_space_number;_space_createdAt:_space_Date;_space_updatedAt:_space_Date;_space__bgt__comma__space_unknown_gt__space__and__space__blt__bgt__comma__space__doublequote_id_doublequote__gt_"
                 }
               }
             },
             "x-nestia-encrypted": false
           }
         },
-        "x-nestia-namespace": "users.createUser",
-        "x-nestia-jsDocTags": [],
-        "x-nestia-method": "POST"
+        "description": "@tag auth",
+        "x-nestia-namespace": "auth.status.handleStatus",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "auth",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
+        "x-nestia-method": "GET"
       }
     }
   },
@@ -1547,14 +2049,136 @@
             "$ref": "#/components/schemas/GetResult_lt__blt__space_id:_space_number;_space_name:_space_string;_space_createdAt:_space_Date;_space_updatedAt:_space_Date;_space__bgt__comma__space_unknown_gt__space__and__space__blt__bgt_"
           }
         },
-
         "nullable": false,
         "required": [
           "studio"
         ],
         "x-typia-jsDocTags": []
       },
-
+      "UpdateNameDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "@minLength 2\n@maxLength 10",
+            "x-typia-metaTags": [
+              {
+                "kind": "minLength",
+                "value": 2
+              },
+              {
+                "kind": "maxLength",
+                "value": 10
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "minLength",
+                "text": [
+                  {
+                    "text": "2",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "maxLength",
+                "text": [
+                  {
+                    "text": "10",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "minLength": 2,
+            "maxLength": 10
+          }
+        },
+        "nullable": false,
+        "required": [
+          "name"
+        ],
+        "description": "@minLength 2\n@maxLength 10",
+        "x-typia-jsDocTags": []
+      },
+      "MemberProfileDto": {
+        "type": "object",
+        "properties": {
+          "isMine": {
+            "description": "\n@nullable\n@session\n",
+            "x-typia-jsDocTags": [
+              {
+                "name": "nullable"
+              },
+              {
+                "name": "session"
+              }
+            ],
+            "x-typia-required": false,
+            "x-typia-optional": true,
+            "type": "boolean"
+          },
+          "name": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "imageUrl": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "nullable": true
+          },
+          "createdAt": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          "memberId": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "number"
+          },
+          "role": {
+            "$ref": "#/components/schemas/Role"
+          },
+          "point": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "number"
+          }
+        },
+        "nullable": false,
+        "required": [
+          "name",
+          "imageUrl",
+          "createdAt",
+          "updatedAt",
+          "memberId",
+          "role",
+          "point"
+        ],
+        "description": "\n@nullable\n@session\n",
+        "x-typia-jsDocTags": []
+      },
+      "Role": {
+        "type": "string",
+        "enum": [
+          "GUEST",
+          "MEMBER",
+          "ADMIN"
+        ]
+      },
       "ReviewPageQueryDto": {
         "type": "object",
         "properties": {
@@ -1793,7 +2417,6 @@
                 "name": "minLength",
                 "text": [
                   {
-                    "text": "2",
                     "text": "5",
                     "kind": "text"
                   }
@@ -2495,145 +3118,19 @@
         "description": "@default 가이낙스",
         "x-typia-jsDocTags": []
       },
-      "TestDto": {
-        "type": "object",
-        "properties": {
-          "age": {
-            "description": "@minimum 10",
-            "x-typia-metaTags": [
-              {
-                "kind": "minimum",
-                "value": 10
-              }
-            ],
-            "x-typia-jsDocTags": [
-              {
-                "name": "minimum",
-                "text": [
-                  {
-                    "text": "10",
-                    "kind": "text"
-                  }
-                ]
-              }
-            ],
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string",
-            "minLength": 2,
-            "maxLength": 10
-            "type": "number",
-            "minimum": 10
-          }
-        },
-        "nullable": false,
-        "required": [
-          "name"
-        ],
-        "description": "@minLength 2\n@maxLength 10",
-        "x-typia-jsDocTags": []
-      },
-      "MemberProfileDto": {
-        "type": "object",
-        "properties": {
-          "isMine": {
-            "description": "\n@nullable\n@session\n",
-            "x-typia-jsDocTags": [
-              {
-                "name": "nullable"
-              },
-              {
-                "name": "session"
-              }
-            ],
-            "x-typia-required": false,
-            "x-typia-optional": true,
-            "type": "boolean"
-          },
-          "memberId": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "number"
-          },
-          "name": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string"
-          },
-          "role": {
-            "$ref": "#/components/schemas/Role"
-          },
-          "imageUrl": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string",
-            "nullable": true
-          },
-          "point": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "number"
-          },
-          "createdAt": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string",
-            "format": "date-time"
-          },
-          "updatedAt": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string",
-            "format": "date-time"
-          }
-        },
-        "nullable": false,
-        "required": [
-          "memberId",
-          "name",
-          "role",
-          "imageUrl",
-          "point",
-          "createdAt",
-          "updatedAt"
-        ],
-        "description": "\n@nullable\n@session\n",
-        "x-typia-jsDocTags": []
-      },
-      "Role": {
-        "type": "string",
-        "enum": [
-          "GUEST",
-          "MEMBER",
-          "ADMIN"
-        ]
-      },
       "Omit_lt_GetResult_lt__blt__space_id:_space_number;_space_memberId:_space_number;_space_name:_space_string;_space_role:_space_Role;_space_imageUrl:_space_string_space__or__space_null;_space_point:_space_number;_space_createdAt:_space_Date;_space_updatedAt:_space_Date;_space__bgt__comma__space_unknown_gt__space__and__space__blt__bgt__comma__space__doublequote_id_doublequote__gt_": {
         "type": "object",
         "properties": {
-          "memberId": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "number"
-          },
           "name": {
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
-          },
-          "role": {
-            "$ref": "#/components/schemas/Role"
           },
           "imageUrl": {
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string",
             "nullable": true
-          },
-          "point": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "number"
           },
           "createdAt": {
             "x-typia-required": true,
@@ -2646,21 +3143,31 @@
             "x-typia-optional": false,
             "type": "string",
             "format": "date-time"
+          },
+          "memberId": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "number"
+          },
+          "role": {
+            "$ref": "#/components/schemas/Role"
+          },
+          "point": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "number"
           }
         },
         "nullable": false,
         "required": [
-          "memberId",
           "name",
-          "role",
           "imageUrl",
-          "point",
           "createdAt",
-          "updatedAt"
+          "updatedAt",
+          "memberId",
+          "role",
+          "point"
         ],
-          "age"
-        ],
-        "description": "@minimum 10",
         "x-typia-jsDocTags": []
       }
     },
@@ -2669,17 +3176,12 @@
         "type": "apiKey",
         "in": "cookie",
         "name": "connect.sid"
-      "bearer": {
-        "type": "apiKey",
-        "name": "Authorization",
-        "in": "header"
       }
     }
   },
   "security": [
     {
       "apiCookie": []
-      "bearer": []
     }
   ]
 }

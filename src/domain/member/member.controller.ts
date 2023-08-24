@@ -12,6 +12,9 @@ import { MemberProfileDto } from './dto/ResponseMember.dto';
 export class MemberController {
   constructor(private readonly memberService: MemberService) {}
 
+  /**
+   * @tag member
+   */
   @TypedRoute.Post('/signup')
   @UseGuards(RolesGuard)
   @Roles(Role.GUEST)
@@ -22,6 +25,9 @@ export class MemberController {
     await this.memberService.signup(user.memberId, body.name);
   }
 
+  /**
+   * @tag member
+   */
   @TypedRoute.Patch('/name')
   @UseGuards(RolesGuard)
   @Roles(Role.MEMBER, Role.ADMIN)
@@ -32,6 +38,9 @@ export class MemberController {
     await this.memberService.updateName(user.memberId, body.name);
   }
 
+  /**
+   * @tag member
+   */
   @TypedRoute.Get(':name')
   async handleGetProfile(
     @User() user: MemberProfile,

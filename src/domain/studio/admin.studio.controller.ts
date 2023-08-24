@@ -8,6 +8,9 @@ import { Studio } from '@prisma/client';
 export class AdminStudioController {
   constructor(private readonly service: StudioService) {}
 
+  /**
+   * @tag admin/studio
+   */
   @TypedRoute.Post('/')
   async store(@TypedBody() body: StudioCreateDto): Promise<Studio> {
     return this.service.store(body);

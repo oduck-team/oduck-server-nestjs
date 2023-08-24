@@ -1,16 +1,17 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { LoginType, Role } from '@prisma/client';
-import prisma from '../../global/libs/prisma';
 import { randomUUID } from 'crypto';
 import { IMemerProfile, IAuthSocial } from './interface/member.interface';
+import { PrismaService } from 'src/global/database/prisma/prisma.service';
 
 @Injectable()
 export class MemberRepository {
+  constructor(private readonly prisma: PrismaService) {}
   async createMember(
     loginType: LoginType,
     details: IAuthSocial,
   ): Promise<{ id: number; loginType: LoginType }> {
-    const member = await prisma.member.create({
+    const member = await this.prisma.member.create({
       data: {
         loginType,
         authSocial: { create: { ...details } },
@@ -32,7 +33,7 @@ export class MemberRepository {
   }
 
   async signup(id: number, name: string): Promise<void> {
-    await prisma.memberProfile.update({
+    await this.prisma.memberProfile.update({
       where: {
         memberId: id,
       },
@@ -45,7 +46,7 @@ export class MemberRepository {
 
   async findMemberById(id: number) {
     try {
-      const member = await prisma.member.findUniqueOrThrow({
+      const member = await this.prisma.member.findUniqueOrThrow({
         where: {
           id,
         },
@@ -58,7 +59,7 @@ export class MemberRepository {
 
   async findAuthSocialBySocialId(socialId: string) {
     try {
-      const authSocial = await prisma.authSocial.findUniqueOrThrow({
+      const authSocial = await this.prisma.authSocial.findUniqueOrThrow({
         where: {
           socialId,
         },
@@ -72,7 +73,7 @@ export class MemberRepository {
 
   async findMemberProfile(memberId: number) {
     try {
-      const memberProfile = await prisma.memberProfile.findUniqueOrThrow({
+      const memberProfile = await this.prisma.memberProfile.findUniqueOrThrow({
         select: {
           memberId: true,
           name: true,
@@ -95,7 +96,7 @@ export class MemberRepository {
 
   async findMemberProfileByName(name: string): Promise<IMemerProfile> {
     try {
-      const memberProfile = await prisma.memberProfile.findFirstOrThrow({
+      const memberProfile = await this.prisma.memberProfile.findFirstOrThrow({
         select: {
           memberId: true,
           name: true,
@@ -117,7 +118,7 @@ export class MemberRepository {
   }
 
   async updateName(id: number, name: string): Promise<void> {
-    await prisma.memberProfile.update({
+    await this.prisma.memberProfile.update({
       where: {
         memberId: id,
       },

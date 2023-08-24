@@ -27,7 +27,7 @@ model MemberProfile {
   id        Int      @id @default(autoincrement())
   memberId  Int      @unique
   name      String
-  role      Role     @default(USER)
+  role      Role     @default(MEMBER)
   imageUrl  String?
   point     Int      @default(0)
   createdAt DateTime @default(now())
@@ -36,11 +36,12 @@ model MemberProfile {
 }
 
 model AuthSocial {
-  id       Int    @id @default(autoincrement())
-  memberId Int    @unique
-  socialId String
+  id       Int     @id @default(autoincrement())
+  memberId Int     @unique
+  email    String?
+  socialId String  @unique
   type     String
-  member   Member @relation(fields: [memberId], references: [id])
+  member   Member  @relation(fields: [memberId], references: [id])
 }
 
 model AuthPassword {
@@ -267,7 +268,7 @@ enum LoginType {
 
 enum Role {
   GUEST
-  USER
+  MEMBER
   ADMIN
 }
 
