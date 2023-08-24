@@ -8,7 +8,7 @@
 /prisma/migrations
 
 # compiled output
-/dist
+/dist/*
 !/dist/swagger.json
 /node_modules
 
