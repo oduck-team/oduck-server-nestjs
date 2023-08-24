@@ -9,7 +9,6 @@ import {
   ReviewPageQueryDto,
   UpdateShortReviewDto,
 } from '../../../src/domain/review/dto/review-request.dto';
-import { ShortReviewResponseDto } from '../../../src/domain/review/dto/review-response.dto';
 import { BadRequestException } from '@nestjs/common';
 
 describe('ShortReviewService', () => {
@@ -48,10 +47,8 @@ describe('ShortReviewService', () => {
       };
 
       jest
-        .spyOn(service, 'findShortReviewPageByQuery')
-        .mockReturnValue(
-          Promise.resolve([new ShortReviewResponseDto(MOCK_RESULT)]),
-        );
+        .spyOn(repository, 'selectShortReviewPage')
+        .mockReturnValue(Promise.resolve([MOCK_RESULT]));
 
       // when
       const result = await service.findShortReviewPageByQuery(query);
@@ -107,7 +104,7 @@ describe('ShortReviewService', () => {
     it('한줄 리뷰 작성', async () => {
       // given
       jest
-        .spyOn(service, 'createShortReview')
+        .spyOn(repository, 'insertShortReview')
         .mockReturnValue(Promise.resolve(reviewId));
 
       // when
@@ -145,7 +142,7 @@ describe('ShortReviewService', () => {
       };
 
       jest
-        .spyOn(service, 'updateShortReview')
+        .spyOn(repository, 'updateShortReview')
         .mockReturnValue(Promise.resolve(reviewId));
 
       // when
@@ -163,8 +160,8 @@ describe('ShortReviewService', () => {
       const msg: string = `해당 한줄 리뷰를 성공적으로 삭제하였습니다. id = ${reviewId}`;
 
       jest
-        .spyOn(service, 'deleteShortReview')
-        .mockReturnValue(Promise.resolve(msg));
+        .spyOn(repository, 'softDeleteShortReview')
+        .mockReturnValue(Promise.resolve(reviewId));
 
       // when
       const result = await service.deleteShortReview(reviewId);
