@@ -2,7 +2,6 @@ import { AttractionElement } from '@prisma/client';
 import { ShortReviewService } from '../../../src/domain/review/service/short-review.service';
 import { ShortReviewRepository } from '../../../src/domain/review/repository/short-review.repository';
 import { Test } from '@nestjs/testing';
-import { PrismaModule } from '../../../src/global/config/prisma/prisma.module';
 import { IShortReview } from '../../../src/domain/review/reviews.interface';
 import {
   CreateShortReviewDto,
@@ -10,6 +9,7 @@ import {
   UpdateShortReviewDto,
 } from '../../../src/domain/review/dto/review-request.dto';
 import { BadRequestException } from '@nestjs/common';
+import { PrismaModule } from '../../../src/global/database/prisma/prisma.module';
 
 describe('ShortReviewService', () => {
   let service: ShortReviewService;

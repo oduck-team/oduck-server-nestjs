@@ -1,7 +1,6 @@
 import { LongReviewService } from '../../../src/domain/review/service/long-review.service';
 import { LongReviewRepository } from '../../../src/domain/review/repository/long-review.repository';
 import { Test } from '@nestjs/testing';
-import { PrismaModule } from '../../../src/global/config/prisma/prisma.module';
 import { ILongReview } from '../../../src/domain/review/reviews.interface';
 import {
   CreateLongReviewDto,
@@ -9,6 +8,7 @@ import {
   UpdateLongReviewDto,
 } from '../../../src/domain/review/dto/review-request.dto';
 import { BadRequestException } from '@nestjs/common';
+import { PrismaModule } from '../../../src/global/database/prisma/prisma.module';
 
 describe('LongReviewService', () => {
   let service: LongReviewService;
