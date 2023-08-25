@@ -1,16 +1,17 @@
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { LoginType, Role } from '@prisma/client';
-import prisma from '../../global/libs/prisma';
 import { randomUUID } from 'crypto';
-import { IMemerProfile, IAuthSocial } from './interface/member.interface';
+import { IAuthSocial } from './interface/member.interface';
+import { PrismaService } from '../../global/config/prisma/prisma.service';
 
 @Injectable()
 export class MemberRepository {
+  constructor(private readonly prisma: PrismaService) {}
   async createMember(
     loginType: LoginType,
     details: IAuthSocial,
   ): Promise<{ id: number; loginType: LoginType }> {
-    const member = await prisma.member.create({
+    const member = await this.prisma.member.create({
       data: {
         loginType,
         authSocial: { create: { ...details } },
@@ -32,7 +33,7 @@ export class MemberRepository {
   }
 
   async signup(id: number, name: string): Promise<void> {
-    await prisma.memberProfile.update({
+    await this.prisma.memberProfile.update({
       where: {
         memberId: id,
       },
@@ -44,80 +45,64 @@ export class MemberRepository {
   }
 
   async findMemberById(id: number) {
-    try {
-      const member = await prisma.member.findUniqueOrThrow({
-        where: {
-          id,
-        },
-      });
-      return member;
-    } catch (e) {
-      throw new NotFoundException('Member not found');
-    }
+    const member = await this.prisma.member.findUnique({
+      where: {
+        id,
+      },
+    });
+    return member;
   }
 
   async findAuthSocialBySocialId(socialId: string) {
-    try {
-      const authSocial = await prisma.authSocial.findUniqueOrThrow({
-        where: {
-          socialId,
-        },
-      });
+    const authSocial = await this.prisma.authSocial.findUnique({
+      where: {
+        socialId,
+      },
+    });
 
-      return authSocial;
-    } catch (e) {
-      throw new NotFoundException('Member not found');
-    }
+    return authSocial;
   }
 
   async findMemberProfile(memberId: number) {
-    try {
-      const memberProfile = await prisma.memberProfile.findUniqueOrThrow({
-        select: {
-          memberId: true,
-          name: true,
-          role: true,
-          point: true,
-          imageUrl: true,
-          createdAt: true,
-          updatedAt: true,
-        },
-        where: {
-          memberId,
-        },
-      });
+    const memberProfile = await this.prisma.memberProfile.findUnique({
+      select: {
+        memberId: true,
+        name: true,
+        role: true,
+        point: true,
+        imageUrl: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+      where: {
+        memberId,
+      },
+    });
 
-      return memberProfile;
-    } catch (e) {
-      throw new NotFoundException('Member not found');
-    }
+    return memberProfile;
   }
 
-  async findMemberProfileByName(name: string): Promise<IMemerProfile> {
-    try {
-      const memberProfile = await prisma.memberProfile.findFirstOrThrow({
-        select: {
-          memberId: true,
-          name: true,
-          role: true,
-          point: true,
-          imageUrl: true,
-          createdAt: true,
-          updatedAt: true,
-        },
-        where: {
-          name,
-        },
-      });
+  async findMemberProfileByName(name: string) {
+    const memberProfile = await this.prisma.memberProfile.findFirst({
+      select: {
+        memberId: true,
+        name: true,
+        role: true,
+        point: true,
+        imageUrl: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+      where: {
+        name,
+      },
+    });
 
-      return memberProfile;
-    } catch (e) {
-      throw new NotFoundException('Member not found');
-    }
+    return memberProfile;
   }
 
   async updateName(id: number, name: string): Promise<void> {
-    await prisma.memberProfile.update({
+    await this.prisma.memberProfile.update({
       where: {
         memberId: id,
       },

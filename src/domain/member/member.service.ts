@@ -1,7 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { MemberRepository } from './member.repository';
-import { IMemerProfile, IAuthSocial } from './interface/member.interface';
-import { LoginType } from '@prisma/client';
+import { IAuthSocial } from './interface/member.interface';
+import { LoginType, MemberProfile } from '@prisma/client';
 
 @Injectable()
 export class MemberService {
@@ -12,20 +16,37 @@ export class MemberService {
   }
 
   async signup(id: number, name: string) {
+    await this.existsMemberProfileByName(name);
     await this.memberRepository.signup(id, name);
   }
 
   async updateName(id: number, name: string): Promise<void> {
-    await this.getMemberProfileByName(name);
+    await this.existsMemberProfileByName(name);
+
     await this.memberRepository.updateName(id, name);
   }
 
-  async getMemberProfileByName(name: string): Promise<IMemerProfile> {
+  async findMemberProfileByName(
+    name: string,
+  ): Promise<Omit<MemberProfile, 'id'>> {
     const memberProfile = await this.memberRepository.findMemberProfileByName(
       name,
     );
 
-    return memberProfile;
+    if (!memberProfile) {
+      throw new NotFoundException('Member not found');
+    }
+
+    return memberProfile!;
+  }
+
+  async existsMemberProfileByName(name: string) {
+    const memberProfile = await this.memberRepository.findMemberProfileByName(
+      name,
+    );
+    if (memberProfile) {
+      throw new ConflictException('already exist name');
+    }
   }
 
   async findMemberById(id: number) {
