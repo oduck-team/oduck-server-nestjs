@@ -1,8 +1,8 @@
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { LoginType, Role } from '@prisma/client';
 import { randomUUID } from 'crypto';
 import { IAuthSocial } from './interface/member.interface';
-import { PrismaService } from '../../global/config/prisma/prisma.service';
+import { PrismaService } from '../../global/database/prisma/prisma.service';
 
 @Injectable()
 export class MemberRepository {

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { MemberRepository } from './member.repository';
-import { IMemerProfile, IAuthSocial } from './interface/member.interface';
+import { IAuthSocial } from './interface/member.interface';
 import { LoginType } from '@prisma/client';
 
 @Injectable()
@@ -20,7 +20,7 @@ export class MemberService {
     await this.memberRepository.updateName(id, name);
   }
 
-  async getMemberProfileByName(name: string): Promise<IMemerProfile> {
+  async getMemberProfileByName(name: string) {
     const memberProfile = await this.memberRepository.findMemberProfileByName(
       name,
     );
