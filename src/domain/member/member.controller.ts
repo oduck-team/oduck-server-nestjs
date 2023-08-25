@@ -34,7 +34,7 @@ export class MemberController {
   async handleUpdateName(
     @User() user: MemberProfile,
     @TypedBody() body: UpdateNameDto,
-  ) {
+  ): Promise<void> {
     await this.memberService.updateName(user.memberId, body.name);
   }
 
@@ -45,9 +45,9 @@ export class MemberController {
   async handleGetProfile(
     @User() user: MemberProfile,
     @TypedParam('name') name: string,
-  ) {
+  ): Promise<MemberProfileDto> {
     if (user?.name !== name) {
-      return await this.memberService.getMemberProfileByName(name);
+      return await this.memberService.findMemberProfileByName(name);
     }
 
     return {
