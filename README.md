@@ -1,6 +1,13 @@
 # oduck-server
 
-# How To Use?
+## How To Start?
+
+1. 이 저장소를 클론합니다.
+2. .env 파일을 생성하고 [환경 변수](./docs/env.md)를 참고하여 작성합니다.
+   > (`npm run swag`을 하면 더욱 좋습니다.)
+3. 도커를 설치하고 프로젝트 디렉토리에서 `docker-compose up -d` 명령어를 실행합니다.
+
+## How To Use?
 
 1. [환경 변수](./docs/env.md)
 2. [Prisma](./docs/prisma.md)
