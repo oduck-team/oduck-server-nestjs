@@ -19,40 +19,36 @@ export class PrismaExceptionFilter implements ExceptionFilter {
     host: ArgumentsHost,
   ): void {
     const response = host.switchToHttp().getResponse();
-    const message = exception.message.replace(/\n/g, '');
+    let message: string;
+    let status: number;
 
-    // TODO: 자주 사용하는 에러 코드 추가
     if (exception instanceof Prisma.PrismaClientKnownRequestError) {
       switch (exception.code) {
-        case 'P2000':
-          response
-            .status(HttpStatus.BAD_REQUEST)
-            .json(ApiResponse.fail(HttpStatus.BAD_REQUEST, message));
-          break;
         case 'P2002':
-          response
-            .status(HttpStatus.CONFLICT)
-            .json(ApiResponse.fail(HttpStatus.CONFLICT, message));
+          status = HttpStatus.CONFLICT;
+          message = `Duplicate Key Value : ${exception.meta!.target}`;
+          break;
+        case 'P2003':
+          status = HttpStatus.BAD_REQUEST;
+          message = `Invalid Input Data : ${exception.meta!.target}`;
+          break;
+        case 'P2014':
+          status = HttpStatus.BAD_REQUEST;
+          message = `Invalid ID : ${exception.meta!.target}`;
           break;
         case 'P2025':
-          response
-            .status(HttpStatus.NOT_FOUND)
-            .json(ApiResponse.fail(HttpStatus.NOT_FOUND, message));
+          status = HttpStatus.NOT_FOUND;
+          message = `Required Record Not Found : ${exception.meta!.target}`;
           break;
         default:
-          response
-            .status(HttpStatus.INTERNAL_SERVER_ERROR)
-            .json(
-              ApiResponse.fail(
-                HttpStatus.INTERNAL_SERVER_ERROR,
-                `${exception.code} : ${message}`,
-              ),
-            );
+          const code = exception.code;
+          status = HttpStatus.INTERNAL_SERVER_ERROR;
+          message = `${code} : ${exception.message.replace(/\n/g, '')}`;
       }
     } else {
-      response
-        .status(HttpStatus.INTERNAL_SERVER_ERROR)
-        .json(ApiResponse.fail(HttpStatus.INTERNAL_SERVER_ERROR, message));
+      status = HttpStatus.INTERNAL_SERVER_ERROR;
+      message = exception.message.replace(/\n/g, '');
     }
+    response.status(status).json(ApiResponse.fail(status, message));
   }
 }
