@@ -37,7 +37,7 @@ export class MemberService {
       throw new NotFoundException('Member not found');
     }
 
-    return memberProfile!;
+    return memberProfile;
   }
 
   async existsMemberProfileByName(name: string) {

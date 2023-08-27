@@ -5,8 +5,8 @@ import { MemberModule } from './domain/member/member.module';
 import { PassportModule } from '@nestjs/passport';
 import { AnimationModule } from './domain/animation/animation.module';
 import { StudioModule } from './domain/studio/studio.module';
-import { PrismaModule } from './global/database/prisma/prisma.module';
 import { ReviewsModule } from './domain/review/reviews.module';
+import { PrismaModule } from './global/database/prisma/prisma.module';
 
 @Module({
   imports: [
