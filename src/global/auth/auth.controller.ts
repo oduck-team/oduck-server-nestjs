@@ -41,27 +41,6 @@ export class AuthController {
   /**
    * @tag Auth
    */
-  @TypedRoute.Get('google/callback')
-  @UseGuards(GoogleAuthGuard)
-  handleGoogleCallback(): void {}
-
-  /**
-   * @tag Auth
-   */
-  @TypedRoute.Get('naver/callback')
-  @UseGuards(NaverAuthGuard)
-  handleNaverCallback(): void {}
-
-  /**
-   * @tag Auth
-   */
-  @TypedRoute.Get('kakao/callback')
-  @UseGuards(KakaoAuthGuard)
-  handleKakaoCallback(): void {}
-
-  /**
-   * @tag Auth
-   */
   @TypedRoute.Delete('logout')
   @UseGuards(RolesGuard)
   @Roles(Role.MEMBER, Role.ADMIN)
