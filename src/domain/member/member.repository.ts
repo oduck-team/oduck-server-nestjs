@@ -99,11 +99,11 @@ export class MemberRepository {
       },
     });
 
-    if (!memberProfile) {
-      throw new NotFoundException('Member not found');
-    }
+    return memberProfile;
+  }
 
-    const member = await this.prisma.member.findUnique({
+  async getMemberReviewNLikeCounts(memberId: number) {
+    const counts = await this.prisma.member.findUnique({
       select: {
         _count: {
           select: {
@@ -113,17 +113,11 @@ export class MemberRepository {
         },
       },
       where: {
-        id: memberProfile.memberId,
+        id: memberId,
       },
     });
 
-    const result = {
-      ...memberProfile,
-      reviews: member!._count.reviews,
-      reviewLikes: member!._count.reviewLikes,
-    };
-
-    return result;
+    return counts;
   }
 
   async updateProfile(
@@ -139,18 +133,5 @@ export class MemberRepository {
         info: profileData.info,
       },
     });
-  }
-
-  async existMemberProfileByName(name: string) {
-    const memberProfile = await this.prisma.memberProfile.findFirst({
-      select: {
-        name: true,
-      },
-      where: {
-        name,
-      },
-    });
-
-    return memberProfile;
   }
 }

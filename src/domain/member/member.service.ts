@@ -40,11 +40,25 @@ export class MemberService {
       name,
     );
 
-    return memberProfile;
+    if (!memberProfile) {
+      throw new NotFoundException('Member not found');
+    }
+
+    const counts = await this.memberRepository.getMemberReviewNLikeCounts(
+      memberProfile.memberId,
+    );
+
+    const result = {
+      ...memberProfile,
+      reviews: counts!._count.reviews,
+      reviewLikes: counts!._count.reviewLikes,
+    };
+
+    return result;
   }
 
   async existsMemberProfileByName(name: string) {
-    const memberProfile = await this.memberRepository.existMemberProfileByName(
+    const memberProfile = await this.memberRepository.findMemberProfileByName(
       name,
     );
     if (memberProfile) {
