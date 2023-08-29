@@ -41,6 +41,33 @@ export class AuthController {
   /**
    * @tag Auth
    */
+  @TypedRoute.Get('google/callback')
+  @UseGuards(GoogleAuthGuard)
+  handleGoogleCallback(@Res() res: Response) {
+    res.status(302).redirect(process.env.CLIENT_URL!);
+  }
+
+  /**
+   * @tag Auth
+   */
+  @TypedRoute.Get('kakao/callback')
+  @UseGuards(GoogleAuthGuard)
+  handleKakaoCallback(@Res() res: Response) {
+    res.status(302).redirect(process.env.CLIENT_URL!);
+  }
+
+  /**
+   * @tag Auth
+   */
+  @TypedRoute.Get('naver/callback')
+  @UseGuards(GoogleAuthGuard)
+  handleNaverCallback(@Res() res: Response) {
+    res.status(302).redirect(process.env.CLIENT_URL!);
+  }
+
+  /**
+   * @tag Auth
+   */
   @TypedRoute.Delete('logout')
   @UseGuards(RolesGuard)
   @Roles(Role.MEMBER, Role.ADMIN)
@@ -50,7 +77,7 @@ export class AuthController {
         throw new InternalServerErrorException('Failed to logout');
       }
 
-      res.redirect('/');
+      res.status(302).redirect('http://localhost:5173/');
     });
   }
 
