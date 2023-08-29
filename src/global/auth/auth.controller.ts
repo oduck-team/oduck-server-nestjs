@@ -17,6 +17,9 @@ import { Roles } from '../common/decoratror/roles.decorator';
 
 @Controller('auth')
 export class AuthController {
+  CLIENT_URL = process.env.CLIENT_URL
+    ? process.env.CLIENT_URL
+    : 'http://localhost:5173/';
   /**
    * @tag Auth
    */
@@ -44,7 +47,7 @@ export class AuthController {
   @TypedRoute.Get('google/callback')
   @UseGuards(GoogleAuthGuard)
   handleGoogleCallback(@Res() res: Response) {
-    res.status(302).redirect(process.env.CLIENT_URL!);
+    res.status(302).redirect(this.CLIENT_URL);
   }
 
   /**
@@ -53,7 +56,7 @@ export class AuthController {
   @TypedRoute.Get('kakao/callback')
   @UseGuards(GoogleAuthGuard)
   handleKakaoCallback(@Res() res: Response) {
-    res.status(302).redirect(process.env.CLIENT_URL!);
+    res.status(302).redirect(this.CLIENT_URL);
   }
 
   /**
@@ -62,7 +65,7 @@ export class AuthController {
   @TypedRoute.Get('naver/callback')
   @UseGuards(GoogleAuthGuard)
   handleNaverCallback(@Res() res: Response) {
-    res.status(302).redirect(process.env.CLIENT_URL!);
+    res.status(302).redirect(this.CLIENT_URL);
   }
 
   /**
