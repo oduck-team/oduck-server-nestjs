@@ -17,16 +17,22 @@ async function bootstrap() {
     logger: winstonLogger,
   });
 
-  const redisStore = new RedisStore({
-    client: redisClient,
-    ttl: process.env.SESSION_TTL ? parseInt(process.env.SESSION_TTL) : TTL,
-  });
-
   // swagger 적용
   setSwagger(app);
 
   // helmet 헤더 보안 적용
   app.use(helmet());
+
+  // cors 설정
+  app.enableCors({
+    origin: process.env.NODE_ENV === 'prod' ? 'https://oduck.io/' : '*',
+    credentials: true,
+  });
+
+  const redisStore = new RedisStore({
+    client: redisClient,
+    ttl: process.env.SESSION_TTL ? parseInt(process.env.SESSION_TTL) : TTL,
+  });
 
   app.use(
     session({
