@@ -36,6 +36,7 @@ async function bootstrap() {
 
   app.use(
     session({
+      name: 'oDuckio.sid',
       store: redisStore,
       secret: process.env.SESSION_SECRET || 'secret',
       saveUninitialized: false,
@@ -55,6 +56,11 @@ async function bootstrap() {
     type: VersioningType.URI,
     defaultVersion: '20230821',
     prefix: 'v',
+  });
+
+  app.use('/', (req, res, next) => {
+    Logger.verbose(`Request URL: ${req.url}`);
+    next();
   });
 
   // 포트 설정후 실행
