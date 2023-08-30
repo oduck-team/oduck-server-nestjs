@@ -183,6 +183,30 @@ describe('MemberRepository', () => {
     });
   });
 
+  describe('getMemberReviewNLikeCounts', () => {
+    it('memberId로 memberReviewNLikeCounts을 찾아 반환.', async () => {
+      // given
+      const MOCK_MEMBERID = 1;
+
+      const MOCK_MEMBER_REVIEW_N_LIKE_COUNTS = {
+        _count: {
+          reviews: 0,
+          reviewLikes: 0,
+        },
+      };
+
+      jest
+        .spyOn(repository, 'getMemberReviewNLikeCounts')
+        .mockReturnValue(Promise.resolve(MOCK_MEMBER_REVIEW_N_LIKE_COUNTS));
+
+      // when
+      const result = await repository.getMemberReviewNLikeCounts(MOCK_MEMBERID);
+
+      // then
+      expect(result).toEqual(MOCK_MEMBER_REVIEW_N_LIKE_COUNTS);
+    });
+  });
+
   describe('findMemberProfileByName', () => {
     it('name으로 memberProfile을 찾아 반환.', async () => {
       // given
@@ -191,6 +215,7 @@ describe('MemberRepository', () => {
       const MOCK_MEMBER_PROFILE = {
         memberId: 1,
         name: 'hgd',
+        info: '안녕하세요',
         role: Role.MEMBER,
         point: 0,
         imageUrl: null,
@@ -225,16 +250,21 @@ describe('MemberRepository', () => {
     });
   });
 
-  describe('updateName', () => {
-    it('이름 변경 후 값 반환 X.', async () => {
+  describe('updateProfile', () => {
+    it('프로필 변경 후 값 반환 X.', async () => {
       // given
       const MOCK_ID = 1;
-      const MOCK_NAME = 'hgd';
+      const MOCK_PROFILE = {
+        name: 'hgd',
+        info: '안녕하세요',
+      };
 
-      jest.spyOn(repository, 'updateName').mockReturnValue(Promise.resolve());
+      jest
+        .spyOn(repository, 'updateProfile')
+        .mockReturnValue(Promise.resolve());
 
       // when
-      const result = await repository.updateName(MOCK_ID, MOCK_NAME);
+      const result = await repository.updateProfile(MOCK_ID, MOCK_PROFILE);
 
       // then
       expect(result).toBeUndefined();

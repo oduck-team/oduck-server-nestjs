@@ -83,18 +83,24 @@ describe('MemberService', () => {
   });
 
   describe('updateMember', () => {
+    const MOCK_PROFILE = {
+      name: 'hgd',
+      info: '안녕하세요',
+    };
+
     it('이름 변경 후 값 반환 X.', async () => {
       // given
       const MOCK_ID = 1;
-      const MOCK_NAME = 'hgd';
 
       jest
         .spyOn(repository, 'findMemberProfileByName')
         .mockReturnValue(Promise.resolve(null));
-      jest.spyOn(repository, 'updateName').mockReturnValue(Promise.resolve());
+      jest
+        .spyOn(repository, 'updateProfile')
+        .mockReturnValue(Promise.resolve());
 
       // when
-      const result = await service.updateName(MOCK_ID, MOCK_NAME);
+      const result = await service.updateProfile(MOCK_ID, MOCK_PROFILE);
 
       // then
       expect(result).toBeUndefined();
@@ -103,16 +109,17 @@ describe('MemberService', () => {
     it('중복된 닉네임이 있을 경우 409 에러를 반환', async () => {
       // given
       const MOCK_ID = 1;
-      const MOCK_NAME = 'hgd';
 
       jest
         .spyOn(repository, 'findMemberProfileByName')
         .mockReturnValue(Promise.resolve({} as any));
-      jest.spyOn(repository, 'updateName').mockReturnValue(Promise.resolve());
+      jest
+        .spyOn(repository, 'updateProfile')
+        .mockReturnValue(Promise.resolve());
 
       // when
       try {
-        await service.updateName(MOCK_ID, MOCK_NAME);
+        await service.updateProfile(MOCK_ID, MOCK_PROFILE);
       } catch (e) {
         // then
         expect(e.message).toEqual('already exist name');
@@ -124,9 +131,10 @@ describe('MemberService', () => {
     it('닉네임으로 회원 정보를 찾을 경우 회원 정보를 반환.', async () => {
       // given
       const MOCK_NAME = 'hgd';
-      const MOCK_RESULT = {
+      const MOCK_MEMBER_PROFILE = {
         memberId: 1,
         name: 'hgd',
+        info: '안녕하세요',
         role: Role.MEMBER,
         imageUrl: null,
         point: 0,
@@ -134,9 +142,25 @@ describe('MemberService', () => {
         updatedAt: new Date(),
       };
 
+      const MOCK_COUNTS = {
+        _count: {
+          reviews: 0,
+          reviewLikes: 0,
+        },
+      };
+
+      const MOCK_RESULT = {
+        ...MOCK_MEMBER_PROFILE,
+        reviews: MOCK_COUNTS._count.reviews,
+        reviewLikes: MOCK_COUNTS._count.reviewLikes,
+      };
+
       jest
         .spyOn(repository, 'findMemberProfileByName')
-        .mockReturnValue(Promise.resolve(MOCK_RESULT));
+        .mockReturnValue(Promise.resolve(MOCK_MEMBER_PROFILE));
+      jest
+        .spyOn(repository, 'getMemberReviewNLikeCounts')
+        .mockReturnValue(Promise.resolve(MOCK_COUNTS));
 
       // when
       const member = await service.findMemberProfileByName(MOCK_NAME);
