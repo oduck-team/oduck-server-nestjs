@@ -18,49 +18,49 @@ import { Roles } from '../common/decoratror/roles.decorator';
 @Controller('auth')
 export class AuthController {
   /**
-   * @tag auth
+   * @tag Auth
    */
   @TypedRoute.Get('google/login')
   @UseGuards(GoogleAuthGuard)
   handleGoogleLogin(): void {}
 
   /**
-   * @tag auth
+   * @tag Auth
    */
   @TypedRoute.Get('naver/login')
   @UseGuards(NaverAuthGuard)
   handleNaverLogin(): void {}
 
   /**
-   * @tag auth
+   * @tag Auth
    */
   @TypedRoute.Get('kakao/login')
   @UseGuards(KakaoAuthGuard)
   handleKakaoLogin(): void {}
 
   /**
-   * @tag auth
+   * @tag Auth
    */
   @TypedRoute.Get('google/callback')
   @UseGuards(GoogleAuthGuard)
   handleGoogleCallback(): void {}
 
   /**
-   * @tag auth
+   * @tag Auth
    */
   @TypedRoute.Get('naver/callback')
   @UseGuards(NaverAuthGuard)
   handleNaverCallback(): void {}
 
   /**
-   * @tag auth
+   * @tag Auth
    */
   @TypedRoute.Get('kakao/callback')
   @UseGuards(KakaoAuthGuard)
   handleKakaoCallback(): void {}
 
   /**
-   * @tag auth
+   * @tag Auth
    */
   @TypedRoute.Delete('logout')
   @UseGuards(RolesGuard)
@@ -76,7 +76,7 @@ export class AuthController {
   }
 
   /**
-   * @tag auth
+   * @tag Auth
    */
   @TypedRoute.Get('status')
   @UseGuards(RolesGuard)

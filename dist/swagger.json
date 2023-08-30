@@ -255,7 +255,7 @@
     "/members/signup": {
       "post": {
         "tags": [
-          "member"
+          "Member"
         ],
         "parameters": [],
         "requestBody": {
@@ -276,14 +276,14 @@
             "x-nestia-encrypted": false
           }
         },
-        "description": "@tag member",
+        "description": "@tag Member",
         "x-nestia-namespace": "members.signup.handleSignup",
         "x-nestia-jsDocTags": [
           {
             "name": "tag",
             "text": [
               {
-                "text": "member",
+                "text": "Member",
                 "kind": "text"
               }
             ]
@@ -295,7 +295,7 @@
     "/members/name": {
       "patch": {
         "tags": [
-          "member"
+          "Member"
         ],
         "parameters": [],
         "requestBody": {
@@ -316,14 +316,14 @@
             "x-nestia-encrypted": false
           }
         },
-        "description": "@tag member",
+        "description": "@tag Member",
         "x-nestia-namespace": "members.name.handleUpdateName",
         "x-nestia-jsDocTags": [
           {
             "name": "tag",
             "text": [
               {
-                "text": "member",
+                "text": "Member",
                 "kind": "text"
               }
             ]
@@ -335,7 +335,7 @@
     "/members/{name}": {
       "get": {
         "tags": [
-          "member"
+          "Member"
         ],
         "parameters": [
           {
@@ -361,14 +361,14 @@
             "x-nestia-encrypted": false
           }
         },
-        "description": "@tag member",
+        "description": "@tag Member",
         "x-nestia-namespace": "members.handleGetProfile",
         "x-nestia-jsDocTags": [
           {
             "name": "tag",
             "text": [
               {
-                "text": "member",
+                "text": "Member",
                 "kind": "text"
               }
             ]
@@ -876,7 +876,7 @@
     "/auth/google/login": {
       "get": {
         "tags": [
-          "auth"
+          "Auth"
         ],
         "parameters": [],
         "responses": {
@@ -885,14 +885,14 @@
             "x-nestia-encrypted": false
           }
         },
-        "description": "@tag auth",
+        "description": "@tag Auth",
         "x-nestia-namespace": "auth.google.login.handleGoogleLogin",
         "x-nestia-jsDocTags": [
           {
             "name": "tag",
             "text": [
               {
-                "text": "auth",
+                "text": "Auth",
                 "kind": "text"
               }
             ]
@@ -904,7 +904,7 @@
     "/auth/naver/login": {
       "get": {
         "tags": [
-          "auth"
+          "Auth"
         ],
         "parameters": [],
         "responses": {
@@ -913,14 +913,14 @@
             "x-nestia-encrypted": false
           }
         },
-        "description": "@tag auth",
+        "description": "@tag Auth",
         "x-nestia-namespace": "auth.naver.login.handleNaverLogin",
         "x-nestia-jsDocTags": [
           {
             "name": "tag",
             "text": [
               {
-                "text": "auth",
+                "text": "Auth",
                 "kind": "text"
               }
             ]
@@ -932,7 +932,7 @@
     "/auth/kakao/login": {
       "get": {
         "tags": [
-          "auth"
+          "Auth"
         ],
         "parameters": [],
         "responses": {
@@ -941,14 +941,14 @@
             "x-nestia-encrypted": false
           }
         },
-        "description": "@tag auth",
+        "description": "@tag Auth",
         "x-nestia-namespace": "auth.kakao.login.handleKakaoLogin",
         "x-nestia-jsDocTags": [
           {
             "name": "tag",
             "text": [
               {
-                "text": "auth",
+                "text": "Auth",
                 "kind": "text"
               }
             ]
@@ -960,7 +960,7 @@
     "/auth/google/callback": {
       "get": {
         "tags": [
-          "auth"
+          "Auth"
         ],
         "parameters": [],
         "responses": {
@@ -969,14 +969,14 @@
             "x-nestia-encrypted": false
           }
         },
-        "description": "@tag auth",
+        "description": "@tag Auth",
         "x-nestia-namespace": "auth.google.callback.handleGoogleCallback",
         "x-nestia-jsDocTags": [
           {
             "name": "tag",
             "text": [
               {
-                "text": "auth",
+                "text": "Auth",
                 "kind": "text"
               }
             ]
@@ -988,7 +988,7 @@
     "/auth/naver/callback": {
       "get": {
         "tags": [
-          "auth"
+          "Auth"
         ],
         "parameters": [],
         "responses": {
@@ -997,14 +997,14 @@
             "x-nestia-encrypted": false
           }
         },
-        "description": "@tag auth",
+        "description": "@tag Auth",
         "x-nestia-namespace": "auth.naver.callback.handleNaverCallback",
         "x-nestia-jsDocTags": [
           {
             "name": "tag",
             "text": [
               {
-                "text": "auth",
+                "text": "Auth",
                 "kind": "text"
               }
             ]
@@ -1016,7 +1016,7 @@
     "/auth/kakao/callback": {
       "get": {
         "tags": [
-          "auth"
+          "Auth"
         ],
         "parameters": [],
         "responses": {
@@ -1025,14 +1025,14 @@
             "x-nestia-encrypted": false
           }
         },
-        "description": "@tag auth",
+        "description": "@tag Auth",
         "x-nestia-namespace": "auth.kakao.callback.handleKakaoCallback",
         "x-nestia-jsDocTags": [
           {
             "name": "tag",
             "text": [
               {
-                "text": "auth",
+                "text": "Auth",
                 "kind": "text"
               }
             ]
@@ -1044,7 +1044,7 @@
     "/auth/logout": {
       "delete": {
         "tags": [
-          "auth"
+          "Auth"
         ],
         "parameters": [],
         "responses": {
@@ -1053,14 +1053,14 @@
             "x-nestia-encrypted": false
           }
         },
-        "description": "@tag auth",
+        "description": "@tag Auth",
         "x-nestia-namespace": "auth.logout.handleLogout",
         "x-nestia-jsDocTags": [
           {
             "name": "tag",
             "text": [
               {
-                "text": "auth",
+                "text": "Auth",
                 "kind": "text"
               }
             ]
@@ -1072,7 +1072,7 @@
     "/auth/status": {
       "get": {
         "tags": [
-          "auth"
+          "Auth"
         ],
         "parameters": [],
         "responses": {
@@ -1088,14 +1088,14 @@
             "x-nestia-encrypted": false
           }
         },
-        "description": "@tag auth",
+        "description": "@tag Auth",
         "x-nestia-namespace": "auth.status.handleStatus",
         "x-nestia-jsDocTags": [
           {
             "name": "tag",
             "text": [
               {
-                "text": "auth",
+                "text": "Auth",
                 "kind": "text"
               }
             ]

@@ -2,32 +2,30 @@ import { BroadcastType, Rating, Status } from '@prisma/client';
 
 export interface AnimationListDto {
   /**
-   * @default 1
-   * */
-  page?: number;
-
-  // size: ??
-  /**
    * @default 20
    * */
-  length?: number;
+  pageSize?: number;
 
-  cursor?: string;
+  /**
+   * @description 직전 페이지 마지막 ID / empty '' 면 처음부터
+   * */
+  lastId?: number;
+
+  /**
+   * @default createdAt
+   * */
+  sortBy?: string;
+
+  /**
+   * @default desc
+   * @enum Sort
+   * */
+  sortOrder?: string;
 
   /**
    * @default 바키
    * */
   search?: string;
-
-  /**
-   * @default createdAt
-   * */
-  sortKey?: string;
-
-  /**
-   * @default desc
-   * */
-  sort?: string;
 }
 
 export interface AnimationRelationDto {

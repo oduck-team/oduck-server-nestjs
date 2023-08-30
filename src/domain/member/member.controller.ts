@@ -13,7 +13,7 @@ export class MemberController {
   constructor(private readonly memberService: MemberService) {}
 
   /**
-   * @tag member
+   * @tag Member
    */
   @TypedRoute.Post('/signup')
   @UseGuards(RolesGuard)
@@ -26,7 +26,7 @@ export class MemberController {
   }
 
   /**
-   * @tag member
+   * @tag Member
    */
   @TypedRoute.Patch('/name')
   @UseGuards(RolesGuard)
@@ -34,12 +34,12 @@ export class MemberController {
   async handleUpdateName(
     @User() user: MemberProfile,
     @TypedBody() body: UpdateNameDto,
-  ) {
+  ): Promise<void> {
     await this.memberService.updateName(user.memberId, body.name);
   }
 
   /**
-   * @tag member
+   * @tag Member
    */
   @TypedRoute.Get(':name')
   async handleGetProfile(
@@ -47,7 +47,7 @@ export class MemberController {
     @TypedParam('name') name: string,
   ): Promise<MemberProfileDto> {
     if (user?.name !== name) {
-      return await this.memberService.getMemberProfileByName(name);
+      return await this.memberService.findMemberProfileByName(name);
     }
 
     return {
