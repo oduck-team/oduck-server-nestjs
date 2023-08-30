@@ -17,6 +17,9 @@ import { Roles } from '../common/decoratror/roles.decorator';
 
 @Controller('auth')
 export class AuthController {
+  CLIENT_URL = process.env.CLIENT_URL
+    ? process.env.CLIENT_URL
+    : 'http://localhost:5173/';
   /**
    * @tag Auth
    */
@@ -43,21 +46,27 @@ export class AuthController {
    */
   @TypedRoute.Get('google/callback')
   @UseGuards(GoogleAuthGuard)
-  handleGoogleCallback(): void {}
-
-  /**
-   * @tag Auth
-   */
-  @TypedRoute.Get('naver/callback')
-  @UseGuards(NaverAuthGuard)
-  handleNaverCallback(): void {}
+  handleGoogleCallback(@Res() res: Response) {
+    res.status(302).redirect(this.CLIENT_URL);
+  }
 
   /**
    * @tag Auth
    */
   @TypedRoute.Get('kakao/callback')
-  @UseGuards(KakaoAuthGuard)
-  handleKakaoCallback(): void {}
+  @UseGuards(GoogleAuthGuard)
+  handleKakaoCallback(@Res() res: Response) {
+    res.status(302).redirect(this.CLIENT_URL);
+  }
+
+  /**
+   * @tag Auth
+   */
+  @TypedRoute.Get('naver/callback')
+  @UseGuards(GoogleAuthGuard)
+  handleNaverCallback(@Res() res: Response) {
+    res.status(302).redirect(this.CLIENT_URL);
+  }
 
   /**
    * @tag Auth
@@ -71,7 +80,7 @@ export class AuthController {
         throw new InternalServerErrorException('Failed to logout');
       }
 
-      res.redirect('/');
+      res.status(302).redirect('http://localhost:5173/');
     });
   }
 
