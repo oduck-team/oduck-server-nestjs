@@ -1,4 +1,4 @@
-import { Controller } from '@nestjs/common';
+import { Controller, UseGuards } from '@nestjs/common';
 import { TypedBody, TypedParam, TypedQuery, TypedRoute } from '@nestia/core';
 import { ShortReviewService } from '../service/short-review.service';
 import {
@@ -8,11 +8,17 @@ import {
   UpdateShortReviewDto,
 } from '../dto/review-request.dto';
 import { ShortReviewResponseDto } from '../dto/review-response.dto';
+import { RolesGuard } from '../../../global/auth/guard/roles.guard';
+import { Roles } from '../../../global/common/decoratror/roles.decorator';
+import { Role } from '@prisma/client';
 
 @Controller('/short-reviews')
 export class ShortReviewController {
   constructor(private readonly shortReviewService: ShortReviewService) {}
 
+  /**
+   * @tag Short Review
+   */
   @TypedRoute.Get()
   async getShortReviews(
     @TypedQuery() query: ReviewPageQueryDto,
@@ -20,7 +26,12 @@ export class ShortReviewController {
     return await this.shortReviewService.findShortReviewPageByQuery(query);
   }
 
+  /**
+   * @tag Short Review
+   */
   @TypedRoute.Post()
+  @UseGuards(RolesGuard)
+  @Roles(Role.MEMBER, Role.ADMIN)
   async writeShortReview(
     @TypedQuery() query: MemberAnimationQueryDto,
     @TypedBody() dto: CreateShortReviewDto,
@@ -33,7 +44,12 @@ export class ShortReviewController {
     );
   }
 
+  /**
+   * @tag Short Review
+   */
   @TypedRoute.Patch('/:id')
+  @UseGuards(RolesGuard)
+  @Roles(Role.MEMBER, Role.ADMIN)
   async updateShortReview(
     @TypedParam('id') id: number,
     @TypedBody() dto: UpdateShortReviewDto,
@@ -41,7 +57,12 @@ export class ShortReviewController {
     return await this.shortReviewService.updateShortReview(id, dto);
   }
 
+  /**
+   * @tag Short Review
+   */
   @TypedRoute.Delete('/:id')
+  @UseGuards(RolesGuard)
+  @Roles(Role.MEMBER, Role.ADMIN)
   async deleteShortReview(@TypedParam('id') id: number): Promise<string> {
     return await this.shortReviewService.deleteShortReview(id);
   }
