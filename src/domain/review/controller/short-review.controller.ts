@@ -2,15 +2,16 @@ import { Controller, UseGuards } from '@nestjs/common';
 import { TypedBody, TypedParam, TypedQuery, TypedRoute } from '@nestia/core';
 import { ShortReviewService } from '../service/short-review.service';
 import {
+  AnimationIdQueryDto,
   CreateShortReviewDto,
-  MemberAnimationQueryDto,
   ReviewPageQueryDto,
   UpdateShortReviewDto,
 } from '../dto/review-request.dto';
 import { ShortReviewResponseDto } from '../dto/review-response.dto';
 import { RolesGuard } from '../../../global/auth/guard/roles.guard';
 import { Roles } from '../../../global/common/decoratror/roles.decorator';
-import { Role } from '@prisma/client';
+import { MemberProfile, Role } from '@prisma/client';
+import { User } from '../../../global/common/decoratror/user.decorator';
 
 @Controller('/short-reviews')
 export class ShortReviewController {
@@ -33,12 +34,13 @@ export class ShortReviewController {
   @UseGuards(RolesGuard)
   @Roles(Role.MEMBER, Role.ADMIN)
   async writeShortReview(
-    @TypedQuery() query: MemberAnimationQueryDto,
+    @User() user: MemberProfile,
+    @TypedQuery() query: AnimationIdQueryDto,
     @TypedBody() dto: CreateShortReviewDto,
   ): Promise<number> {
-    const { memberId, animationId } = query;
+    const { animationId } = query;
     return await this.shortReviewService.createShortReview(
-      Number(memberId),
+      Number(user.id),
       Number(animationId),
       dto,
     );

@@ -2,15 +2,16 @@ import { Controller, UseGuards } from '@nestjs/common';
 import { LongReviewService } from '../service/long-review.service';
 import { TypedBody, TypedParam, TypedQuery, TypedRoute } from '@nestia/core';
 import {
+  AnimationIdQueryDto,
   CreateLongReviewDto,
-  MemberAnimationQueryDto,
   ReviewPageQueryDto,
   UpdateLongReviewDto,
 } from '../dto/review-request.dto';
 import { LongReviewResponseDto } from '../dto/review-response.dto';
 import { Roles } from '../../../global/common/decoratror/roles.decorator';
-import { Role } from '@prisma/client';
+import { MemberProfile, Role } from '@prisma/client';
 import { RolesGuard } from '../../../global/auth/guard/roles.guard';
+import { User } from '../../../global/common/decoratror/user.decorator';
 
 @Controller('/long-reviews')
 export class LongReviewController {
@@ -43,12 +44,13 @@ export class LongReviewController {
   @UseGuards(RolesGuard)
   @Roles(Role.MEMBER, Role.ADMIN)
   async writeLongReview(
-    @TypedQuery() query: MemberAnimationQueryDto,
+    @User() user: MemberProfile,
+    @TypedQuery() query: AnimationIdQueryDto,
     @TypedBody() dto: CreateLongReviewDto,
   ): Promise<LongReviewResponseDto> {
-    const { memberId, animationId } = query;
+    const { animationId } = query;
     return await this.longReviewService.createLongReview(
-      Number(memberId),
+      Number(user.id),
       Number(animationId),
       dto,
     );

@@ -78,5 +78,9 @@ export interface ReviewPageQueryDto {
   readonly sortCondition?: SortCondition;
 }
 
-export interface MemberAnimationQueryDto
-  extends Pick<ReviewPageQueryDto, 'memberId' | 'animationId'> {}
+export interface AnimationIdQueryDto {
+  /**
+   * @type int
+   */
+  readonly animationId: number;
+}
