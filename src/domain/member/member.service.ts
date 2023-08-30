@@ -24,7 +24,7 @@ export class MemberService {
     await this.memberRepository.signup(id, name);
   }
 
-  async updateProflie(
+  async updateProfile(
     id: number,
     updateProfile: Pick<IMemerProfile, 'info' | 'name'>,
   ): Promise<void> {

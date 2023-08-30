@@ -37,7 +37,7 @@ export class MemberController {
     @User() user: MemberProfile,
     @TypedBody() body: UpdateProfileDto,
   ): Promise<void> {
-    await this.memberService.updateProflie(user.memberId, body);
+    await this.memberService.updateProfile(user.memberId, body);
   }
 
   /**
