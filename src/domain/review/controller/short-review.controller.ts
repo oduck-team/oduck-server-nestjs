@@ -13,6 +13,9 @@ import { ShortReviewResponseDto } from '../dto/review-response.dto';
 export class ShortReviewController {
   constructor(private readonly shortReviewService: ShortReviewService) {}
 
+  /**
+   * @tag short-reviews
+   */
   @TypedRoute.Get()
   async getShortReviews(
     @TypedQuery() query: ReviewPageQueryDto,
@@ -20,6 +23,9 @@ export class ShortReviewController {
     return await this.shortReviewService.findShortReviewPageByQuery(query);
   }
 
+  /**
+   * @tag short-reviews
+   */
   @TypedRoute.Post()
   async writeShortReview(
     @TypedQuery() query: MemberAnimationQueryDto,
@@ -33,6 +39,9 @@ export class ShortReviewController {
     );
   }
 
+  /**
+   * @tag short-reviews
+   */
   @TypedRoute.Patch('/:id')
   async updateShortReview(
     @TypedParam('id') id: number,
@@ -41,6 +50,9 @@ export class ShortReviewController {
     return await this.shortReviewService.updateShortReview(id, dto);
   }
 
+  /**
+   * @tag short-reviews
+   */
   @TypedRoute.Delete('/:id')
   async deleteShortReview(@TypedParam('id') id: number): Promise<string> {
     return await this.shortReviewService.deleteShortReview(id);

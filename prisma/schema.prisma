@@ -36,12 +36,12 @@ model MemberProfile {
 }
 
 model AuthSocial {
-  id       Int    @id @default(autoincrement())
-  memberId Int    @unique
-  socialId String @unique
-  email    String? 
+  id       Int     @id @default(autoincrement())
+  memberId Int     @unique
+  socialId String  @unique
+  email    String?
   type     String
-  member   Member @relation(fields: [memberId], references: [id])
+  member   Member  @relation(fields: [memberId], references: [id])
 }
 
 model AuthPassword {

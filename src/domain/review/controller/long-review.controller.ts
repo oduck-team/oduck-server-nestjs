@@ -13,6 +13,9 @@ import { LongReviewResponseDto } from '../dto/review-response.dto';
 export class LongReviewController {
   constructor(private readonly longReviewService: LongReviewService) {}
 
+  /**
+   * @tag long-reviews
+   */
   @TypedRoute.Get()
   async getLongReviewPageByAnimation(
     @TypedQuery() query: ReviewPageQueryDto,
@@ -20,6 +23,9 @@ export class LongReviewController {
     return await this.longReviewService.findLongReviewPageByQuery(query);
   }
 
+  /**
+   * @tag long-reviews
+   */
   @TypedRoute.Get('/:id')
   async getLongReviewDetail(
     @TypedParam('id') id: number,
@@ -27,6 +33,9 @@ export class LongReviewController {
     return await this.longReviewService.findLongReviewDetail(id);
   }
 
+  /**
+   * @tag long-reviews
+   */
   @TypedRoute.Post()
   async writeLongReview(
     @TypedQuery() query: MemberAnimationQueryDto,
@@ -40,6 +49,9 @@ export class LongReviewController {
     );
   }
 
+  /**
+   * @tag long-reviews
+   */
   @TypedRoute.Put('/:id')
   async updateLongReview(
     @TypedParam('id') id: number,
@@ -48,6 +60,9 @@ export class LongReviewController {
     return await this.longReviewService.updateLongReview(id, dto);
   }
 
+  /**
+   * @tag long-reviews
+   */
   @TypedRoute.Delete('/:id')
   async deleteLongReview(@TypedParam('id') id: number): Promise<string> {
     return await this.longReviewService.deleteLongReview(id);
