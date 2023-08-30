@@ -17,19 +17,26 @@ async function bootstrap() {
     logger: winstonLogger,
   });
 
-  const redisStore = new RedisStore({
-    client: redisClient,
-    ttl: process.env.SESSION_TTL ? parseInt(process.env.SESSION_TTL) : TTL,
-  });
-
   // swagger 적용
   setSwagger(app);
 
   // helmet 헤더 보안 적용
   app.use(helmet());
 
+  // cors 설정
+  app.enableCors({
+    origin: process.env.NODE_ENV === 'prod' ? 'https://oduck.io/' : '*',
+    credentials: true,
+  });
+
+  const redisStore = new RedisStore({
+    client: redisClient,
+    ttl: process.env.SESSION_TTL ? parseInt(process.env.SESSION_TTL) : TTL,
+  });
+
   app.use(
     session({
+      name: 'oDuckio.sid',
       store: redisStore,
       secret: process.env.SESSION_SECRET || 'secret',
       saveUninitialized: false,
@@ -49,6 +56,11 @@ async function bootstrap() {
     type: VersioningType.URI,
     defaultVersion: '20230821',
     prefix: 'v',
+  });
+
+  app.use('/', (req, res, next) => {
+    Logger.verbose(`Request URL: ${req.url}`);
+    next();
   });
 
   // 포트 설정후 실행

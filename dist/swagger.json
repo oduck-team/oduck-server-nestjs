@@ -790,34 +790,6 @@
         "x-nestia-method": "GET"
       }
     },
-    "/auth/naver/callback": {
-      "get": {
-        "tags": [
-          "Auth"
-        ],
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "",
-            "x-nestia-encrypted": false
-          }
-        },
-        "description": "@tag Auth",
-        "x-nestia-namespace": "auth.naver.callback.handleNaverCallback",
-        "x-nestia-jsDocTags": [
-          {
-            "name": "tag",
-            "text": [
-              {
-                "text": "Auth",
-                "kind": "text"
-              }
-            ]
-          }
-        ],
-        "x-nestia-method": "GET"
-      }
-    },
     "/auth/kakao/callback": {
       "get": {
         "tags": [
@@ -832,6 +804,34 @@
         },
         "description": "@tag Auth",
         "x-nestia-namespace": "auth.kakao.callback.handleKakaoCallback",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "Auth",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
+        "x-nestia-method": "GET"
+      }
+    },
+    "/auth/naver/callback": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "x-nestia-encrypted": false
+          }
+        },
+        "description": "@tag Auth",
+        "x-nestia-namespace": "auth.naver.callback.handleNaverCallback",
         "x-nestia-jsDocTags": [
           {
             "name": "tag",
@@ -2980,7 +2980,7 @@
       "apiCookie": {
         "type": "apiKey",
         "in": "cookie",
-        "name": "connect.sid"
+        "name": "oDuckio.sid"
       }
     }
   },

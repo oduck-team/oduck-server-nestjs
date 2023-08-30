@@ -15,7 +15,7 @@ const config: INestiaConfig = {
       apiCookie: {
         type: 'apiKey',
         in: 'cookie',
-        name: 'connect.sid',
+        name: 'oDuckio.sid',
       },
     },
     // 서버 정보
