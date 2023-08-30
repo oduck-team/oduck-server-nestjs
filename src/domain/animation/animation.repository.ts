@@ -10,21 +10,23 @@ export class AnimationRepository {
   constructor(private prisma: PrismaService) {}
 
   async getAnimations(params: AnimationListDto) {
+    const search = params.search
+      ? {
+          OR: [
+            { name: { contains: params.search } },
+            { plot: { contains: params.search } },
+            { primaryKeyword: { contains: params.search } },
+          ],
+        }
+      : {};
+
     return this.prisma.animation.findMany({
       skip: params.lastId ? 1 : 0,
       take: params.pageSize ?? 20,
       orderBy: {
         [params.sortBy ?? 'createdAt']: params.sortOrder ?? Sort.DESC,
       },
-      where: {
-        OR: params.search
-          ? [
-              { name: { contains: params.search } },
-              { plot: { contains: params.search } },
-              { primaryKeyword: { contains: params.search } },
-            ]
-          : [],
-      },
+      where: search,
       include: {
         studios: {
           select: {
