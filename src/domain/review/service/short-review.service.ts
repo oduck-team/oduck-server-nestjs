@@ -74,6 +74,23 @@ export class ShortReviewService {
     );
   }
 
+  async addLikesInReview(memberId: number, reviewId: number): Promise<boolean> {
+    return await this.shortReviewRepository.createShortReviewLikes(
+      memberId,
+      reviewId,
+    );
+  }
+
+  async subjectLikesInReview(
+    memberId: number,
+    reviewId: number,
+  ): Promise<boolean> {
+    return await this.shortReviewRepository.deleteShortReviewLikes(
+      memberId,
+      reviewId,
+    );
+  }
+
   // TODO: soft delete 할 때, AttractionPoint 를 삭제하지 않는지??
   async deleteShortReview(id: number): Promise<string> {
     const reviewId = await this.shortReviewRepository.softDeleteShortReview(id);

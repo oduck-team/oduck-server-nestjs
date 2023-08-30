@@ -5,6 +5,7 @@ export interface IShortReview {
   memberId: number;
   animationId: number;
   rating: number;
+  likeCount: number;
   createdAt: Date;
   shortReview: {
     comment: string;

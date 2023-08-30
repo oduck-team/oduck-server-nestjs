@@ -42,6 +42,7 @@ export class ShortReviewRepository {
         memberId: true,
         animationId: true,
         rating: true,
+        likeCount: true,
         createdAt: true,
         shortReview: {
           select: {
@@ -132,6 +133,55 @@ export class ShortReviewRepository {
         },
       })
       .then((shortReview) => shortReview.id);
+  }
+
+  async createShortReviewLikes(
+    memberId: number,
+    reviewId: number,
+  ): Promise<boolean> {
+    const shortReview = await this.findShortReviewById(reviewId);
+    this.prisma.reviewLike
+      .create({
+        data: {
+          memberId,
+          reviewId: shortReview!.id,
+        },
+      })
+      .then((reviewLike) => {
+        this.prisma.review.update({
+          where: { id: reviewLike.reviewId },
+          data: { likeCount: shortReview!.likeCount + 1 },
+        });
+      });
+
+    return true;
+  }
+
+  async deleteShortReviewLikes(
+    memberId: number,
+    reviewId: number,
+  ): Promise<boolean> {
+    const shortReview = await this.findShortReviewById(reviewId);
+    this.prisma.reviewLike
+      .findFirstOrThrow({
+        where: {
+          memberId,
+          reviewId: shortReview!.id,
+        },
+      })
+      .then((reviewLike) => {
+        this.prisma.$transaction(async (prisma) => {
+          prisma.review.update({
+            where: { id: reviewLike.reviewId },
+            data: { likeCount: shortReview!.likeCount - 1 },
+          });
+          prisma.reviewLike.delete({
+            where: { id: reviewLike.id },
+          });
+        });
+      });
+
+    return true;
   }
 
   async softDeleteShortReview(id: number): Promise<number> {

@@ -62,6 +62,35 @@ export class ShortReviewController {
   /**
    * @tag Short Review
    */
+  @TypedRoute.Patch('/:id/like')
+  @UseGuards(RolesGuard)
+  @Roles(Role.MEMBER, Role.ADMIN)
+  async likesOnShortReview(
+    @User() user: MemberProfile,
+    @TypedParam('id') reviewId: number,
+  ): Promise<boolean> {
+    return await this.shortReviewService.addLikesInReview(user.id, reviewId);
+  }
+
+  /**
+   * @tag Short Review
+   */
+  @TypedRoute.Patch('/:id/unlike')
+  @UseGuards(RolesGuard)
+  @Roles(Role.MEMBER, Role.ADMIN)
+  async unlikesOnShortReview(
+    @User() user: MemberProfile,
+    @TypedParam('id') reviewId: number,
+  ): Promise<boolean> {
+    return await this.shortReviewService.subjectLikesInReview(
+      user.id,
+      reviewId,
+    );
+  }
+
+  /**
+   * @tag Short Review
+   */
   @TypedRoute.Delete('/:id')
   @UseGuards(RolesGuard)
   @Roles(Role.MEMBER, Role.ADMIN)
