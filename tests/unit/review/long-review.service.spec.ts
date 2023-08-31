@@ -1,15 +1,14 @@
 import { LongReviewService } from '../../../src/domain/review/service/long-review.service';
 import { LongReviewRepository } from '../../../src/domain/review/repository/long-review.repository';
 import { Test } from '@nestjs/testing';
-import { PrismaModule } from '../../../src/global/config/prisma/prisma.module';
 import { ILongReview } from '../../../src/domain/review/reviews.interface';
 import {
   CreateLongReviewDto,
   ReviewPageQueryDto,
   UpdateLongReviewDto,
 } from '../../../src/domain/review/dto/review-request.dto';
-import { LongReviewResponseDto } from '../../../src/domain/review/dto/review-response.dto';
 import { BadRequestException } from '@nestjs/common';
+import { PrismaModule } from '../../../src/global/database/prisma/prisma.module';
 
 describe('LongReviewService', () => {
   let service: LongReviewService;
@@ -48,10 +47,8 @@ describe('LongReviewService', () => {
       };
 
       jest
-        .spyOn(service, 'findLongReviewPageByQuery')
-        .mockReturnValue(
-          Promise.resolve([new LongReviewResponseDto(MOCK_RESULT)]),
-        );
+        .spyOn(repository, 'selectLongReviewPage')
+        .mockReturnValue(Promise.resolve([MOCK_RESULT]));
 
       // when
       const result = await service.findLongReviewPageByQuery(query);
@@ -101,10 +98,8 @@ describe('LongReviewService', () => {
       const reviewId: number = 1;
 
       jest
-        .spyOn(service, 'findLongReviewDetail')
-        .mockReturnValue(
-          Promise.resolve(new LongReviewResponseDto(MOCK_RESULT)),
-        );
+        .spyOn(repository, 'selectLongReviewById')
+        .mockReturnValue(Promise.resolve(MOCK_RESULT));
 
       // when
       const result = await service.findLongReviewDetail(reviewId);
@@ -131,10 +126,8 @@ describe('LongReviewService', () => {
       };
 
       jest
-        .spyOn(service, 'createLongReview')
-        .mockReturnValue(
-          Promise.resolve(new LongReviewResponseDto(MOCK_RESULT)),
-        );
+        .spyOn(repository, 'insertLongReview')
+        .mockReturnValue(Promise.resolve(MOCK_RESULT));
 
       // when
       const result = await service.createLongReview(memberId, animationId, dto);
@@ -159,13 +152,18 @@ describe('LongReviewService', () => {
         imageUrls: ['update.jpg'],
       };
 
-      const UPDATED_RESULT: LongReviewResponseDto = {
+      const UPDATED_RESULT: ILongReview = {
         ...MOCK_RESULT,
-        ...dto,
+        ...{
+          longReview: {
+            title: dto.title,
+            content: dto.content,
+          },
+        },
       };
 
       jest
-        .spyOn(service, 'updateLongReview')
+        .spyOn(repository, 'updateLongReview')
         .mockReturnValue(Promise.resolve(UPDATED_RESULT));
 
       // when
@@ -185,8 +183,8 @@ describe('LongReviewService', () => {
       const msg: string = `해당 장문 리뷰를 성공적으로 삭제하였습니다. id = ${reviewId}`;
 
       jest
-        .spyOn(service, 'deleteLongReview')
-        .mockReturnValue(Promise.resolve(msg));
+        .spyOn(repository, 'softDeleteLongReview')
+        .mockReturnValue(Promise.resolve(reviewId));
 
       // when
       const result = await service.deleteLongReview(reviewId);
