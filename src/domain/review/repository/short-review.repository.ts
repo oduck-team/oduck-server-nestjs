@@ -1,8 +1,4 @@
-import {
-  Injectable,
-  InternalServerErrorException,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import {
   IReviewQuery,
   IShortReview,
@@ -195,26 +191,14 @@ export class ShortReviewRepository {
   }
 
   private async findShortReviewById(id: number) {
-    return await this.prisma.review
-      .findUniqueOrThrow({
-        include: { shortReview: true },
-        where: {
-          id,
-          type: ReviewType.SHORT,
-          deletedAt: null,
-        },
-      })
-      .catch((e) => {
-        if (e instanceof Prisma.PrismaClientKnownRequestError) {
-          if (e.code == 'P2025') {
-            throw new NotFoundException(
-              `해당 리뷰를 찾을 수 없습니다. id: ${id}`,
-            );
-          }
-        } else {
-          throw new InternalServerErrorException(e);
-        }
-      });
+    return this.prisma.review.findUniqueOrThrow({
+      include: { shortReview: true },
+      where: {
+        id,
+        type: ReviewType.SHORT,
+        deletedAt: null,
+      },
+    });
   }
 }
 
