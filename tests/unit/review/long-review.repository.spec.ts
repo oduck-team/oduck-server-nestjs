@@ -1,7 +1,7 @@
 import { LongReviewRepository } from '../../../src/domain/review/repository/long-review.repository';
 import { Test } from '@nestjs/testing';
-import { PrismaModule } from '../../../src/global/config/prisma/prisma.module';
 import { ILongReview } from '../../../src/domain/review/reviews.interface';
+import { PrismaModule } from '../../../src/global/database/prisma/prisma.module';
 
 describe('LongReviewRepository', () => {
   let repository: LongReviewRepository;

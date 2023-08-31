@@ -1,20 +1,48 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
-import { PrismaClient } from '@prisma/client';
+import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
+import { Prisma, PrismaClient } from '@prisma/client';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
-export class PrismaService extends PrismaClient implements OnModuleInit {
-  constructor() {
+export class PrismaService
+  extends PrismaClient<Prisma.PrismaClientOptions, 'query' | 'error'>
+  implements OnModuleInit
+{
+  private readonly logger = new Logger(PrismaService.name);
+
+  constructor(private readonly configService: ConfigService) {
     super({
-      // log: ['error', 'info', 'query', 'warn'],
-      log: ['error'],
-      // log: ['query'],
+      log: [
+        {
+          emit: 'event',
+          level: 'query',
+        },
+        {
+          emit: 'event',
+          level: 'error',
+        },
+        {
+          emit: 'stdout',
+          level: 'info',
+        },
+        {
+          emit: 'stdout',
+          level: 'warn',
+        },
+      ],
     });
   }
 
-  async onModuleInit() {
-    await this.$connect();
-    this.$on('query' as never, (event) => {
-      console.log(event);
+  async onModuleInit(): Promise<void> {
+    if (this.configService.get('NODE_ENV') == 'dev') {
+      this.$on('query', (event) => {
+        this.logger.verbose(event.query, event.duration);
+      });
+    }
+
+    this.$on('error', (event) => {
+      this.logger.verbose(event.target);
     });
+
+    await this.$connect();
   }
 }
