@@ -1,4 +1,4 @@
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { LoginType, Role } from '@prisma/client';
 import { randomUUID } from 'crypto';
 import { IAuthSocial, IMemerProfile } from './interface/member.interface';
@@ -48,6 +48,7 @@ export class MemberRepository {
     const member = await this.prisma.member.findUnique({
       where: {
         id,
+        deletedAt: null,
       },
     });
     return member;
@@ -68,6 +69,7 @@ export class MemberRepository {
       select: {
         memberId: true,
         name: true,
+        info: true,
         role: true,
         point: true,
         imageUrl: true,
@@ -76,6 +78,9 @@ export class MemberRepository {
       },
       where: {
         memberId,
+        member: {
+          deletedAt: null,
+        },
       },
     });
 
@@ -96,6 +101,9 @@ export class MemberRepository {
       },
       where: {
         name,
+        member: {
+          deletedAt: null,
+        },
       },
     });
 
@@ -131,6 +139,17 @@ export class MemberRepository {
       data: {
         name: profileData.name,
         info: profileData.info,
+      },
+    });
+  }
+
+  async withdrawal(id: number): Promise<void> {
+    await this.prisma.member.update({
+      where: {
+        id,
+      },
+      data: {
+        deletedAt: new Date(),
       },
     });
   }

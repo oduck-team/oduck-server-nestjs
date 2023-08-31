@@ -1,6 +1,6 @@
 import { MemberProfile, Role } from '@prisma/client';
 import { TypedBody, TypedParam, TypedRoute } from '@nestia/core';
-import { Controller, UseGuards } from '@nestjs/common';
+import { Controller, HttpCode, UseGuards } from '@nestjs/common';
 import { UpdateNameDto, UpdateProfileDto } from './dto/RequestMember.dto';
 import { MemberService } from './member.service';
 import { RolesGuard } from 'src/global/auth/guard/roles.guard';
@@ -58,5 +58,16 @@ export class MemberController {
       ...member,
       isMine: true,
     };
+  }
+
+  /**
+   * @tag Member
+   */
+  @TypedRoute.Delete('/withdrawal')
+  @HttpCode(204)
+  @UseGuards(RolesGuard)
+  @Roles(Role.MEMBER)
+  async handleWithdrawal(@User() user: MemberProfile): Promise<void> {
+    await this.memberService.withdrawal(user.memberId);
   }
 }

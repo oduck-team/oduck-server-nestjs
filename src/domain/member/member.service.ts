@@ -61,6 +61,7 @@ export class MemberService {
     const memberProfile = await this.memberRepository.findMemberProfileByName(
       name,
     );
+
     if (memberProfile) {
       throw new ConflictException('already exist name');
     }
@@ -72,5 +73,9 @@ export class MemberService {
 
   async findAuthSocialBySocialId(socialId: string) {
     return await this.memberRepository.findAuthSocialBySocialId(socialId);
+  }
+
+  async withdrawal(id: number): Promise<void> {
+    await this.memberRepository.withdrawal(id);
   }
 }
