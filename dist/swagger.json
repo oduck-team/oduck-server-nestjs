@@ -6,7 +6,7 @@
       "description": "Local Server"
     },
     {
-      "url": "http://localhost:3030/api/v20230821",
+      "url": "http://localhost:8000/api/v20230821",
       "description": "Local Server no docker"
     }
   ],
@@ -341,7 +341,7 @@
           }
         },
         "description": "@tag Member",
-        "x-nestia-namespace": "members.profile.handleUpdateName",
+        "x-nestia-namespace": "members.profile.handleUpdateProfile",
         "x-nestia-jsDocTags": [
           {
             "name": "tag",
@@ -378,7 +378,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/MemberProfileDto"
+                  "$ref": "#/components/schemas/MemberProfileDtoWithCount"
                 }
               }
             },
@@ -399,6 +399,34 @@
           }
         ],
         "x-nestia-method": "GET"
+      }
+    },
+    "/members/withdrawal": {
+      "delete": {
+        "tags": [
+          "Member"
+        ],
+        "parameters": [],
+        "responses": {
+          "204": {
+            "description": "",
+            "x-nestia-encrypted": false
+          }
+        },
+        "description": "@tag Member",
+        "x-nestia-namespace": "members.withdrawal.handleWithdrawal",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "Member",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
+        "x-nestia-method": "DELETE"
       }
     },
     "/long-reviews": {
@@ -1009,34 +1037,6 @@
         "x-nestia-method": "GET"
       }
     },
-    "/auth/kakao/callback": {
-      "get": {
-        "tags": [
-          "Auth"
-        ],
-        "parameters": [],
-        "responses": {
-          "200": {
-            "description": "",
-            "x-nestia-encrypted": false
-          }
-        },
-        "description": "@tag Auth",
-        "x-nestia-namespace": "auth.kakao.callback.handleKakaoCallback",
-        "x-nestia-jsDocTags": [
-          {
-            "name": "tag",
-            "text": [
-              {
-                "text": "Auth",
-                "kind": "text"
-              }
-            ]
-          }
-        ],
-        "x-nestia-method": "GET"
-      }
-    },
     "/auth/naver/callback": {
       "get": {
         "tags": [
@@ -1051,6 +1051,34 @@
         },
         "description": "@tag Auth",
         "x-nestia-namespace": "auth.naver.callback.handleNaverCallback",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "Auth",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
+        "x-nestia-method": "GET"
+      }
+    },
+    "/auth/kakao/callback": {
+      "get": {
+        "tags": [
+          "Auth"
+        ],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "x-nestia-encrypted": false
+          }
+        },
+        "description": "@tag Auth",
+        "x-nestia-namespace": "auth.kakao.callback.handleKakaoCallback",
         "x-nestia-jsDocTags": [
           {
             "name": "tag",
@@ -2151,7 +2179,7 @@
         "description": "@minLength 0\n@maxLength 100\n@nullable\n@default null\n@example '안녕하세요'",
         "x-typia-jsDocTags": []
       },
-      "MemberProfileDto": {
+      "MemberProfileDtoWithCount": {
         "type": "object",
         "properties": {
           "isMine": {
@@ -2167,6 +2195,16 @@
             "x-typia-required": false,
             "x-typia-optional": true,
             "type": "boolean"
+          },
+          "reviews": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "number"
+          },
+          "reviewLikes": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "number"
           },
           "name": {
             "x-typia-required": true,
@@ -2213,6 +2251,8 @@
         },
         "nullable": false,
         "required": [
+          "reviews",
+          "reviewLikes",
           "name",
           "imageUrl",
           "createdAt",
