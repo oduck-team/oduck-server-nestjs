@@ -53,18 +53,18 @@ export class AuthController {
   /**
    * @tag Auth
    */
-  @TypedRoute.Get('kakao/callback')
-  @UseGuards(GoogleAuthGuard)
-  handleKakaoCallback(@Res() res: Response) {
+  @TypedRoute.Get('naver/callback')
+  @UseGuards(NaverAuthGuard)
+  handleNaverCallback(@Res() res: Response) {
     res.status(302).redirect(this.CLIENT_URL);
   }
 
   /**
    * @tag Auth
    */
-  @TypedRoute.Get('naver/callback')
-  @UseGuards(GoogleAuthGuard)
-  handleNaverCallback(@Res() res: Response) {
+  @TypedRoute.Get('kakao/callback')
+  @UseGuards(KakaoAuthGuard)
+  handleKakaoCallback(@Res() res: Response) {
     res.status(302).redirect(this.CLIENT_URL);
   }
 
