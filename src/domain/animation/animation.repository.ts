@@ -3,32 +3,30 @@ import { PrismaService } from '../../global/database/prisma/prisma.service';
 import { AnimationListDto } from './dto/animation.req.dto';
 import { AnimationReqDto, AnimationUpdateDto } from './dto/animation.req.dto';
 import { AnimationItemResDto } from './dto/animation.res.dto';
+import { Sort } from '../../global/common/types/sort';
 
 @Injectable()
 export class AnimationRepository {
   constructor(private prisma: PrismaService) {}
 
-  async getAnimations(
-    params: AnimationListDto,
-  ): Promise<AnimationItemResDto[]> {
+  async getAnimations(params: AnimationListDto) {
+    const search = params.search
+      ? {
+          OR: [
+            { name: { contains: params.search } },
+            { plot: { contains: params.search } },
+            { primaryKeyword: { contains: params.search } },
+          ],
+        }
+      : {};
+
     return this.prisma.animation.findMany({
-      skip: ((params.page ?? 1) - 1) * (params.length ?? 20),
-      take: params.length ?? 20,
-      // 정렬은 키와 정방향, 역방향 여부
-      //TODO:
-      // cursor: ?,
+      skip: params.lastId ? 1 : 0,
+      take: params.pageSize ?? 20,
       orderBy: {
-        [params.sortKey ?? 'createdAt']: params.sort ?? 'desc',
+        [params.sortBy ?? 'createdAt']: params.sortOrder ?? Sort.DESC,
       },
-      where: {
-        OR: params.search
-          ? [
-              { name: { contains: params.search } },
-              { plot: { contains: params.search } },
-              { primaryKeyword: { contains: params.search } },
-            ]
-          : [],
-      },
+      where: search,
       include: {
         studios: {
           select: {
@@ -46,7 +44,7 @@ export class AnimationRepository {
     });
   }
 
-  async storeAnimation(body: AnimationReqDto): Promise<AnimationItemResDto> {
+  async storeAnimation(body: AnimationReqDto) {
     // TODO: modify to store voice_actor, studio.... transaction
     const { studioNames, ...animationBody } = body;
 

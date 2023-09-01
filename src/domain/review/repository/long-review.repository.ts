@@ -3,9 +3,9 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
-import { PrismaService } from '../../../global/config/prisma/prisma.service';
 import { ILongReview, IReviewQuery, SortCondition } from '../reviews.interface';
 import { LongReviewImage, Prisma, ReviewType } from '@prisma/client';
+import { PrismaService } from '../../../global/database/prisma/prisma.service';
 
 @Injectable()
 export class LongReviewRepository {

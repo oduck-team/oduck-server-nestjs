@@ -6,7 +6,10 @@ import { PassportModule } from '@nestjs/passport';
 import { AnimationModule } from './domain/animation/animation.module';
 import { StudioModule } from './domain/studio/studio.module';
 import { ReviewsModule } from './domain/review/reviews.module';
+import { APP_FILTER } from '@nestjs/core';
 import { PrismaModule } from './global/database/prisma/prisma.module';
+import { HttpExceptionFilter } from './global/common/filter/http-exception.filter';
+import { PrismaExceptionFilter } from './global/common/filter/prisma-exception.filter';
 
 @Module({
   imports: [
@@ -30,7 +33,9 @@ import { PrismaModule } from './global/database/prisma/prisma.module';
     StudioModule,
     ReviewsModule,
   ],
-  controllers: [],
-  providers: [],
+  providers: [
+    { provide: APP_FILTER, useClass: HttpExceptionFilter },
+    { provide: APP_FILTER, useClass: PrismaExceptionFilter },
+  ],
 })
 export class AppModule {}

@@ -6,7 +6,7 @@
       "description": "Local Server"
     },
     {
-      "url": "http://localhost:8000/api/v20230821",
+      "url": "http://localhost:3030/api/v20230821",
       "description": "Local Server no docker"
     }
   ],
@@ -18,7 +18,9 @@
   "paths": {
     "/animation": {
       "post": {
-        "tags": [],
+        "tags": [
+          "admin/animation"
+        ],
         "parameters": [],
         "requestBody": {
           "description": "",
@@ -45,12 +47,25 @@
             "x-nestia-encrypted": false
           }
         },
+        "description": "@tag admin/animation",
         "x-nestia-namespace": "animation.store",
-        "x-nestia-jsDocTags": [],
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "admin/animation",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
         "x-nestia-method": "POST"
       },
       "get": {
-        "tags": [],
+        "tags": [
+          "animation"
+        ],
         "parameters": [
           {
             "name": "query",
@@ -78,14 +93,27 @@
             "x-nestia-encrypted": false
           }
         },
+        "description": "@tag animation",
         "x-nestia-namespace": "animation.getList",
-        "x-nestia-jsDocTags": [],
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "animation",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
         "x-nestia-method": "GET"
       }
     },
     "/animation/{id}": {
       "put": {
-        "tags": [],
+        "tags": [
+          "admin/animation"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -122,12 +150,25 @@
             "x-nestia-encrypted": false
           }
         },
+        "description": "@tag admin/animation",
         "x-nestia-namespace": "animation.update",
-        "x-nestia-jsDocTags": [],
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "admin/animation",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
         "x-nestia-method": "PUT"
       },
       "delete": {
-        "tags": [],
+        "tags": [
+          "admin/animation"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -152,12 +193,25 @@
             "x-nestia-encrypted": false
           }
         },
+        "description": "@tag admin/animation",
         "x-nestia-namespace": "animation.destroy",
-        "x-nestia-jsDocTags": [],
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "admin/animation",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
         "x-nestia-method": "DELETE"
       },
       "get": {
-        "tags": [],
+        "tags": [
+          "animation"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -175,15 +229,26 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/_blt__space_studios:_space__blt__space_studio:_space_GetResult_lt__blt__space_id:_space_number;_space_name:_space_string;_space_createdAt:_space_Date;_space_updatedAt:_space_Date;_space__bgt__comma__space_unknown_gt__space__and__space__blt__bgt_;_space__bgt__alt__agt_;_space__bgt__space__and__space_GetResult_lt__blt__space_id:_space_number;_space_name:_space_string;_space_plot:_space_string;_space_broadcastType:_space_BroadcastType;_space_..._space_10_space_more_space_...;_space_deletedAt:_space_Date_space__or__space_null;_space__bgt__comma__space_unknown_gt__space__and__space__blt__bgt_.Nullable"
+                  "$ref": "#/components/schemas/AnimationItemResDto"
                 }
               }
             },
             "x-nestia-encrypted": false
           }
         },
+        "description": "@tag animation",
         "x-nestia-namespace": "animation.show",
-        "x-nestia-jsDocTags": [],
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "animation",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
         "x-nestia-method": "GET"
       }
     },
@@ -338,7 +403,9 @@
     },
     "/long-reviews": {
       "get": {
-        "tags": [],
+        "tags": [
+          "long-reviews"
+        ],
         "parameters": [
           {
             "name": "query",
@@ -366,12 +433,25 @@
             "x-nestia-encrypted": false
           }
         },
+        "description": "@tag long-reviews",
         "x-nestia-namespace": "long-reviews.getLongReviewPageByAnimation",
-        "x-nestia-jsDocTags": [],
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "long-reviews",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
         "x-nestia-method": "GET"
       },
       "post": {
-        "tags": [],
+        "tags": [
+          "long-reviews"
+        ],
         "parameters": [
           {
             "name": "query",
@@ -408,14 +488,27 @@
             "x-nestia-encrypted": false
           }
         },
+        "description": "@tag long-reviews",
         "x-nestia-namespace": "long-reviews.writeLongReview",
-        "x-nestia-jsDocTags": [],
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "long-reviews",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
         "x-nestia-method": "POST"
       }
     },
     "/long-reviews/{id}": {
       "get": {
-        "tags": [],
+        "tags": [
+          "long-reviews"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -440,12 +533,25 @@
             "x-nestia-encrypted": false
           }
         },
+        "description": "@tag long-reviews",
         "x-nestia-namespace": "long-reviews.getLongReviewDetail",
-        "x-nestia-jsDocTags": [],
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "long-reviews",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
         "x-nestia-method": "GET"
       },
       "put": {
-        "tags": [],
+        "tags": [
+          "long-reviews"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -482,12 +588,25 @@
             "x-nestia-encrypted": false
           }
         },
+        "description": "@tag long-reviews",
         "x-nestia-namespace": "long-reviews.updateLongReview",
-        "x-nestia-jsDocTags": [],
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "long-reviews",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
         "x-nestia-method": "PUT"
       },
       "delete": {
-        "tags": [],
+        "tags": [
+          "long-reviews"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -512,14 +631,27 @@
             "x-nestia-encrypted": false
           }
         },
+        "description": "@tag long-reviews",
         "x-nestia-namespace": "long-reviews.deleteLongReview",
-        "x-nestia-jsDocTags": [],
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "long-reviews",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
         "x-nestia-method": "DELETE"
       }
     },
     "/short-reviews": {
       "get": {
-        "tags": [],
+        "tags": [
+          "short-reviews"
+        ],
         "parameters": [
           {
             "name": "query",
@@ -547,12 +679,25 @@
             "x-nestia-encrypted": false
           }
         },
+        "description": "@tag short-reviews",
         "x-nestia-namespace": "short-reviews.getShortReviews",
-        "x-nestia-jsDocTags": [],
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "short-reviews",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
         "x-nestia-method": "GET"
       },
       "post": {
-        "tags": [],
+        "tags": [
+          "short-reviews"
+        ],
         "parameters": [
           {
             "name": "query",
@@ -589,14 +734,27 @@
             "x-nestia-encrypted": false
           }
         },
+        "description": "@tag short-reviews",
         "x-nestia-namespace": "short-reviews.writeShortReview",
-        "x-nestia-jsDocTags": [],
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "short-reviews",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
         "x-nestia-method": "POST"
       }
     },
     "/short-reviews/{id}": {
       "patch": {
-        "tags": [],
+        "tags": [
+          "short-reviews"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -633,12 +791,25 @@
             "x-nestia-encrypted": false
           }
         },
+        "description": "@tag short-reviews",
         "x-nestia-namespace": "short-reviews.updateShortReview",
-        "x-nestia-jsDocTags": [],
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "short-reviews",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
         "x-nestia-method": "PATCH"
       },
       "delete": {
-        "tags": [],
+        "tags": [
+          "short-reviews"
+        ],
         "parameters": [
           {
             "name": "id",
@@ -663,14 +834,27 @@
             "x-nestia-encrypted": false
           }
         },
+        "description": "@tag short-reviews",
         "x-nestia-namespace": "short-reviews.deleteShortReview",
-        "x-nestia-jsDocTags": [],
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "short-reviews",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
         "x-nestia-method": "DELETE"
       }
     },
     "/studio": {
       "post": {
-        "tags": [],
+        "tags": [
+          "admin/studio"
+        ],
         "parameters": [],
         "requestBody": {
           "description": "",
@@ -697,8 +881,19 @@
             "x-nestia-encrypted": false
           }
         },
+        "description": "@tag admin/studio",
         "x-nestia-namespace": "studio.store",
-        "x-nestia-jsDocTags": [],
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "admin/studio",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
         "x-nestia-method": "POST"
       }
     },
@@ -1142,7 +1337,7 @@
             "x-typia-optional": false,
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/__type"
+              "$ref": "#/components/schemas/GetResult_lt__blt__space_id:_space_number;_space_name:_space_string;_space_createdAt:_space_Date;_space_updatedAt:_space_Date;_space__bgt__comma__space_unknown_gt__space__and__space__blt__bgt_"
             }
           },
           "name": {
@@ -1329,19 +1524,6 @@
         "nullable": false,
         "required": [
           "studios"
-        ],
-        "x-typia-jsDocTags": []
-      },
-      "__type": {
-        "type": "object",
-        "properties": {
-          "studio": {
-            "$ref": "#/components/schemas/GetResult_lt__blt__space_id:_space_number;_space_name:_space_string;_space_createdAt:_space_Date;_space_updatedAt:_space_Date;_space__bgt__comma__space_unknown_gt__space__and__space__blt__bgt_"
-          }
-        },
-        "nullable": false,
-        "required": [
-          "studio"
         ],
         "x-typia-jsDocTags": []
       },
@@ -1666,25 +1848,7 @@
       "AnimationListDto": {
         "type": "object",
         "properties": {
-          "page": {
-            "description": "@default 1",
-            "x-typia-jsDocTags": [
-              {
-                "name": "default",
-                "text": [
-                  {
-                    "text": "1",
-                    "kind": "text"
-                  }
-                ]
-              }
-            ],
-            "x-typia-required": false,
-            "x-typia-optional": true,
-            "type": "number",
-            "default": 1
-          },
-          "length": {
+          "pageSize": {
             "description": "@default 20",
             "x-typia-jsDocTags": [
               {
@@ -1702,10 +1866,61 @@
             "type": "number",
             "default": 20
           },
-          "cursor": {
+          "lastId": {
+            "description": "@description 직전 페이지 마지막 ID / empty '' 면 처음부터",
+            "x-typia-jsDocTags": [
+              {
+                "name": "description",
+                "text": [
+                  {
+                    "text": "직전 페이지 마지막 ID / empty '' 면 처음부터",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
             "x-typia-required": false,
             "x-typia-optional": true,
-            "type": "string"
+            "type": "number"
+          },
+          "sortBy": {
+            "description": "@default createdAt",
+            "x-typia-jsDocTags": [
+              {
+                "name": "default",
+                "text": [
+                  {
+                    "text": "createdAt",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": false,
+            "x-typia-optional": true,
+            "type": "string",
+            "default": "createdAt"
+          },
+          "sortOrder": {
+            "description": "@default desc\n@enum Sort",
+            "x-typia-jsDocTags": [
+              {
+                "name": "default",
+                "text": [
+                  {
+                    "text": "desc",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "enum"
+              }
+            ],
+            "x-typia-required": false,
+            "x-typia-optional": true,
+            "type": "string",
+            "default": "desc"
           },
           "search": {
             "description": "@default 바키",
@@ -1724,164 +1939,10 @@
             "x-typia-optional": true,
             "type": "string",
             "default": "바키"
-          },
-          "sortKey": {
-            "description": "@default createdAt",
-            "x-typia-jsDocTags": [
-              {
-                "name": "default",
-                "text": [
-                  {
-                    "text": "createdAt",
-                    "kind": "text"
-                  }
-                ]
-              }
-            ],
-            "x-typia-required": false,
-            "x-typia-optional": true,
-            "type": "string",
-            "default": "createdAt"
-          },
-          "sort": {
-            "description": "@default desc",
-            "x-typia-jsDocTags": [
-              {
-                "name": "default",
-                "text": [
-                  {
-                    "text": "desc",
-                    "kind": "text"
-                  }
-                ]
-              }
-            ],
-            "x-typia-required": false,
-            "x-typia-optional": true,
-            "type": "string",
-            "default": "desc"
           }
         },
         "nullable": false,
-        "description": "@default desc",
-        "x-typia-jsDocTags": []
-      },
-      "_blt__space_studios:_space__blt__space_studio:_space_GetResult_lt__blt__space_id:_space_number;_space_name:_space_string;_space_createdAt:_space_Date;_space_updatedAt:_space_Date;_space__bgt__comma__space_unknown_gt__space__and__space__blt__bgt_;_space__bgt__alt__agt_;_space__bgt__space__and__space_GetResult_lt__blt__space_id:_space_number;_space_name:_space_string;_space_plot:_space_string;_space_broadcastType:_space_BroadcastType;_space_..._space_10_space_more_space_...;_space_deletedAt:_space_Date_space__or__space_null;_space__bgt__comma__space_unknown_gt__space__and__space__blt__bgt_.Nullable": {
-        "type": "object",
-        "properties": {
-          "studios": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/__type.o1"
-            }
-          },
-          "id": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "number"
-          },
-          "name": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string"
-          },
-          "plot": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string"
-          },
-          "broadcastType": {
-            "$ref": "#/components/schemas/BroadcastType"
-          },
-          "episodeNumber": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "number"
-          },
-          "imageUrl": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string"
-          },
-          "rating": {
-            "$ref": "#/components/schemas/Rating"
-          },
-          "primaryKeyword": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string"
-          },
-          "status": {
-            "$ref": "#/components/schemas/Status"
-          },
-          "isReleased": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "boolean"
-          },
-          "viewCount": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "number"
-          },
-          "reviewCount": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "number"
-          },
-          "createdAt": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string",
-            "format": "date-time"
-          },
-          "updatedAt": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string",
-            "format": "date-time"
-          },
-          "deletedAt": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string",
-            "format": "date-time"
-          }
-        },
-        "nullable": true,
-        "required": [
-          "studios",
-          "id",
-          "name",
-          "plot",
-          "broadcastType",
-          "episodeNumber",
-          "imageUrl",
-          "rating",
-          "primaryKeyword",
-          "status",
-          "isReleased",
-          "viewCount",
-          "reviewCount",
-          "createdAt",
-          "updatedAt",
-          "deletedAt"
-        ],
-        "x-typia-jsDocTags": []
-      },
-      "__type.o1": {
-        "type": "object",
-        "properties": {
-          "studio": {
-            "$ref": "#/components/schemas/GetResult_lt__blt__space_id:_space_number;_space_name:_space_string;_space_createdAt:_space_Date;_space_updatedAt:_space_Date;_space__bgt__comma__space_unknown_gt__space__and__space__blt__bgt_"
-          }
-        },
-        "nullable": false,
-        "required": [
-          "studio"
-        ],
+        "description": "@default 바키",
         "x-typia-jsDocTags": []
       },
       "UpdateNameDto": {
@@ -2340,7 +2401,7 @@
       "MemberAnimationQueryDto": {
         "type": "object",
         "properties": {
-          "animationId": {
+          "memberId": {
             "description": "@type int",
             "x-typia-metaTags": [
               {
@@ -2363,7 +2424,7 @@
             "x-typia-optional": true,
             "type": "integer"
           },
-          "memberId": {
+          "animationId": {
             "description": "@type int",
             "x-typia-metaTags": [
               {
