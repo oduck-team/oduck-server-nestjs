@@ -149,6 +149,7 @@ describe('MemberRepository', () => {
       const MOCK_MEMBER_PROFILE = {
         memberId: 1,
         name: 'hgd',
+        info: '안녕하세요',
         role: Role.MEMBER,
         point: 0,
         imageUrl: null,
@@ -265,6 +266,21 @@ describe('MemberRepository', () => {
 
       // when
       const result = await repository.updateProfile(MOCK_ID, MOCK_PROFILE);
+
+      // then
+      expect(result).toBeUndefined();
+    });
+  });
+
+  describe('withdrawal', () => {
+    it('회원 탈퇴 후 값 반환 X.', async () => {
+      // given
+      const MOCK_ID = 1;
+
+      jest.spyOn(repository, 'withdrawal').mockReturnValue(Promise.resolve());
+
+      // when
+      const result = await repository.withdrawal(MOCK_ID);
 
       // then
       expect(result).toBeUndefined();

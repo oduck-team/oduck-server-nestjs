@@ -268,4 +268,19 @@ describe('MemberService', () => {
       expect(authSocial).toEqual(MOCK_RESULT);
     });
   });
+
+  describe('withdrawal', () => {
+    it('회원 탈퇴 후 값 반환 X.', async () => {
+      // given
+      const MOCK_ID = 1;
+
+      jest.spyOn(repository, 'withdrawal').mockReturnValue(Promise.resolve());
+
+      // when
+      const result = await service.withdrawal(MOCK_ID);
+
+      // then
+      expect(result).toBeUndefined();
+    });
+  });
 });
