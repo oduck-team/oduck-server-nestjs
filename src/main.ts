@@ -25,7 +25,7 @@ async function bootstrap() {
 
   // cors 설정
   app.enableCors({
-    origin: process.env.NODE_ENV === 'prod' ? 'https://oduck.io/' : '*',
+    origin: process.env.NODE_ENV === 'prod' ? 'https://oduck.io' : 'true',
     credentials: true,
   });
 
