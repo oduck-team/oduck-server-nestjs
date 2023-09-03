@@ -11,7 +11,6 @@ import { ShortReviewRepository } from '../repository/short-review.repository';
 export class ShortReviewService {
   constructor(private readonly shortReviewRepository: ShortReviewRepository) {}
 
-  // TODO: 작성자의 이름, 닉네임, 프로필 사진 추가
   async findShortReviewPageByQuery(
     query: ReviewPageQueryDto,
   ): Promise<ShortReviewResponseDto[]> {
@@ -25,9 +24,12 @@ export class ShortReviewService {
       sortCondition,
     );
 
-    const shortReviewDtoList: ShortReviewResponseDto[] = [];
+    let shortReviewDtoList: ShortReviewResponseDto[] = [];
     shortReviews.forEach((shortReview) => {
-      const shortReviewResponseDto = new ShortReviewResponseDto(shortReview);
+      const shortReviewResponseDto = new ShortReviewResponseDto(
+        shortReview,
+        shortReview.memberProfile,
+      );
       shortReviewDtoList.push(shortReviewResponseDto);
     });
 

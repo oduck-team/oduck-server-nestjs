@@ -1,29 +1,22 @@
 import { Prisma } from '@prisma/client';
 
-export interface IShortReview {
-  id: number;
-  memberId: number;
-  animationId: number;
-  rating: number;
-  likeCount: number;
-  createdAt: Date;
+export interface IShortReview extends Omit<IReview, 'updatedAt' | 'imageUrls'> {
   shortReview: {
     comment: string;
     hasSpoiler: boolean;
   } | null;
 }
 
-export interface ILongReview {
-  id: number;
-  memberId: number;
-  animationId: number;
-  createdAt?: Date;
-  updatedAt: Date;
-  imageUrls?: { imageUrl: string }[];
+export interface ILongReview extends Omit<IReview, 'rating' | 'likeCount'> {
   longReview: {
     title: string;
     content: string;
   } | null;
+}
+
+export interface IMemberProfile {
+  name: string;
+  imageUrl: string | null;
 }
 
 export interface IReviewQuery {
@@ -35,6 +28,18 @@ export interface IReviewQuery {
 }
 
 export type SortCondition = (typeof SORTING)[keyof typeof SORTING];
+
+interface IReview {
+  id: number;
+  memberId: number;
+  animationId: number;
+  rating: number;
+  likeCount: number;
+  createdAt?: Date;
+  updatedAt: Date;
+  imageUrls?: { imageUrl: string }[];
+  memberProfile?: IMemberProfile;
+}
 
 const SORTING = {
   CREATED: 'createdAt|desc',

@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import {
+  IMemberProfile,
   IReviewQuery,
   IShortReview,
   SortCondition,
@@ -32,7 +33,7 @@ export class ShortReviewRepository {
       sortCondition,
     );
 
-    return this.prisma.review.findMany({
+    const shortReviews: IShortReview[] = await this.prisma.review.findMany({
       select: {
         id: true,
         memberId: true,
@@ -49,6 +50,24 @@ export class ShortReviewRepository {
       },
       ...reviewQuery,
     });
+
+    // 한 애니의 한줄 리뷰 목록 조회 시 작성자의 이름, 이미지 조회
+    if (!memberId) {
+      let shortReviewsWithMember: IShortReview[] = [];
+      for (const shortReview of shortReviews) {
+        const memberProfile: IMemberProfile =
+          await this.prisma.memberProfile.findUniqueOrThrow({
+            select: {
+              name: true,
+              imageUrl: true,
+            },
+            where: { id: shortReview.memberId },
+          });
+        shortReviewsWithMember.push({ ...shortReview, ...memberProfile });
+      }
+      return shortReviewsWithMember;
+    }
+    return shortReviews;
   }
 
   async isShortReviewExist(
