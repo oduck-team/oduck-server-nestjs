@@ -40,5 +40,5 @@ const SORTING = {
   CREATED: 'createdAt|desc',
   HIGH_RATING: 'rating|desc',
   LOW_RATING: 'rating|asc',
-  // FAVORITE: 'favorite|desc',
+  FAVORITE: 'likeCount|desc',
 } as const;

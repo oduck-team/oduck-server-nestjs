@@ -11,7 +11,6 @@ import { ShortReviewRepository } from '../repository/short-review.repository';
 export class ShortReviewService {
   constructor(private readonly shortReviewRepository: ShortReviewRepository) {}
 
-  // TODO: 좋아요 순 정렬 방식 추가
   // TODO: 작성자의 이름, 닉네임, 프로필 사진 추가
   async findShortReviewPageByQuery(
     query: ReviewPageQueryDto,
