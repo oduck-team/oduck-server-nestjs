@@ -20,6 +20,8 @@ export class AuthController {
   CLIENT_URL = process.env.CLIENT_URL
     ? process.env.CLIENT_URL
     : 'http://localhost:5173/';
+
+  CLIENT_CALBACK = 'auth/callback';
   /**
    * @tag Auth
    */
@@ -47,7 +49,7 @@ export class AuthController {
   @TypedRoute.Get('google/callback')
   @UseGuards(GoogleAuthGuard)
   handleGoogleCallback(@Res() res: Response) {
-    res.status(302).redirect(this.CLIENT_URL);
+    res.status(302).redirect(this.CLIENT_URL + this.CLIENT_CALBACK);
   }
 
   /**
@@ -56,7 +58,7 @@ export class AuthController {
   @TypedRoute.Get('naver/callback')
   @UseGuards(NaverAuthGuard)
   handleNaverCallback(@Res() res: Response) {
-    res.status(302).redirect(this.CLIENT_URL);
+    res.status(302).redirect(this.CLIENT_URL + this.CLIENT_CALBACK);
   }
 
   /**
@@ -65,7 +67,7 @@ export class AuthController {
   @TypedRoute.Get('kakao/callback')
   @UseGuards(KakaoAuthGuard)
   handleKakaoCallback(@Res() res: Response) {
-    res.status(302).redirect(this.CLIENT_URL);
+    res.status(302).redirect(this.CLIENT_URL + this.CLIENT_CALBACK);
   }
 
   /**
@@ -80,7 +82,7 @@ export class AuthController {
         throw new InternalServerErrorException('Failed to logout');
       }
 
-      res.status(302).redirect('http://localhost:5173/');
+      res.status(302).redirect(this.CLIENT_URL);
     });
   }
 
