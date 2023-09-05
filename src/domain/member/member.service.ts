@@ -10,10 +10,14 @@ import {
   IMemerProfile,
 } from './interface/member.interface';
 import { LoginType } from '@prisma/client';
+import { BookmarkService } from '../bookmark/bookmark.service';
 
 @Injectable()
 export class MemberService {
-  constructor(private readonly memberRepository: MemberRepository) {}
+  constructor(
+    private readonly memberRepository: MemberRepository,
+    private readonly findBookmarks: BookmarkService,
+  ) {}
 
   async createMember(loginType: LoginType, details: IAuthSocial) {
     return await this.memberRepository.createMember(loginType, details);
@@ -55,6 +59,10 @@ export class MemberService {
     };
 
     return result;
+  }
+
+  async getBookmarks(memberId: number, query) {
+    return await this.findBookmarks.findBookmarks(memberId, query);
   }
 
   async existsMemberProfileByName(name: string) {
