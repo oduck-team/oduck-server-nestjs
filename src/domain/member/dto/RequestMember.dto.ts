@@ -1,6 +1,4 @@
-import { MemberProfile } from '@prisma/client';
-
-export interface UpdateNameDto extends Pick<MemberProfile, 'name'> {
+export interface UpdateNameDto {
   /**
    * @minLength 2
    * @maxLength 10
