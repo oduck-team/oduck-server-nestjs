@@ -10,6 +10,7 @@ import { APP_FILTER } from '@nestjs/core';
 import { PrismaModule } from './global/database/prisma/prisma.module';
 import { HttpExceptionFilter } from './global/common/filter/http-exception.filter';
 import { PrismaExceptionFilter } from './global/common/filter/prisma-exception.filter';
+import { BookmarkModule } from './domain/bookmark/bookmark.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { PrismaExceptionFilter } from './global/common/filter/prisma-exception.f
     AnimationModule,
     StudioModule,
     ReviewsModule,
+    BookmarkModule,
   ],
   providers: [
     { provide: APP_FILTER, useClass: HttpExceptionFilter },
