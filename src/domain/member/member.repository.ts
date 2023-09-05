@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { LoginType, Role } from '@prisma/client';
 import { randomUUID } from 'crypto';
 import { IAuthSocial, IMemerProfile } from './interface/member.interface';
@@ -111,19 +111,24 @@ export class MemberRepository {
   }
 
   async getMemberReviewNLikeCounts(memberId: number) {
-    const counts = await this.prisma.member.findUnique({
-      select: {
-        _count: {
-          select: {
-            reviews: true,
-            reviewLikes: true,
+    const counts = await this.prisma.member
+      .findUniqueOrThrow({
+        select: {
+          _count: {
+            select: {
+              reviews: true,
+              reviewLikes: true,
+            },
           },
         },
-      },
-      where: {
-        id: memberId,
-      },
-    });
+        where: {
+          id: memberId,
+          deletedAt: null,
+        },
+      })
+      .catch((e) => {
+        throw new NotFoundException('Member not found');
+      });
 
     return counts;
   }
