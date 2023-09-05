@@ -252,6 +252,132 @@
         "x-nestia-method": "GET"
       }
     },
+    "/bookmarks": {
+      "post": {
+        "tags": [
+          "Bookmark"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDto"
+              }
+            }
+          },
+          "required": true,
+          "x-nestia-encrypted": false
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "x-nestia-encrypted": false
+          }
+        },
+        "summary": "북마크 생성",
+        "description": "\n@tag Bookmark\n@summary 북마크 생성\n@security cookie",
+        "security": [
+          {
+            "cookie": []
+          }
+        ],
+        "x-nestia-namespace": "bookmarks.handleCreateBookmark",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "Bookmark",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "summary",
+            "text": [
+              {
+                "text": "북마크 생성",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "security",
+            "text": [
+              {
+                "text": "cookie",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
+        "x-nestia-method": "POST"
+      }
+    },
+    "/bookmarks/{id}": {
+      "delete": {
+        "tags": [
+          "Bookmark"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "schema": {
+              "type": "number"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "x-nestia-encrypted": false
+          }
+        },
+        "summary": "북마크 제거",
+        "description": "\n@tag Bookmark\n@summary 북마크 제거\n@security cookie",
+        "security": [
+          {
+            "cookie": []
+          }
+        ],
+        "x-nestia-namespace": "bookmarks.handleDeleteBookmark",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "Bookmark",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "summary",
+            "text": [
+              {
+                "text": "북마크 제거",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "security",
+            "text": [
+              {
+                "text": "cookie",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
+        "x-nestia-method": "DELETE"
+      }
+    },
     "/members/signup": {
       "post": {
         "tags": [
@@ -276,11 +402,11 @@
             "x-nestia-encrypted": false
           }
         },
-        "summary": "회원가입",
-        "description": "@tag Member\n@summary 회원가입\n@security apiCookie",
+        "summary": "회원 가입",
+        "description": "\n@tag Member\n@summary 회원 가입\n@security cookie",
         "security": [
           {
-            "apiCookie": []
+            "cookie": []
           }
         ],
         "x-nestia-namespace": "members.signup.handleSignup",
@@ -298,7 +424,7 @@
             "name": "summary",
             "text": [
               {
-                "text": "회원가입",
+                "text": "회원 가입",
                 "kind": "text"
               }
             ]
@@ -307,7 +433,7 @@
             "name": "security",
             "text": [
               {
-                "text": "apiCookie",
+                "text": "cookie",
                 "kind": "text"
               }
             ]
@@ -340,7 +466,13 @@
             "x-nestia-encrypted": false
           }
         },
-        "description": "@tag Member",
+        "summary": "회원 프로필 조회",
+        "description": "\n@tag Member\n@summary 회원 프로필 조회\n@security cookie",
+        "security": [
+          {
+            "cookie": []
+          }
+        ],
         "x-nestia-namespace": "members.profile.handleUpdateProfile",
         "x-nestia-jsDocTags": [
           {
@@ -348,6 +480,24 @@
             "text": [
               {
                 "text": "Member",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "summary",
+            "text": [
+              {
+                "text": "회원 프로필 조회",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "security",
+            "text": [
+              {
+                "text": "cookie",
                 "kind": "text"
               }
             ]
@@ -385,7 +535,13 @@
             "x-nestia-encrypted": false
           }
         },
-        "description": "@tag Member",
+        "summary": "회원 이름 변경",
+        "description": "\n@tag Member\n@summary 회원 이름 변경\n@security cookie",
+        "security": [
+          {
+            "cookie": []
+          }
+        ],
         "x-nestia-namespace": "members.handleGetProfile",
         "x-nestia-jsDocTags": [
           {
@@ -393,6 +549,24 @@
             "text": [
               {
                 "text": "Member",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "summary",
+            "text": [
+              {
+                "text": "회원 이름 변경",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "security",
+            "text": [
+              {
+                "text": "cookie",
                 "kind": "text"
               }
             ]
@@ -413,7 +587,13 @@
             "x-nestia-encrypted": false
           }
         },
-        "description": "@tag Member",
+        "summary": "회원 탈퇴",
+        "description": "\n@tag Member\n@summary 회원 탈퇴\n@security cookie",
+        "security": [
+          {
+            "cookie": []
+          }
+        ],
         "x-nestia-namespace": "members.withdrawal.handleWithdrawal",
         "x-nestia-jsDocTags": [
           {
@@ -421,6 +601,24 @@
             "text": [
               {
                 "text": "Member",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "summary",
+            "text": [
+              {
+                "text": "회원 탈퇴",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "security",
+            "text": [
+              {
+                "text": "cookie",
                 "kind": "text"
               }
             ]
@@ -1973,6 +2171,21 @@
         "description": "@default 바키",
         "x-typia-jsDocTags": []
       },
+      "CreateDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "number"
+          }
+        },
+        "nullable": false,
+        "required": [
+          "id"
+        ],
+        "x-typia-jsDocTags": []
+      },
       "UpdateNameDto": {
         "type": "object",
         "properties": {
@@ -3273,7 +3486,7 @@
       }
     },
     "securitySchemes": {
-      "apiCookie": {
+      "cookie": {
         "type": "apiKey",
         "in": "cookie",
         "name": "oDuckio.sid"
@@ -3282,7 +3495,7 @@
   },
   "security": [
     {
-      "apiCookie": []
+      "cookie": []
     }
   ]
 }
