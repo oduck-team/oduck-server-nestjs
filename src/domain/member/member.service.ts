@@ -4,8 +4,12 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { MemberRepository } from './member.repository';
-import { IAuthSocial } from './interface/member.interface';
-import { LoginType, MemberProfile } from '@prisma/client';
+import {
+  IAuthSocial,
+  IMemberProfileWithCount,
+  IMemerProfile,
+} from './interface/member.interface';
+import { LoginType } from '@prisma/client';
 
 @Injectable()
 export class MemberService {
@@ -20,15 +24,18 @@ export class MemberService {
     await this.memberRepository.signup(id, name);
   }
 
-  async updateName(id: number, name: string): Promise<void> {
-    await this.existsMemberProfileByName(name);
+  async updateProfile(
+    id: number,
+    updateProfile: Pick<IMemerProfile, 'info' | 'name'>,
+  ): Promise<void> {
+    await this.existsMemberProfileByName(updateProfile.name);
 
-    await this.memberRepository.updateName(id, name);
+    await this.memberRepository.updateProfile(id, updateProfile);
   }
 
   async findMemberProfileByName(
     name: string,
-  ): Promise<Omit<MemberProfile, 'id'>> {
+  ): Promise<IMemberProfileWithCount> {
     const memberProfile = await this.memberRepository.findMemberProfileByName(
       name,
     );
@@ -37,13 +44,24 @@ export class MemberService {
       throw new NotFoundException('Member not found');
     }
 
-    return memberProfile!;
+    const counts = await this.memberRepository.getMemberReviewNLikeCounts(
+      memberProfile.memberId,
+    );
+
+    const result = {
+      ...memberProfile,
+      reviews: counts!._count.reviews,
+      reviewLikes: counts!._count.reviewLikes,
+    };
+
+    return result;
   }
 
   async existsMemberProfileByName(name: string) {
     const memberProfile = await this.memberRepository.findMemberProfileByName(
       name,
     );
+
     if (memberProfile) {
       throw new ConflictException('already exist name');
     }
@@ -55,5 +73,9 @@ export class MemberService {
 
   async findAuthSocialBySocialId(socialId: string) {
     return await this.memberRepository.findAuthSocialBySocialId(socialId);
+  }
+
+  async withdrawal(id: number): Promise<void> {
+    await this.memberRepository.withdrawal(id);
   }
 }

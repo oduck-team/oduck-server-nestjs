@@ -1,12 +1,12 @@
 import { MemberProfile, Role } from '@prisma/client';
 import { TypedBody, TypedParam, TypedRoute } from '@nestia/core';
-import { Controller, UseGuards } from '@nestjs/common';
-import { UpdateNameDto } from './dto/RequestMember.dto';
+import { Controller, HttpCode, UseGuards } from '@nestjs/common';
+import { UpdateNameDto, UpdateProfileDto } from './dto/RequestMember.dto';
 import { MemberService } from './member.service';
 import { RolesGuard } from 'src/global/auth/guard/roles.guard';
 import { Roles } from 'src/global/common/decoratror/roles.decorator';
 import { User } from 'src/global/common/decoratror/user.decorator';
-import { MemberProfileDto } from './dto/ResponseMember.dto';
+import { MemberProfileDtoWithCount } from './dto/ResponseMember.dto';
 
 @Controller('/members')
 export class MemberController {
@@ -14,6 +14,8 @@ export class MemberController {
 
   /**
    * @tag Member
+   * @summary 회원가입
+   * @security apiCookie
    */
   @TypedRoute.Post('/signup')
   @UseGuards(RolesGuard)
@@ -28,14 +30,14 @@ export class MemberController {
   /**
    * @tag Member
    */
-  @TypedRoute.Patch('/name')
+  @TypedRoute.Patch('/profile')
   @UseGuards(RolesGuard)
   @Roles(Role.MEMBER, Role.ADMIN)
-  async handleUpdateName(
+  async handleUpdateProfile(
     @User() user: MemberProfile,
-    @TypedBody() body: UpdateNameDto,
+    @TypedBody() body: UpdateProfileDto,
   ): Promise<void> {
-    await this.memberService.updateName(user.memberId, body.name);
+    await this.memberService.updateProfile(user.memberId, body);
   }
 
   /**
@@ -45,14 +47,27 @@ export class MemberController {
   async handleGetProfile(
     @User() user: MemberProfile,
     @TypedParam('name') name: string,
-  ): Promise<MemberProfileDto> {
+  ): Promise<MemberProfileDtoWithCount> {
+    const member = await this.memberService.findMemberProfileByName(name);
+
     if (user?.name !== name) {
-      return await this.memberService.findMemberProfileByName(name);
+      return member;
     }
 
     return {
-      ...user,
+      ...member,
       isMine: true,
     };
+  }
+
+  /**
+   * @tag Member
+   */
+  @TypedRoute.Delete('/withdrawal')
+  @HttpCode(204)
+  @UseGuards(RolesGuard)
+  @Roles(Role.MEMBER)
+  async handleWithdrawal(@User() user: MemberProfile): Promise<void> {
+    await this.memberService.withdrawal(user.memberId);
   }
 }

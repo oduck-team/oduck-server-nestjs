@@ -1,6 +1,6 @@
-import { MemberProfile } from '@prisma/client';
+import { IMemberProfileWithCount } from '../interface/member.interface';
 
-export interface MemberProfileDto extends Omit<MemberProfile, 'id'> {
+export interface MemberProfileDtoWithCount extends IMemberProfileWithCount {
   /**
    *
    * @nullable
