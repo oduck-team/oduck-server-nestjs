@@ -54,6 +54,9 @@ export class MemberController {
    * @tag Member
    * @summary 회원 북마크 조회(내림차순)
    * @security apiCookie
+   * @description
+   * 최초 조회시 lastId를 보내지 않는다.
+   * lastId는 이전 조회의 마지막 id를 보내준다.
    * @example 처음 10개 조회
    * /members/bookmarks?size=10
    * @example 11번째부터 10개 조회

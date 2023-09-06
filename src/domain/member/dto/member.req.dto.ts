@@ -21,11 +21,12 @@ export interface UpdateProfileDto extends UpdateNameDto {
 
 export interface QueryDto {
   /**
-   * @minimum 1
    * @example 1
+   * @optional
    * @description 가져올 데이터의 시작 값
    */
   lastId?: number;
+
   /**
    * @minimum 1
    * @maximum 20
