@@ -277,10 +277,10 @@
           }
         },
         "summary": "북마크 생성",
-        "description": "\n@tag Bookmark\n@summary 북마크 생성\n@security cookie",
+        "description": "\n@tag Bookmark\n@summary 북마크 생성\n@security apiCookie",
         "security": [
           {
-            "cookie": []
+            "apiCookie": []
           }
         ],
         "x-nestia-namespace": "bookmarks.handleCreateBookmark",
@@ -307,7 +307,7 @@
             "name": "security",
             "text": [
               {
-                "text": "cookie",
+                "text": "apiCookie",
                 "kind": "text"
               }
             ]
@@ -339,10 +339,10 @@
           }
         },
         "summary": "북마크 제거",
-        "description": "\n@tag Bookmark\n@summary 북마크 제거\n@security cookie",
+        "description": "\n@tag Bookmark\n@summary 북마크 제거\n@security apiCookie",
         "security": [
           {
-            "cookie": []
+            "apiCookie": []
           }
         ],
         "x-nestia-namespace": "bookmarks.handleDeleteBookmark",
@@ -369,7 +369,7 @@
             "name": "security",
             "text": [
               {
-                "text": "cookie",
+                "text": "apiCookie",
                 "kind": "text"
               }
             ]
@@ -403,10 +403,10 @@
           }
         },
         "summary": "회원 가입",
-        "description": "\n@tag Member\n@summary 회원 가입\n@security cookie",
+        "description": "\n@tag Member\n@summary 회원 가입\n@security apiCookie",
         "security": [
           {
-            "cookie": []
+            "apiCookie": []
           }
         ],
         "x-nestia-namespace": "members.signup.handleSignup",
@@ -433,7 +433,7 @@
             "name": "security",
             "text": [
               {
-                "text": "cookie",
+                "text": "apiCookie",
                 "kind": "text"
               }
             ]
@@ -467,10 +467,10 @@
           }
         },
         "summary": "회원 프로필 조회",
-        "description": "\n@tag Member\n@summary 회원 프로필 조회\n@security cookie",
+        "description": "\n@tag Member\n@summary 회원 프로필 조회\n@security apiCookie",
         "security": [
           {
-            "cookie": []
+            "apiCookie": []
           }
         ],
         "x-nestia-namespace": "members.profile.handleUpdateProfile",
@@ -497,13 +497,103 @@
             "name": "security",
             "text": [
               {
-                "text": "cookie",
+                "text": "apiCookie",
                 "kind": "text"
               }
             ]
           }
         ],
         "x-nestia-method": "PATCH"
+      }
+    },
+    "/members/bookmarks": {
+      "get": {
+        "tags": [
+          "Member"
+        ],
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "$ref": "#/components/schemas/QueryDto"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/GetBookmarkListDto"
+                  }
+                }
+              }
+            },
+            "x-nestia-encrypted": false
+          }
+        },
+        "summary": "회원 북마크 조회(내림차순)",
+        "description": "\n@tag Member\n@summary 회원 북마크 조회(내림차순)\n@security apiCookie\n@example 처음 10개 조회\n/members/bookmarks?size=10\n@example 11번째부터 10개 조회\n/members/bookmarks?size=10&lastId=10",
+        "security": [
+          {
+            "apiCookie": []
+          }
+        ],
+        "x-nestia-namespace": "members.bookmarks.handleGetBookmarks",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "Member",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "summary",
+            "text": [
+              {
+                "text": "회원 북마크 조회(내림차순)",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "security",
+            "text": [
+              {
+                "text": "apiCookie",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "example",
+            "text": [
+              {
+                "text": "처음 10개 조회\n/members/bookmarks?size=10",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "example",
+            "text": [
+              {
+                "text": "11번째부터 10개 조회\n/members/bookmarks?size=10&lastId=10",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
+        "x-nestia-method": "GET"
       }
     },
     "/members/{name}": {
@@ -535,11 +625,11 @@
             "x-nestia-encrypted": false
           }
         },
-        "summary": "회원 이름 변경",
-        "description": "\n@tag Member\n@summary 회원 이름 변경\n@security cookie",
+        "summary": "회원 프로필 조회",
+        "description": "\n@tag Member\n@summary 회원 프로필 조회\n@security apiCookie",
         "security": [
           {
-            "cookie": []
+            "apiCookie": []
           }
         ],
         "x-nestia-namespace": "members.handleGetProfile",
@@ -557,7 +647,7 @@
             "name": "summary",
             "text": [
               {
-                "text": "회원 이름 변경",
+                "text": "회원 프로필 조회",
                 "kind": "text"
               }
             ]
@@ -566,7 +656,7 @@
             "name": "security",
             "text": [
               {
-                "text": "cookie",
+                "text": "apiCookie",
                 "kind": "text"
               }
             ]
@@ -588,10 +678,10 @@
           }
         },
         "summary": "회원 탈퇴",
-        "description": "\n@tag Member\n@summary 회원 탈퇴\n@security cookie",
+        "description": "\n@tag Member\n@summary 회원 탈퇴\n@security apiCookie",
         "security": [
           {
-            "cookie": []
+            "apiCookie": []
           }
         ],
         "x-nestia-namespace": "members.withdrawal.handleWithdrawal",
@@ -618,7 +708,7 @@
             "name": "security",
             "text": [
               {
-                "text": "cookie",
+                "text": "apiCookie",
                 "kind": "text"
               }
             ]
@@ -2392,6 +2482,293 @@
         "description": "@minLength 0\n@maxLength 100\n@nullable\n@default null\n@example '안녕하세요'",
         "x-typia-jsDocTags": []
       },
+      "QueryDto": {
+        "type": "object",
+        "properties": {
+          "lastId": {
+            "description": "@minimum 1\n@example 1\n@description 가져올 데이터의 시작 값",
+            "x-typia-metaTags": [
+              {
+                "kind": "minimum",
+                "value": 1
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "minimum",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "example",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "description",
+                "text": [
+                  {
+                    "text": "가져올 데이터의 시작 값",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": false,
+            "x-typia-optional": true,
+            "type": "number",
+            "minimum": 1
+          },
+          "size": {
+            "description": "@minimum 1\n@maximum 20\n@default 20\n@example 20\n@description 한번에 가져올 데이터의 양",
+            "x-typia-metaTags": [
+              {
+                "kind": "minimum",
+                "value": 1
+              },
+              {
+                "kind": "maximum",
+                "value": 20
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "minimum",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "maximum",
+                "text": [
+                  {
+                    "text": "20",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "default",
+                "text": [
+                  {
+                    "text": "20",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "example",
+                "text": [
+                  {
+                    "text": "20",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "description",
+                "text": [
+                  {
+                    "text": "한번에 가져올 데이터의 양",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "number",
+            "minimum": 1,
+            "maximum": 20,
+            "default": 20
+          }
+        },
+        "nullable": false,
+        "required": [
+          "size"
+        ],
+        "description": "@minimum 1\n@maximum 20\n@default 20\n@example 20\n@description 한번에 가져올 데이터의 양",
+        "x-typia-jsDocTags": []
+      },
+      "GetBookmarkListDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "number"
+          },
+          "memberId": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "number"
+          },
+          "animation": {
+            "$ref": "#/components/schemas/AnimationBaseDto"
+          },
+          "createdAt": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "nullable": false,
+        "required": [
+          "id",
+          "memberId",
+          "animation",
+          "createdAt"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "AnimationBaseDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "@default 바키",
+            "x-typia-jsDocTags": [
+              {
+                "name": "default",
+                "text": [
+                  {
+                    "text": "바키",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "default": "바키"
+          },
+          "plot": {
+            "description": "@default 아부지 싸움 잘하시네요?",
+            "x-typia-jsDocTags": [
+              {
+                "name": "default",
+                "text": [
+                  {
+                    "text": "아부지 싸움 잘하시네요?",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "default": "아부지 싸움 잘하시네요?"
+          },
+          "broadcastType": {
+            "$ref": "#/components/schemas/BroadcastType"
+          },
+          "episodeNumber": {
+            "description": "@default 1",
+            "x-typia-jsDocTags": [
+              {
+                "name": "default",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "number",
+            "default": 1
+          },
+          "rating": {
+            "$ref": "#/components/schemas/Rating"
+          },
+          "primaryKeyword": {
+            "description": "@default 싸움",
+            "x-typia-jsDocTags": [
+              {
+                "name": "default",
+                "text": [
+                  {
+                    "text": "싸움",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "default": "싸움"
+          },
+          "status": {
+            "$ref": "#/components/schemas/Status"
+          },
+          "isReleased": {
+            "description": "@default true",
+            "x-typia-jsDocTags": [
+              {
+                "name": "default",
+                "text": [
+                  {
+                    "text": "true",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "default": true,
+            "type": "boolean"
+          },
+          "imageUrl": {
+            "description": "@default https://placehold.co/600x400",
+            "x-typia-jsDocTags": [
+              {
+                "name": "default",
+                "text": [
+                  {
+                    "text": "https://placehold.co/600x400",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "default": "https://placehold.co/600x400"
+          }
+        },
+        "nullable": false,
+        "required": [
+          "name",
+          "plot",
+          "broadcastType",
+          "episodeNumber",
+          "rating",
+          "primaryKeyword",
+          "status",
+          "isReleased",
+          "imageUrl"
+        ],
+        "description": "@default https://placehold.co/600x400",
+        "x-typia-jsDocTags": []
+      },
       "MemberProfileDtoWithCount": {
         "type": "object",
         "properties": {
@@ -3486,7 +3863,7 @@
       }
     },
     "securitySchemes": {
-      "cookie": {
+      "apiCookie": {
         "type": "apiKey",
         "in": "cookie",
         "name": "oDuckio.sid"
@@ -3495,7 +3872,7 @@
   },
   "security": [
     {
-      "cookie": []
+      "apiCookie": []
     }
   ]
 }
