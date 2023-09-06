@@ -15,7 +15,7 @@ export class BookmarkController {
    *
    * @tag Bookmark
    * @summary 북마크 생성
-   * @security cookie
+   * @security apiCookie
    */
   @TypedRoute.Post('/')
   @UseGuards(RolesGuard)
@@ -31,7 +31,7 @@ export class BookmarkController {
    *
    * @tag Bookmark
    * @summary 북마크 제거
-   * @security cookie
+   * @security apiCookie
    */
   @TypedRoute.Delete('/:id')
   @UseGuards(RolesGuard)

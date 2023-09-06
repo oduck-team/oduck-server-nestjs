@@ -21,7 +21,7 @@ export class MemberController {
    *
    * @tag Member
    * @summary 회원 가입
-   * @security cookie
+   * @security apiCookie
    */
   @TypedRoute.Post('/signup')
   @UseGuards(RolesGuard)
@@ -37,7 +37,7 @@ export class MemberController {
    *
    * @tag Member
    * @summary 회원 프로필 조회
-   * @security cookie
+   * @security apiCookie
    */
   @TypedRoute.Patch('/profile')
   @UseGuards(RolesGuard)
@@ -52,8 +52,12 @@ export class MemberController {
   /**
    *
    * @tag Member
-   * @summary 회원 북마크 조회
-   * @security cookie
+   * @summary 회원 북마크 조회(내림차순)
+   * @security apiCookie
+   * @example 처음 10개 조회
+   * /members/bookmarks?size=10
+   * @example 11번째부터 10개 조회
+   * /members/bookmarks?size=10&lastId=10
    */
   @TypedRoute.Get('/bookmarks')
   @UseGuards(RolesGuard)
@@ -68,8 +72,8 @@ export class MemberController {
   /**
    *
    * @tag Member
-   * @summary 회원 이름 변경
-   * @security cookie
+   * @summary 회원 프로필 조회
+   * @security apiCookie
    */
   @TypedRoute.Get(':name')
   async handleGetProfile(
@@ -92,7 +96,7 @@ export class MemberController {
    *
    * @tag Member
    * @summary 회원 탈퇴
-   * @security cookie
+   * @security apiCookie
    */
   @TypedRoute.Delete('/withdrawal')
   @HttpCode(204)
