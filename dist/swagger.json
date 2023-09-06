@@ -539,7 +539,7 @@
           }
         },
         "summary": "회원 북마크 조회(내림차순)",
-        "description": "\n@tag Member\n@summary 회원 북마크 조회(내림차순)\n@security apiCookie\n@example 처음 10개 조회\n/members/bookmarks?size=10\n@example 11번째부터 10개 조회\n/members/bookmarks?size=10&lastId=10",
+        "description": "\n@tag Member\n@summary 회원 북마크 조회(내림차순)\n@security apiCookie\n@description\n최초 조회시 lastId를 보내지 않는다.\nlastId는 이전 조회의 마지막 id를 보내준다.\n@example 처음 10개 조회\n/members/bookmarks?size=10\n@example 11번째부터 10개 조회\n/members/bookmarks?size=10&lastId=10",
         "security": [
           {
             "apiCookie": []
@@ -570,6 +570,15 @@
             "text": [
               {
                 "text": "apiCookie",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "description",
+            "text": [
+              {
+                "text": "최초 조회시 lastId를 보내지 않는다.\nlastId는 이전 조회의 마지막 id를 보내준다.",
                 "kind": "text"
               }
             ]
@@ -2486,23 +2495,8 @@
         "type": "object",
         "properties": {
           "lastId": {
-            "description": "@minimum 1\n@example 1\n@description 가져올 데이터의 시작 값",
-            "x-typia-metaTags": [
-              {
-                "kind": "minimum",
-                "value": 1
-              }
-            ],
+            "description": "@example 1\n@nullable\n@optional\n@description 가져올 데이터의 시작 값",
             "x-typia-jsDocTags": [
-              {
-                "name": "minimum",
-                "text": [
-                  {
-                    "text": "1",
-                    "kind": "text"
-                  }
-                ]
-              },
               {
                 "name": "example",
                 "text": [
@@ -2511,6 +2505,12 @@
                     "kind": "text"
                   }
                 ]
+              },
+              {
+                "name": "nullable"
+              },
+              {
+                "name": "optional"
               },
               {
                 "name": "description",
@@ -2524,8 +2524,7 @@
             ],
             "x-typia-required": false,
             "x-typia-optional": true,
-            "type": "number",
-            "minimum": 1
+            "type": "number"
           },
           "size": {
             "description": "@minimum 1\n@maximum 20\n@default 20\n@example 20\n@description 한번에 가져올 데이터의 양",
@@ -2609,11 +2608,6 @@
             "x-typia-optional": false,
             "type": "number"
           },
-          "memberId": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "number"
-          },
           "animation": {
             "$ref": "#/components/schemas/AnimationBaseDto"
           },
@@ -2627,7 +2621,6 @@
         "nullable": false,
         "required": [
           "id",
-          "memberId",
           "animation",
           "createdAt"
         ],
