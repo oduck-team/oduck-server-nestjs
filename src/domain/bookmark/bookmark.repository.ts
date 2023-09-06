@@ -29,11 +29,10 @@ export class BookmarkRepository {
 
   async findBookmarks(memberId: number, query: any) {
     return await this.prisma.bookmark.findMany({
-      skip: query.lastId ? 1 : 0,
-      take: query.size,
-      cursor: query.lastId && { id: query.lastId },
-      include: {
+      select: {
+        id: true,
         animation: true,
+        createdAt: true,
       },
       where: {
         memberId,
@@ -41,6 +40,9 @@ export class BookmarkRepository {
       orderBy: {
         id: 'desc',
       },
+      skip: query.lastId ? 1 : 0,
+      take: query.size,
+      cursor: query.lastId && { id: query.lastId },
     });
   }
 
