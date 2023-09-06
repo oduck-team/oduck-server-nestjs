@@ -4,7 +4,6 @@ import {
   Injectable,
 } from '@nestjs/common';
 import { BookmarkRepository } from './bookmark.repository';
-import { IBookmark } from './interface/bookmark.interface';
 
 @Injectable()
 export class BookmarkService {
@@ -23,7 +22,7 @@ export class BookmarkService {
     await this.bookmarkRepository.createBookmark(memberId, aniId);
   }
 
-  async findBookmarks(memberId: number, query): Promise<any> {
+  async findBookmarks(memberId: number, query) {
     return await this.bookmarkRepository.findBookmarks(memberId, query);
   }
 

@@ -11,7 +11,7 @@ import { RolesGuard } from 'src/global/auth/guard/roles.guard';
 import { Roles } from 'src/global/common/decoratror/roles.decorator';
 import { User } from 'src/global/common/decoratror/user.decorator';
 import { MemberProfileDtoWithCount } from './dto/member.res.dto';
-import { GetDto } from '../bookmark/dto/bookmark.res.dto';
+import { GetBookmarkListDto } from '../bookmark/dto/bookmark.res.dto';
 
 @Controller('/members')
 export class MemberController {
@@ -61,7 +61,7 @@ export class MemberController {
   async handleGetBookmarks(
     @User() user: MemberProfile,
     @TypedQuery() query: QueryDto,
-  ): Promise<GetDto[]> {
+  ): Promise<GetBookmarkListDto[]> {
     return await this.memberService.getBookmarks(user.memberId, query);
   }
 
