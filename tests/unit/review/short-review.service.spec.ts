@@ -33,6 +33,7 @@ describe('ShortReviewService', () => {
         memberId: 123,
         animationId: 456,
         rating: 5,
+        likeCount: 0,
         createdAt: new Date(),
         shortReview: {
           comment: 'This is test',
