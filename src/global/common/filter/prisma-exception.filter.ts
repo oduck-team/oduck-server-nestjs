@@ -5,7 +5,6 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
-import { ApiResponse } from '../response/api-response';
 
 @Catch(
   Prisma.PrismaClientKnownRequestError,
@@ -49,6 +48,6 @@ export class PrismaExceptionFilter implements ExceptionFilter {
       status = HttpStatus.INTERNAL_SERVER_ERROR;
       message = exception.message.replace(/\n/g, '');
     }
-    response.status(status).json(ApiResponse.fail(status, message));
+    response.status(status).json(message);
   }
 }
