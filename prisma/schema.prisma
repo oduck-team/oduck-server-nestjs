@@ -72,9 +72,8 @@ model Animation {
   updatedAt      DateTime      @default(now()) @updatedAt
   deletedAt      DateTime?
 
-  studios AnimationStudio[]
-
-  animationGenres      AnimationGenre[]
+  studios              AnimationStudio[]
+  genres               AnimationGenre[]
   animationVoiceActors AnimationVoiceActor[]
   originalWorkers      AnimationOriginalWorker[]
   keywords             Keyword[]
@@ -83,12 +82,13 @@ model Animation {
 }
 
 model AnimationGenre {
-  id          Int @id @default(autoincrement())
   animationId Int
   genreId     Int
 
   animation Animation @relation(fields: [animationId], references: [id])
   genre     Genre     @relation(fields: [genreId], references: [id])
+
+  @@id([animationId, genreId])
 }
 
 model AnimationStudio {
@@ -119,10 +119,11 @@ model AnimationOriginalWorker {
 }
 
 model Genre {
-  id              Int              @id @default(autoincrement())
-  type            GenreType
-  createdAt       DateTime         @default(now())
-  animationGenres AnimationGenre[]
+  id        Int       @id @default(autoincrement())
+  type      GenreType @unique
+  createdAt DateTime  @default(now())
+
+  animations AnimationGenre[]
 }
 
 model Studio {

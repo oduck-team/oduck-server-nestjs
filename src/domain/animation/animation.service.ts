@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { AnimationRepository } from './animation.repository';
-import { Animation, Studio } from '@prisma/client';
+import { Animation, Genre, Season, Studio } from '@prisma/client';
 import { AnimationListDto } from './dto/animation.req.dto';
 import { AnimationReqDto, AnimationUpdateDto } from './dto/animation.req.dto';
 import { AnimationItemResDto } from './dto/animation.res.dto';
@@ -36,16 +36,25 @@ export class AnimationService {
   }
 
   private flattenStudios(
-    items: (Animation & { studios: { studio: Studio }[] })[],
+    items: (Animation & {
+      studios: { studio: Studio }[];
+      seasons: Season[];
+      genres: { genre: Genre }[];
+    })[],
   ) {
     return items.map((animation) => {
       const studios = animation.studios.map((studio) => {
         return studio.studio;
       });
 
+      const genres = animation.genres.map((genre) => {
+        return genre.genre;
+      });
+
       return {
         ...animation,
         studios,
+        genres,
       };
     });
   }

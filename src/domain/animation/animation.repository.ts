@@ -2,23 +2,38 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../global/database/prisma/prisma.service';
 import { AnimationListDto } from './dto/animation.req.dto';
 import { AnimationReqDto, AnimationUpdateDto } from './dto/animation.req.dto';
-import { AnimationItemResDto } from './dto/animation.res.dto';
 import { Sort } from '../../global/common/types/sort';
+import { Status } from '@prisma/client';
 
 @Injectable()
 export class AnimationRepository {
   constructor(private prisma: PrismaService) {}
 
+  private makeCommonIncludeQuery() {
+    return {
+      studios: {
+        select: {
+          studio: true,
+        },
+      },
+      genres: {
+        select: {
+          genre: true,
+        },
+      },
+      seasons: true,
+    };
+  }
+
   async getAnimations(params: AnimationListDto) {
-    const search = params.search
-      ? {
-          OR: [
-            { name: { contains: params.search } },
-            { plot: { contains: params.search } },
-            { primaryKeyword: { contains: params.search } },
-          ],
-        }
-      : {};
+    const search = {
+      OR: [
+        { name: { contains: params.search ?? '' } },
+        { plot: { contains: params.search ?? '' } },
+        { primaryKeyword: { contains: params.search ?? '' } },
+      ],
+      status: params.status ?? {},
+    };
 
     return this.prisma.animation.findMany({
       skip: params.lastId ? 1 : 0,
@@ -27,26 +42,20 @@ export class AnimationRepository {
         [params.sortBy ?? 'createdAt']: params.sortOrder ?? Sort.DESC,
       },
       where: search,
-      include: {
-        studios: {
-          select: {
-            studio: true,
-          },
-        },
-      },
+      include: this.makeCommonIncludeQuery(),
     });
   }
 
   async getAnimationById(id: number) {
     return this.prisma.animation.findFirst({
       where: { id },
-      include: { studios: { select: { studio: true } } },
+      include: this.makeCommonIncludeQuery(),
     });
   }
 
   async storeAnimation(body: AnimationReqDto) {
     // TODO: modify to store voice_actor, studio.... transaction
-    const { studioNames, ...animationBody } = body;
+    const { studioNames, genres, seasons, ...animationBody } = body;
 
     return this.prisma.animation.create({
       data: {
@@ -61,21 +70,27 @@ export class AnimationRepository {
             },
           })),
         },
-        // TODO: other relations
-        // TODO: other relations
-        // TODO: other relations
-      },
-      include: {
-        studios: {
-          select: {
-            studio: true,
-          },
+        genres: {
+          create: genres.map((g) => ({
+            genre: {
+              connectOrCreate: {
+                where: { type: g },
+                create: { type: g },
+              },
+            },
+          })),
+        },
+        seasons: {
+          create: seasons.map((s) => ({
+            year: s.year,
+            quarter: s.quarter,
+          })),
         },
         // TODO: other relations
         // TODO: other relations
         // TODO: other relations
-        // TODO: other relations
       },
+      include: this.makeCommonIncludeQuery(),
     });
   }
 

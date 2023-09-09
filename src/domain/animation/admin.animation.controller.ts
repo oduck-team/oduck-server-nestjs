@@ -13,6 +13,7 @@ export class AdminAnimationController {
 
   /**
    * @tag admin/animation
+   * @enum season.quarter: [1, 2, 3, 4]
    */
   @TypedRoute.Post('/')
   // @UseGuards(RolesGuard)

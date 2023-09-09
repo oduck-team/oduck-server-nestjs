@@ -1,4 +1,4 @@
-import { BroadcastType, Rating, Status } from '@prisma/client';
+import { BroadcastType, GenreType, Rating, Status } from '@prisma/client';
 
 export interface AnimationListDto {
   /**
@@ -26,6 +26,12 @@ export interface AnimationListDto {
    * @default 바키
    * */
   search?: string;
+
+  /**
+   * @enum Status
+   * @default ONGOING
+   * */
+  status?: string;
 }
 
 export interface AnimationRelationDto {
@@ -33,6 +39,17 @@ export interface AnimationRelationDto {
    * @default 가이낙스
    * */
   studioNames: string[];
+
+  /**
+   * @default 가이낙스
+   * */
+  seasons: { year: number; quarter: number }[];
+
+  /**
+   * @default FANTASY
+   * @enum GenreType
+   * */
+  genres: GenreType[];
 }
 
 export interface AnimationBaseDto {

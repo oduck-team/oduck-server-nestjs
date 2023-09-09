@@ -14,6 +14,7 @@ export class AnimationController {
 
   /**
    * @tag animation
+   * @enum status: ['FINISHED', 'ONGOING', 'UPCOMING', 'UNKNOWN']
    */
   @TypedRoute.Get('/')
   @ApiOperation({ summary: 'animation list' })
