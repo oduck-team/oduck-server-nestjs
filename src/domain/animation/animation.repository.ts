@@ -45,25 +45,6 @@ export class AnimationRepository {
       ...animationBody
     } = body;
 
-    const makeRelation = (
-      relationName: string,
-      relations: string[],
-      relationKey: string,
-      id?: number,
-    ) => {
-      return {
-        deleteMany: id ? { animationId: id } : undefined,
-        create: relations.map((s) => ({
-          [relationName]: {
-            connectOrCreate: {
-              where: { [relationKey]: s },
-              create: { [relationKey]: s },
-            },
-          },
-        })),
-      };
-    };
-
     return {
       ...animationBody,
       studios: {
