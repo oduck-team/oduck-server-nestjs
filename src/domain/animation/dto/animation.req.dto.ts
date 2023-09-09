@@ -61,6 +61,8 @@ export interface AnimationRelationDto {
    * @default 데즈카 오사무
    * */
   originalWorkers: string[];
+
+  //TODO: add keywords
 }
 
 export interface AnimationBaseDto {

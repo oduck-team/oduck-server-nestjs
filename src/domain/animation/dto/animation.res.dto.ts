@@ -13,6 +13,7 @@ export interface AnimationItemResDto extends Partial<AnimationBaseDto> {
   genres: Genre[];
   voiceActors: VoiceActor[];
   originalWorkers: OriginalWorker[];
+  // TODO: add keywords
 }
 
 export interface AnimationListResDto {

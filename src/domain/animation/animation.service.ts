@@ -34,8 +34,9 @@ export class AnimationService {
     return this.flattenStudios([item])[0];
   }
 
-  async updateById(id: number, body: AnimationUpdateDto): Promise<Animation> {
-    return await this.repository.updateAnimation(id, body);
+  async updateById(id: number, body: AnimationReqDto): Promise<Animation> {
+    const item = await this.repository.updateAnimation(id, body);
+    return this.flattenStudios([item])[0];
   }
 
   async destroyById(id: number): Promise<Animation> {
@@ -49,6 +50,7 @@ export class AnimationService {
       genres: { genre: Genre }[];
       voiceActors: { voiceActor: VoiceActor }[];
       originalWorkers: { originalWorker: OriginalWorker }[];
+      //TODO: keyword
     })[],
   ) {
     return items.map((animation) => {
@@ -68,12 +70,15 @@ export class AnimationService {
         return oWorker.originalWorker;
       });
 
+      // TODO: keyword
+
       return {
         ...animation,
         studios,
         genres,
         voiceActors,
         originalWorkers,
+        // TODO: keyword
       };
     });
   }

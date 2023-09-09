@@ -85,8 +85,8 @@ model AnimationGenre {
   animationId Int
   genreId     Int
 
-  animation Animation @relation(fields: [animationId], references: [id])
-  genre     Genre     @relation(fields: [genreId], references: [id])
+  animation Animation @relation(fields: [animationId], references: [id], onDelete: Cascade)
+  genre     Genre     @relation(fields: [genreId], references: [id], onDelete: Cascade)
 
   @@id([animationId, genreId])
 }
@@ -94,8 +94,8 @@ model AnimationGenre {
 model AnimationStudio {
   animationId Int
   studioId    Int
-  animation   Animation @relation(fields: [animationId], references: [id])
-  studio      Studio    @relation(fields: [studioId], references: [id])
+  animation   Animation @relation(fields: [animationId], references: [id], onDelete: Cascade)
+  studio      Studio    @relation(fields: [studioId], references: [id], onDelete: Cascade)
 
   @@id([animationId, studioId])
 }
@@ -104,8 +104,8 @@ model AnimationVoiceActor {
   animationId  Int
   voiceActorId Int
 
-  animation  Animation  @relation(fields: [animationId], references: [id])
-  voiceActor VoiceActor @relation(fields: [voiceActorId], references: [id])
+  animation  Animation  @relation(fields: [animationId], references: [id], onDelete: Cascade)
+  voiceActor VoiceActor @relation(fields: [voiceActorId], references: [id], onDelete: Cascade)
 
   @@id([animationId, voiceActorId])
 }
@@ -114,8 +114,8 @@ model AnimationOriginalWorker {
   animationId      Int
   originalWorkerId Int
 
-  animation      Animation      @relation(fields: [animationId], references: [id])
-  originalWorker OriginalWorker @relation(fields: [originalWorkerId], references: [id])
+  animation      Animation      @relation(fields: [animationId], references: [id], onDelete: Cascade)
+  originalWorker OriginalWorker @relation(fields: [originalWorkerId], references: [id], onDelete: Cascade)
 
   @@id([animationId, originalWorkerId])
 }
@@ -165,7 +165,7 @@ model Season {
   year        Int       @default(0)
   quarter     Int       @default(0)
   createdAt   DateTime  @default(now())
-  animation   Animation @relation(fields: [animationId], references: [id])
+  animation   Animation @relation(fields: [animationId], references: [id], onDelete: Cascade)
 }
 
 model Review {
