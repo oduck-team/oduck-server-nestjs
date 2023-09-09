@@ -50,6 +50,17 @@ export interface AnimationRelationDto {
    * @enum GenreType
    * */
   genres: GenreType[];
+
+  /**
+   * @default 타네다 리사
+   * */
+  voiceActors: string[];
+
+  /**
+   * @type string[]
+   * @default 데즈카 오사무
+   * */
+  originalWorkers: string[];
 }
 
 export interface AnimationBaseDto {

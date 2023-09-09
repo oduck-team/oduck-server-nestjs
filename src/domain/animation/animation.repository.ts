@@ -3,7 +3,6 @@ import { PrismaService } from '../../global/database/prisma/prisma.service';
 import { AnimationListDto } from './dto/animation.req.dto';
 import { AnimationReqDto, AnimationUpdateDto } from './dto/animation.req.dto';
 import { Sort } from '../../global/common/types/sort';
-import { Status } from '@prisma/client';
 
 @Injectable()
 export class AnimationRepository {
@@ -19,6 +18,16 @@ export class AnimationRepository {
       genres: {
         select: {
           genre: true,
+        },
+      },
+      voiceActors: {
+        select: {
+          voiceActor: true,
+        },
+      },
+      originalWorkers: {
+        select: {
+          originalWorker: true,
         },
       },
       seasons: true,
@@ -54,8 +63,15 @@ export class AnimationRepository {
   }
 
   async storeAnimation(body: AnimationReqDto) {
-    // TODO: modify to store voice_actor, studio.... transaction
-    const { studioNames, genres, seasons, ...animationBody } = body;
+    // TODO: modify to keywords.... transaction
+    const {
+      studioNames,
+      genres,
+      voiceActors,
+      originalWorkers,
+      seasons,
+      ...animationBody
+    } = body;
 
     return this.prisma.animation.create({
       data: {
@@ -76,6 +92,26 @@ export class AnimationRepository {
               connectOrCreate: {
                 where: { type: g },
                 create: { type: g },
+              },
+            },
+          })),
+        },
+        voiceActors: {
+          create: voiceActors.map((v) => ({
+            voiceActor: {
+              connectOrCreate: {
+                where: { name: v },
+                create: { name: v },
+              },
+            },
+          })),
+        },
+        originalWorkers: {
+          create: originalWorkers.map((o) => ({
+            originalWorker: {
+              connectOrCreate: {
+                where: { name: o },
+                create: { name: o },
               },
             },
           })),

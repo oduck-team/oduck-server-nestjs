@@ -72,13 +72,13 @@ model Animation {
   updatedAt      DateTime      @default(now()) @updatedAt
   deletedAt      DateTime?
 
-  studios              AnimationStudio[]
-  genres               AnimationGenre[]
-  animationVoiceActors AnimationVoiceActor[]
-  originalWorkers      AnimationOriginalWorker[]
-  keywords             Keyword[]
-  seasons              Season[]
-  bookmarks            Bookmark[]
+  studios         AnimationStudio[]
+  genres          AnimationGenre[]
+  voiceActors     AnimationVoiceActor[]
+  originalWorkers AnimationOriginalWorker[]
+  keywords        Keyword[]
+  seasons         Season[]
+  bookmarks       Bookmark[]
 }
 
 model AnimationGenre {
@@ -101,21 +101,23 @@ model AnimationStudio {
 }
 
 model AnimationVoiceActor {
-  id           Int @id @default(autoincrement())
   animationId  Int
   voiceActorId Int
 
   animation  Animation  @relation(fields: [animationId], references: [id])
   voiceActor VoiceActor @relation(fields: [voiceActorId], references: [id])
+
+  @@id([animationId, voiceActorId])
 }
 
 model AnimationOriginalWorker {
-  id               Int @id @default(autoincrement())
   animationId      Int
   originalWorkerId Int
 
   animation      Animation      @relation(fields: [animationId], references: [id])
   originalWorker OriginalWorker @relation(fields: [originalWorkerId], references: [id])
+
+  @@id([animationId, originalWorkerId])
 }
 
 model Genre {
@@ -136,17 +138,17 @@ model Studio {
 }
 
 model VoiceActor {
-  id                   Int                   @id @default(autoincrement())
-  name                 String
-  createdAt            DateTime              @default(now())
-  animationVoiceActors AnimationVoiceActor[]
+  id         Int                   @id @default(autoincrement())
+  name       String                @unique
+  createdAt  DateTime              @default(now())
+  animations AnimationVoiceActor[]
 }
 
 model OriginalWorker {
-  id                       Int                       @id @default(autoincrement())
-  name                     String
-  createdAt                DateTime                  @default(now())
-  animationOriginalWorkers AnimationOriginalWorker[]
+  id         Int                       @id @default(autoincrement())
+  name       String                    @unique
+  createdAt  DateTime                  @default(now())
+  animations AnimationOriginalWorker[]
 }
 
 model Keyword {

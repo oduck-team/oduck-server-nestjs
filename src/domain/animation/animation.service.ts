@@ -1,6 +1,13 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { AnimationRepository } from './animation.repository';
-import { Animation, Genre, Season, Studio } from '@prisma/client';
+import {
+  Animation,
+  Genre,
+  OriginalWorker,
+  Season,
+  Studio,
+  VoiceActor,
+} from '@prisma/client';
 import { AnimationListDto } from './dto/animation.req.dto';
 import { AnimationReqDto, AnimationUpdateDto } from './dto/animation.req.dto';
 import { AnimationItemResDto } from './dto/animation.res.dto';
@@ -40,6 +47,8 @@ export class AnimationService {
       studios: { studio: Studio }[];
       seasons: Season[];
       genres: { genre: Genre }[];
+      voiceActors: { voiceActor: VoiceActor }[];
+      originalWorkers: { originalWorker: OriginalWorker }[];
     })[],
   ) {
     return items.map((animation) => {
@@ -51,10 +60,20 @@ export class AnimationService {
         return genre.genre;
       });
 
+      const voiceActors = animation.voiceActors.map((vActor) => {
+        return vActor.voiceActor;
+      });
+
+      const originalWorkers = animation.originalWorkers.map((oWorker) => {
+        return oWorker.originalWorker;
+      });
+
       return {
         ...animation,
         studios,
         genres,
+        voiceActors,
+        originalWorkers,
       };
     });
   }

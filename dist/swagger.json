@@ -1375,6 +1375,94 @@
             "items": {
               "$ref": "#/components/schemas/GenreType"
             }
+          },
+          "voiceActors": {
+            "description": "@default 타네다 리사",
+            "x-typia-jsDocTags": [
+              {
+                "name": "default",
+                "text": [
+                  {
+                    "text": "타네다 리사",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "array",
+            "items": {
+              "description": "@default 타네다 리사",
+              "x-typia-jsDocTags": [
+                {
+                  "name": "default",
+                  "text": [
+                    {
+                      "text": "타네다 리사",
+                      "kind": "text"
+                    }
+                  ]
+                }
+              ],
+              "x-typia-required": true,
+              "x-typia-optional": false,
+              "type": "string",
+              "default": "타네다 리사"
+            }
+          },
+          "originalWorkers": {
+            "description": "@type string[]\n@default 데즈카 오사무",
+            "x-typia-jsDocTags": [
+              {
+                "name": "type",
+                "text": [
+                  {
+                    "text": "string[]",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "default",
+                "text": [
+                  {
+                    "text": "데즈카 오사무",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "array",
+            "items": {
+              "description": "@type string[]\n@default 데즈카 오사무",
+              "x-typia-jsDocTags": [
+                {
+                  "name": "type",
+                  "text": [
+                    {
+                      "text": "string[]",
+                      "kind": "text"
+                    }
+                  ]
+                },
+                {
+                  "name": "default",
+                  "text": [
+                    {
+                      "text": "데즈카 오사무",
+                      "kind": "text"
+                    }
+                  ]
+                }
+              ],
+              "x-typia-required": true,
+              "x-typia-optional": false,
+              "type": "string",
+              "default": "데즈카 오사무"
+            }
           }
         },
         "nullable": false,
@@ -1390,7 +1478,9 @@
           "imageUrl",
           "studioNames",
           "seasons",
-          "genres"
+          "genres",
+          "voiceActors",
+          "originalWorkers"
         ],
         "x-typia-jsDocTags": []
       },
@@ -1475,6 +1565,30 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/GetResult_lt__blt__space_id:_space_number;_space_animationId:_space_number;_space_year:_space_number;_space_quarter:_space_number;_space_createdAt:_space_Date;_space__bgt__comma__space_unknown_gt__space__and__space__blt__bgt_"
+            }
+          },
+          "genres": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetResult_lt__blt__space_id:_space_number;_space_type:_space_GenreType;_space_createdAt:_space_Date;_space__bgt__comma__space_unknown_gt__space__and__space__blt__bgt_"
+            }
+          },
+          "voiceActors": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetResult_lt__blt__space_id:_space_number;_space_name:_space_string;_space_createdAt:_space_Date;_space__bgt__comma__space_unknown_gt__space__and__space__blt__bgt_"
+            }
+          },
+          "originalWorkers": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetResult_lt__blt__space_id:_space_number;_space_name:_space_string;_space_createdAt:_space_Date;_space__bgt__comma__space_unknown_gt__space__and__space__blt__bgt_.o1"
             }
           },
           "name": {
@@ -1661,7 +1775,10 @@
         "nullable": false,
         "required": [
           "studios",
-          "seasons"
+          "seasons",
+          "genres",
+          "voiceActors",
+          "originalWorkers"
         ],
         "x-typia-jsDocTags": []
       },
@@ -1737,6 +1854,88 @@
           "animationId",
           "year",
           "quarter"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "GetResult_lt__blt__space_id:_space_number;_space_type:_space_GenreType;_space_createdAt:_space_Date;_space__bgt__comma__space_unknown_gt__space__and__space__blt__bgt_": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "number"
+          },
+          "createdAt": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          "type": {
+            "$ref": "#/components/schemas/GenreType"
+          }
+        },
+        "nullable": false,
+        "required": [
+          "id",
+          "createdAt",
+          "type"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "GetResult_lt__blt__space_id:_space_number;_space_name:_space_string;_space_createdAt:_space_Date;_space__bgt__comma__space_unknown_gt__space__and__space__blt__bgt_": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "number"
+          },
+          "name": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "createdAt": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "nullable": false,
+        "required": [
+          "id",
+          "name",
+          "createdAt"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "GetResult_lt__blt__space_id:_space_number;_space_name:_space_string;_space_createdAt:_space_Date;_space__bgt__comma__space_unknown_gt__space__and__space__blt__bgt_.o1": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "number"
+          },
+          "name": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "createdAt": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "nullable": false,
+        "required": [
+          "id",
+          "name",
+          "createdAt"
         ],
         "x-typia-jsDocTags": []
       },
