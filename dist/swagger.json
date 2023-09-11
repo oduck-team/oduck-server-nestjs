@@ -878,8 +878,8 @@
         "x-nestia-method": "DELETE"
       }
     },
-    "/short-reviews/{id}/like": {
-      "patch": {
+    "/short-reviews/{id}/likes": {
+      "post": {
         "tags": [
           "Short Review"
         ],
@@ -897,18 +897,11 @@
         "responses": {
           "201": {
             "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "boolean"
-                }
-              }
-            },
             "x-nestia-encrypted": false
           }
         },
         "description": "@tag Short Review",
-        "x-nestia-namespace": "short-reviews.like.likesOnShortReview",
+        "x-nestia-namespace": "short-reviews.likes.likesOnShortReview",
         "x-nestia-jsDocTags": [
           {
             "name": "tag",
@@ -920,11 +913,9 @@
             ]
           }
         ],
-        "x-nestia-method": "PATCH"
-      }
-    },
-    "/short-reviews/{id}/unlike": {
-      "patch": {
+        "x-nestia-method": "POST"
+      },
+      "delete": {
         "tags": [
           "Short Review"
         ],
@@ -940,20 +931,13 @@
           }
         ],
         "responses": {
-          "201": {
+          "204": {
             "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "boolean"
-                }
-              }
-            },
             "x-nestia-encrypted": false
           }
         },
         "description": "@tag Short Review",
-        "x-nestia-namespace": "short-reviews.unlike.unlikesOnShortReview",
+        "x-nestia-namespace": "short-reviews.likes.unlikesOnShortReview",
         "x-nestia-jsDocTags": [
           {
             "name": "tag",
@@ -965,7 +949,7 @@
             ]
           }
         ],
-        "x-nestia-method": "PATCH"
+        "x-nestia-method": "DELETE"
       }
     },
     "/studio": {
