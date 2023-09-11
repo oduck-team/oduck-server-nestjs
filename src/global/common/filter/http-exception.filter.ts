@@ -9,6 +9,8 @@ import {
 export class HttpExceptionFilter implements ExceptionFilter {
   catch(exception: HttpException, host: ArgumentsHost): void {
     const response = host.switchToHttp().getResponse();
-    response.status(exception.getStatus()).json(exception.message);
+    response.status(exception.getStatus()).json({
+      message: exception.message,
+    });
   }
 }
