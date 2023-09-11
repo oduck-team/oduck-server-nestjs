@@ -5,7 +5,12 @@ import {
   IShortReview,
   SortCondition,
 } from '../reviews.interface';
-import { AttractionElement, Prisma, ReviewType } from '@prisma/client';
+import {
+  AttractionElement,
+  Prisma,
+  ReviewLike,
+  ReviewType,
+} from '@prisma/client';
 import { PrismaService } from '../../../global/database/prisma/prisma.service';
 
 @Injectable()
@@ -53,7 +58,7 @@ export class ShortReviewRepository {
 
     // 한 애니의 한줄 리뷰 목록 조회 시 작성자의 이름, 이미지 조회
     if (!memberId) {
-      let shortReviewsWithMember: IShortReview[] = [];
+      const shortReviewsWithMember: IShortReview[] = [];
       for (const shortReview of shortReviews) {
         const memberProfile: IMemberProfile =
           await this.prisma.memberProfile.findUniqueOrThrow({
@@ -150,53 +155,46 @@ export class ShortReviewRepository {
       .then((shortReview) => shortReview.id);
   }
 
-  async createShortReviewLikes(
-    memberId: number,
-    reviewId: number,
-  ): Promise<boolean> {
+  async createShortReviewLikes(memberId, reviewId) {
     const shortReview = await this.findShortReviewById(reviewId);
-    this.prisma.reviewLike
-      .create({
+
+    await this.prisma.$transaction(async (prisma) => {
+      await prisma.reviewLike.create({
         data: {
           memberId,
           reviewId: shortReview!.id,
         },
-      })
-      .then((reviewLike) => {
-        this.prisma.review.update({
-          where: { id: reviewLike.reviewId },
-          data: { likeCount: shortReview!.likeCount + 1 },
-        });
       });
 
-    return true;
+      await prisma.review.update({
+        where: { id: shortReview!.id },
+        data: { likeCount: shortReview!.likeCount + 1 },
+      });
+    });
   }
 
-  async deleteShortReviewLikes(
-    memberId: number,
-    reviewId: number,
-  ): Promise<boolean> {
-    const shortReview = await this.findShortReviewById(reviewId);
-    this.prisma.reviewLike
-      .findFirstOrThrow({
-        where: {
-          memberId,
-          reviewId: shortReview!.id,
-        },
-      })
-      .then((reviewLike) => {
-        this.prisma.$transaction(async (prisma) => {
-          prisma.review.update({
-            where: { id: reviewLike.reviewId },
-            data: { likeCount: shortReview!.likeCount - 1 },
-          });
-          prisma.reviewLike.delete({
-            where: { id: reviewLike.id },
-          });
-        });
+  async deleteShortReviewLikes(reviewLike: ReviewLike) {
+    const shortReview = await this.findShortReviewById(reviewLike.reviewId);
+
+    await this.prisma.$transaction(async (prisma) => {
+      await prisma.reviewLike.delete({
+        where: { id: reviewLike.id },
       });
 
-    return true;
+      await prisma.review.update({
+        where: { id: reviewLike.reviewId },
+        data: { likeCount: shortReview!.likeCount - 1 },
+      });
+    });
+  }
+
+  async existShortReviewLikes(memberId: number, reviewId: number) {
+    return await this.prisma.reviewLike.findFirst({
+      where: {
+        memberId,
+        reviewId,
+      },
+    });
   }
 
   async softDeleteShortReview(id: number): Promise<number> {

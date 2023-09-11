@@ -1,4 +1,9 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  ForbiddenException,
+  Injectable,
+} from '@nestjs/common';
 import {
   CreateShortReviewDto,
   ReviewPageQueryDto,
@@ -24,7 +29,7 @@ export class ShortReviewService {
       sortCondition,
     );
 
-    let shortReviewDtoList: ShortReviewResponseDto[] = [];
+    const shortReviewDtoList: ShortReviewResponseDto[] = [];
     shortReviews.forEach((shortReview) => {
       const shortReviewResponseDto = new ShortReviewResponseDto(
         shortReview,
@@ -49,7 +54,7 @@ export class ShortReviewService {
 
     if (exist) {
       throw new BadRequestException(
-        `해당 애니메이션에 이미 작성한 한줄 리뷰가 존재합니다.`,
+        `Already exist short review this animation.`,
       );
     }
     return await this.shortReviewRepository.insertShortReview(
@@ -75,21 +80,30 @@ export class ShortReviewService {
     );
   }
 
-  async addLikesInReview(memberId: number, reviewId: number): Promise<boolean> {
-    return await this.shortReviewRepository.createShortReviewLikes(
+  async likeReview(memberId: number, reviewId: number) {
+    const reviewLike = await this.shortReviewRepository.existShortReviewLikes(
       memberId,
       reviewId,
     );
+
+    if (reviewLike) {
+      throw new ConflictException('Already bookmarked');
+    }
+
+    await this.shortReviewRepository.createShortReviewLikes(memberId, reviewId);
   }
 
-  async subjectLikesInReview(
-    memberId: number,
-    reviewId: number,
-  ): Promise<boolean> {
-    return await this.shortReviewRepository.deleteShortReviewLikes(
+  async dislikeReview(memberId: number, reviewId: number) {
+    const reviewLike = await this.shortReviewRepository.existShortReviewLikes(
       memberId,
       reviewId,
     );
+
+    if (!reviewLike) {
+      throw new ForbiddenException('Not bookmarked');
+    }
+
+    await this.shortReviewRepository.deleteShortReviewLikes(reviewLike);
   }
 
   // TODO: soft delete 할 때, AttractionPoint 를 삭제하지 않는지??

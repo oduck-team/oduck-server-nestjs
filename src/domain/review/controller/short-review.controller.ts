@@ -1,4 +1,4 @@
-import { Controller, UseGuards } from '@nestjs/common';
+import { Controller, HttpCode, UseGuards } from '@nestjs/common';
 import { TypedBody, TypedParam, TypedQuery, TypedRoute } from '@nestia/core';
 import { ShortReviewService } from '../service/short-review.service';
 import {
@@ -62,30 +62,28 @@ export class ShortReviewController {
   /**
    * @tag Short Review
    */
-  @TypedRoute.Patch('/:id/like')
+  @TypedRoute.Post('/:id/likes')
   @UseGuards(RolesGuard)
   @Roles(Role.MEMBER, Role.ADMIN)
   async likesOnShortReview(
     @User() user: MemberProfile,
     @TypedParam('id') reviewId: number,
-  ): Promise<boolean> {
-    return await this.shortReviewService.addLikesInReview(user.id, reviewId);
+  ) {
+    await this.shortReviewService.likeReview(user.memberId, reviewId);
   }
 
   /**
    * @tag Short Review
    */
-  @TypedRoute.Patch('/:id/unlike')
+  @TypedRoute.Delete('/:id/likes')
+  @HttpCode(204)
   @UseGuards(RolesGuard)
   @Roles(Role.MEMBER, Role.ADMIN)
   async unlikesOnShortReview(
     @User() user: MemberProfile,
     @TypedParam('id') reviewId: number,
-  ): Promise<boolean> {
-    return await this.shortReviewService.subjectLikesInReview(
-      user.id,
-      reviewId,
-    );
+  ) {
+    await this.shortReviewService.dislikeReview(user.memberId, reviewId);
   }
 
   /**
