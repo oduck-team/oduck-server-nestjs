@@ -1,8 +1,8 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { LoginType, Role } from '@prisma/client';
 import { randomUUID } from 'crypto';
-import { IAuthSocial } from './interface/member.interface';
-import { PrismaService } from '../../global/config/prisma/prisma.service';
+import { IAuthSocial, IMemerProfile } from './interface/member.interface';
+import { PrismaService } from '../../global/database/prisma/prisma.service';
 
 @Injectable()
 export class MemberRepository {
@@ -48,6 +48,7 @@ export class MemberRepository {
     const member = await this.prisma.member.findUnique({
       where: {
         id,
+        deletedAt: null,
       },
     });
     return member;
@@ -68,6 +69,7 @@ export class MemberRepository {
       select: {
         memberId: true,
         name: true,
+        info: true,
         role: true,
         point: true,
         imageUrl: true,
@@ -76,6 +78,9 @@ export class MemberRepository {
       },
       where: {
         memberId,
+        member: {
+          deletedAt: null,
+        },
       },
     });
 
@@ -87,6 +92,7 @@ export class MemberRepository {
       select: {
         memberId: true,
         name: true,
+        info: true,
         role: true,
         point: true,
         imageUrl: true,
@@ -95,19 +101,60 @@ export class MemberRepository {
       },
       where: {
         name,
+        member: {
+          deletedAt: null,
+        },
       },
     });
 
     return memberProfile;
   }
 
-  async updateName(id: number, name: string): Promise<void> {
+  async getMemberReviewNLikeCounts(memberId: number) {
+    const counts = await this.prisma.member
+      .findUniqueOrThrow({
+        select: {
+          _count: {
+            select: {
+              reviews: true,
+              reviewLikes: true,
+            },
+          },
+        },
+        where: {
+          id: memberId,
+          deletedAt: null,
+        },
+      })
+      .catch((e) => {
+        throw new NotFoundException('Member not found');
+      });
+
+    return counts;
+  }
+
+  async updateProfile(
+    id: number,
+    profileData: Pick<IMemerProfile, 'info' | 'name'>,
+  ): Promise<void> {
     await this.prisma.memberProfile.update({
       where: {
         memberId: id,
       },
       data: {
-        name,
+        name: profileData.name,
+        info: profileData.info,
+      },
+    });
+  }
+
+  async withdrawal(id: number): Promise<void> {
+    await this.prisma.member.update({
+      where: {
+        id,
+      },
+      data: {
+        deletedAt: new Date(),
       },
     });
   }

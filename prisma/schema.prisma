@@ -27,6 +27,7 @@ model MemberProfile {
   id        Int      @id @default(autoincrement())
   memberId  Int      @unique
   name      String
+  info      String?  @db.VarChar(100)
   role      Role     @default(GUEST)
   imageUrl  String?
   point     Int      @default(0)
