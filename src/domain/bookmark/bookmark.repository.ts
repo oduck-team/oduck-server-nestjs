@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Bookmark } from '@prisma/client';
-import { PrismaService } from 'src/global/database/prisma/prisma.service';
+import { PrismaService } from '../../global/database/prisma/prisma.service';
 
 @Injectable()
 export class BookmarkRepository {
@@ -31,7 +31,13 @@ export class BookmarkRepository {
     return await this.prisma.bookmark.findMany({
       select: {
         id: true,
-        animation: true,
+        animation: {
+          select: {
+            id: true,
+            name: true,
+            imageUrl: true,
+          },
+        },
         createdAt: true,
       },
       where: {
