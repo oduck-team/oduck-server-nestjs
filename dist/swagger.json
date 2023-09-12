@@ -509,7 +509,7 @@
     "/members/bookmarks": {
       "get": {
         "tags": [
-          "Member"
+          "Bookmark"
         ],
         "parameters": [
           {
@@ -530,7 +530,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/GetBookmarkListDto"
+                    "$ref": "#/components/schemas/__type"
                   }
                 }
               }
@@ -538,8 +538,8 @@
             "x-nestia-encrypted": false
           }
         },
-        "summary": "회원 북마크 조회(내림차순)",
-        "description": "\n@tag Member\n@summary 회원 북마크 조회(내림차순)\n@security apiCookie\n@description\n최초 조회시 lastId를 보내지 않는다.\nlastId는 이전 조회의 마지막 id를 보내준다.\n@example 처음 10개 조회\n/members/bookmarks?size=10\n@example 11번째부터 10개 조회\n/members/bookmarks?size=10&lastId=10",
+        "summary": "회원 북마크 조회",
+        "description": "\n@tag Bookmark\n@summary 회원 북마크 조회\n@security apiCookie\n@description\n최초 조회시 lastId를 보내지 않는다.\nlastId는 이전 조회의 마지막 id를 보내준다.\n@example 처음 10개 조회\n/members/bookmarks?size=10\n@example 11번째부터 10개 조회\n/members/bookmarks?size=10&lastId=10",
         "security": [
           {
             "apiCookie": []
@@ -551,7 +551,7 @@
             "name": "tag",
             "text": [
               {
-                "text": "Member",
+                "text": "Bookmark",
                 "kind": "text"
               }
             ]
@@ -560,7 +560,7 @@
             "name": "summary",
             "text": [
               {
-                "text": "회원 북마크 조회(내림차순)",
+                "text": "회원 북마크 조회",
                 "kind": "text"
               }
             ]
@@ -2495,7 +2495,7 @@
         "type": "object",
         "properties": {
           "lastId": {
-            "description": "@example 1\n@nullable\n@optional\n@description 가져올 데이터의 시작 값",
+            "description": "@example 1\n@optional\n@description 가져올 데이터의 시작 값",
             "x-typia-jsDocTags": [
               {
                 "name": "example",
@@ -2505,9 +2505,6 @@
                     "kind": "text"
                   }
                 ]
-              },
-              {
-                "name": "nullable"
               },
               {
                 "name": "optional"
@@ -2600,7 +2597,7 @@
         "description": "@minimum 1\n@maximum 20\n@default 20\n@example 20\n@description 한번에 가져올 데이터의 양",
         "x-typia-jsDocTags": []
       },
-      "GetBookmarkListDto": {
+      "__type": {
         "type": "object",
         "properties": {
           "id": {
@@ -2609,7 +2606,7 @@
             "type": "number"
           },
           "animation": {
-            "$ref": "#/components/schemas/AnimationBaseDto"
+            "$ref": "#/components/schemas/__type.o1"
           },
           "createdAt": {
             "x-typia-required": true,
@@ -2626,140 +2623,31 @@
         ],
         "x-typia-jsDocTags": []
       },
-      "AnimationBaseDto": {
+      "__type.o1": {
         "type": "object",
         "properties": {
+          "id": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "number"
+          },
           "name": {
-            "description": "@default 바키",
-            "x-typia-jsDocTags": [
-              {
-                "name": "default",
-                "text": [
-                  {
-                    "text": "바키",
-                    "kind": "text"
-                  }
-                ]
-              }
-            ],
             "x-typia-required": true,
             "x-typia-optional": false,
-            "type": "string",
-            "default": "바키"
-          },
-          "plot": {
-            "description": "@default 아부지 싸움 잘하시네요?",
-            "x-typia-jsDocTags": [
-              {
-                "name": "default",
-                "text": [
-                  {
-                    "text": "아부지 싸움 잘하시네요?",
-                    "kind": "text"
-                  }
-                ]
-              }
-            ],
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string",
-            "default": "아부지 싸움 잘하시네요?"
-          },
-          "broadcastType": {
-            "$ref": "#/components/schemas/BroadcastType"
-          },
-          "episodeNumber": {
-            "description": "@default 1",
-            "x-typia-jsDocTags": [
-              {
-                "name": "default",
-                "text": [
-                  {
-                    "text": "1",
-                    "kind": "text"
-                  }
-                ]
-              }
-            ],
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "number",
-            "default": 1
-          },
-          "rating": {
-            "$ref": "#/components/schemas/Rating"
-          },
-          "primaryKeyword": {
-            "description": "@default 싸움",
-            "x-typia-jsDocTags": [
-              {
-                "name": "default",
-                "text": [
-                  {
-                    "text": "싸움",
-                    "kind": "text"
-                  }
-                ]
-              }
-            ],
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string",
-            "default": "싸움"
-          },
-          "status": {
-            "$ref": "#/components/schemas/Status"
-          },
-          "isReleased": {
-            "description": "@default true",
-            "x-typia-jsDocTags": [
-              {
-                "name": "default",
-                "text": [
-                  {
-                    "text": "true",
-                    "kind": "text"
-                  }
-                ]
-              }
-            ],
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "default": true,
-            "type": "boolean"
+            "type": "string"
           },
           "imageUrl": {
-            "description": "@default https://placehold.co/600x400",
-            "x-typia-jsDocTags": [
-              {
-                "name": "default",
-                "text": [
-                  {
-                    "text": "https://placehold.co/600x400",
-                    "kind": "text"
-                  }
-                ]
-              }
-            ],
             "x-typia-required": true,
             "x-typia-optional": false,
-            "type": "string",
-            "default": "https://placehold.co/600x400"
+            "type": "string"
           }
         },
         "nullable": false,
         "required": [
+          "id",
           "name",
-          "plot",
-          "broadcastType",
-          "episodeNumber",
-          "rating",
-          "primaryKeyword",
-          "status",
-          "isReleased",
           "imageUrl"
         ],
-        "description": "@default https://placehold.co/600x400",
         "x-typia-jsDocTags": []
       },
       "MemberProfileDtoWithCount": {
