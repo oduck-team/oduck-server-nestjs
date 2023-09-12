@@ -432,7 +432,7 @@
     "/long-reviews": {
       "get": {
         "tags": [
-          "long-reviews"
+          "Long Review"
         ],
         "parameters": [
           {
@@ -461,14 +461,14 @@
             "x-nestia-encrypted": false
           }
         },
-        "description": "@tag long-reviews",
+        "description": "@tag Long Review",
         "x-nestia-namespace": "long-reviews.getLongReviewPageByAnimation",
         "x-nestia-jsDocTags": [
           {
             "name": "tag",
             "text": [
               {
-                "text": "long-reviews",
+                "text": "Long Review",
                 "kind": "text"
               }
             ]
@@ -478,7 +478,7 @@
       },
       "post": {
         "tags": [
-          "long-reviews"
+          "Long Review"
         ],
         "parameters": [
           {
@@ -486,7 +486,7 @@
             "in": "query",
             "description": "",
             "schema": {
-              "$ref": "#/components/schemas/MemberAnimationQueryDto"
+              "$ref": "#/components/schemas/AnimationIdQueryDto"
             },
             "required": true
           }
@@ -516,14 +516,14 @@
             "x-nestia-encrypted": false
           }
         },
-        "description": "@tag long-reviews",
+        "description": "@tag Long Review",
         "x-nestia-namespace": "long-reviews.writeLongReview",
         "x-nestia-jsDocTags": [
           {
             "name": "tag",
             "text": [
               {
-                "text": "long-reviews",
+                "text": "Long Review",
                 "kind": "text"
               }
             ]
@@ -535,7 +535,7 @@
     "/long-reviews/{id}": {
       "get": {
         "tags": [
-          "long-reviews"
+          "Long Review"
         ],
         "parameters": [
           {
@@ -561,14 +561,14 @@
             "x-nestia-encrypted": false
           }
         },
-        "description": "@tag long-reviews",
+        "description": "@tag Long Review",
         "x-nestia-namespace": "long-reviews.getLongReviewDetail",
         "x-nestia-jsDocTags": [
           {
             "name": "tag",
             "text": [
               {
-                "text": "long-reviews",
+                "text": "Long Review",
                 "kind": "text"
               }
             ]
@@ -578,7 +578,7 @@
       },
       "put": {
         "tags": [
-          "long-reviews"
+          "Long Review"
         ],
         "parameters": [
           {
@@ -616,14 +616,14 @@
             "x-nestia-encrypted": false
           }
         },
-        "description": "@tag long-reviews",
+        "description": "@tag Long Review",
         "x-nestia-namespace": "long-reviews.updateLongReview",
         "x-nestia-jsDocTags": [
           {
             "name": "tag",
             "text": [
               {
-                "text": "long-reviews",
+                "text": "Long Review",
                 "kind": "text"
               }
             ]
@@ -633,7 +633,7 @@
       },
       "delete": {
         "tags": [
-          "long-reviews"
+          "Long Review"
         ],
         "parameters": [
           {
@@ -659,14 +659,14 @@
             "x-nestia-encrypted": false
           }
         },
-        "description": "@tag long-reviews",
+        "description": "@tag Long Review",
         "x-nestia-namespace": "long-reviews.deleteLongReview",
         "x-nestia-jsDocTags": [
           {
             "name": "tag",
             "text": [
               {
-                "text": "long-reviews",
+                "text": "Long Review",
                 "kind": "text"
               }
             ]
@@ -678,7 +678,7 @@
     "/short-reviews": {
       "get": {
         "tags": [
-          "short-reviews"
+          "Short Review"
         ],
         "parameters": [
           {
@@ -707,14 +707,14 @@
             "x-nestia-encrypted": false
           }
         },
-        "description": "@tag short-reviews",
+        "description": "@tag Short Review",
         "x-nestia-namespace": "short-reviews.getShortReviews",
         "x-nestia-jsDocTags": [
           {
             "name": "tag",
             "text": [
               {
-                "text": "short-reviews",
+                "text": "Short Review",
                 "kind": "text"
               }
             ]
@@ -724,7 +724,7 @@
       },
       "post": {
         "tags": [
-          "short-reviews"
+          "Short Review"
         ],
         "parameters": [
           {
@@ -732,7 +732,7 @@
             "in": "query",
             "description": "",
             "schema": {
-              "$ref": "#/components/schemas/MemberAnimationQueryDto"
+              "$ref": "#/components/schemas/AnimationIdQueryDto"
             },
             "required": true
           }
@@ -762,14 +762,14 @@
             "x-nestia-encrypted": false
           }
         },
-        "description": "@tag short-reviews",
+        "description": "@tag Short Review",
         "x-nestia-namespace": "short-reviews.writeShortReview",
         "x-nestia-jsDocTags": [
           {
             "name": "tag",
             "text": [
               {
-                "text": "short-reviews",
+                "text": "Short Review",
                 "kind": "text"
               }
             ]
@@ -781,7 +781,7 @@
     "/short-reviews/{id}": {
       "patch": {
         "tags": [
-          "short-reviews"
+          "Short Review"
         ],
         "parameters": [
           {
@@ -819,14 +819,14 @@
             "x-nestia-encrypted": false
           }
         },
-        "description": "@tag short-reviews",
+        "description": "@tag Short Review",
         "x-nestia-namespace": "short-reviews.updateShortReview",
         "x-nestia-jsDocTags": [
           {
             "name": "tag",
             "text": [
               {
-                "text": "short-reviews",
+                "text": "Short Review",
                 "kind": "text"
               }
             ]
@@ -836,7 +836,7 @@
       },
       "delete": {
         "tags": [
-          "short-reviews"
+          "Short Review"
         ],
         "parameters": [
           {
@@ -862,14 +862,88 @@
             "x-nestia-encrypted": false
           }
         },
-        "description": "@tag short-reviews",
+        "description": "@tag Short Review",
         "x-nestia-namespace": "short-reviews.deleteShortReview",
         "x-nestia-jsDocTags": [
           {
             "name": "tag",
             "text": [
               {
-                "text": "short-reviews",
+                "text": "Short Review",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
+        "x-nestia-method": "DELETE"
+      }
+    },
+    "/short-reviews/{id}/likes": {
+      "post": {
+        "tags": [
+          "Short Review"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "schema": {
+              "type": "number"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "x-nestia-encrypted": false
+          }
+        },
+        "description": "@tag Short Review",
+        "x-nestia-namespace": "short-reviews.likes.likesOnShortReview",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "Short Review",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
+        "x-nestia-method": "POST"
+      },
+      "delete": {
+        "tags": [
+          "Short Review"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "schema": {
+              "type": "number"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "",
+            "x-nestia-encrypted": false
+          }
+        },
+        "description": "@tag Short Review",
+        "x-nestia-namespace": "short-reviews.likes.unlikesOnShortReview",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "Short Review",
                 "kind": "text"
               }
             ]
@@ -2375,7 +2449,8 @@
             "enum": [
               "createdAt|desc",
               "rating|desc",
-              "rating|asc"
+              "rating|asc",
+              "likeCount|desc"
             ]
           }
         },
@@ -2426,6 +2501,17 @@
             "x-typia-optional": true,
             "type": "string",
             "format": "date-time"
+          },
+          "memberName": {
+            "x-typia-required": false,
+            "x-typia-optional": true,
+            "type": "string"
+          },
+          "memberImage": {
+            "x-typia-required": false,
+            "x-typia-optional": true,
+            "type": "string",
+            "nullable": true
           }
         },
         "nullable": false,
@@ -2438,32 +2524,9 @@
         ],
         "x-typia-jsDocTags": []
       },
-      "MemberAnimationQueryDto": {
+      "AnimationIdQueryDto": {
         "type": "object",
         "properties": {
-          "memberId": {
-            "description": "@type int",
-            "x-typia-metaTags": [
-              {
-                "kind": "type",
-                "value": "int"
-              }
-            ],
-            "x-typia-jsDocTags": [
-              {
-                "name": "type",
-                "text": [
-                  {
-                    "text": "int",
-                    "kind": "text"
-                  }
-                ]
-              }
-            ],
-            "x-typia-required": false,
-            "x-typia-optional": true,
-            "type": "integer"
-          },
           "animationId": {
             "description": "@type int",
             "x-typia-metaTags": [
@@ -2483,12 +2546,16 @@
                 ]
               }
             ],
-            "x-typia-required": false,
-            "x-typia-optional": true,
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "integer"
           }
         },
         "nullable": false,
+        "required": [
+          "animationId"
+        ],
+        "description": "@type int",
         "x-typia-jsDocTags": []
       },
       "CreateLongReviewDto": {
@@ -2904,6 +2971,17 @@
             "x-typia-optional": true,
             "type": "string",
             "format": "date-time"
+          },
+          "memberName": {
+            "x-typia-required": false,
+            "x-typia-optional": true,
+            "type": "string"
+          },
+          "memberImage": {
+            "x-typia-required": false,
+            "x-typia-optional": true,
+            "type": "string",
+            "nullable": true
           }
         },
         "nullable": false,

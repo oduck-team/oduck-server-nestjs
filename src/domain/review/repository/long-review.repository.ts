@@ -1,8 +1,4 @@
-import {
-  Injectable,
-  InternalServerErrorException,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { ILongReview, IReviewQuery, SortCondition } from '../reviews.interface';
 import { LongReviewImage, Prisma, ReviewType } from '@prisma/client';
 import { PrismaService } from '../../../global/database/prisma/prisma.service';
@@ -215,26 +211,14 @@ export class LongReviewRepository {
   }
 
   private async findLongReviewById(id: number) {
-    return await this.prisma.review
-      .findUniqueOrThrow({
-        include: { longReview: true },
-        where: {
-          id,
-          type: ReviewType.LONG,
-          deletedAt: null,
-        },
-      })
-      .catch((e) => {
-        if (e instanceof Prisma.PrismaClientKnownRequestError) {
-          if (e.code == 'P2025') {
-            throw new NotFoundException(
-              `해당 리뷰를 찾을 수 없습니다. id: ${id}`,
-            );
-          }
-        } else {
-          throw new InternalServerErrorException(e);
-        }
-      });
+    return this.prisma.review.findUniqueOrThrow({
+      include: { longReview: true },
+      where: {
+        id,
+        type: ReviewType.LONG,
+        deletedAt: null,
+      },
+    });
   }
 }
 

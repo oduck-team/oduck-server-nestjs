@@ -24,6 +24,7 @@ describe('ShortReviewRepository', () => {
         memberId: 1,
         animationId: 1,
         rating: 5,
+        likeCount: 0,
         createdAt: new Date(),
         shortReview: {
           comment: 'This is test',

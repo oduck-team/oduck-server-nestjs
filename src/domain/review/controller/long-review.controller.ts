@@ -1,20 +1,24 @@
-import { Controller } from '@nestjs/common';
+import { Controller, UseGuards } from '@nestjs/common';
 import { LongReviewService } from '../service/long-review.service';
 import { TypedBody, TypedParam, TypedQuery, TypedRoute } from '@nestia/core';
 import {
+  AnimationIdQueryDto,
   CreateLongReviewDto,
-  MemberAnimationQueryDto,
   ReviewPageQueryDto,
   UpdateLongReviewDto,
 } from '../dto/review-request.dto';
 import { LongReviewResponseDto } from '../dto/review-response.dto';
+import { Roles } from '../../../global/common/decoratror/roles.decorator';
+import { MemberProfile, Role } from '@prisma/client';
+import { RolesGuard } from '../../../global/auth/guard/roles.guard';
+import { User } from '../../../global/common/decoratror/user.decorator';
 
 @Controller('/long-reviews')
 export class LongReviewController {
   constructor(private readonly longReviewService: LongReviewService) {}
 
   /**
-   * @tag long-reviews
+   * @tag Long Review
    */
   @TypedRoute.Get()
   async getLongReviewPageByAnimation(
@@ -24,7 +28,7 @@ export class LongReviewController {
   }
 
   /**
-   * @tag long-reviews
+   * @tag Long Review
    */
   @TypedRoute.Get('/:id')
   async getLongReviewDetail(
@@ -34,25 +38,30 @@ export class LongReviewController {
   }
 
   /**
-   * @tag long-reviews
+   * @tag Long Review
    */
   @TypedRoute.Post()
+  @UseGuards(RolesGuard)
+  @Roles(Role.MEMBER, Role.ADMIN)
   async writeLongReview(
-    @TypedQuery() query: MemberAnimationQueryDto,
+    @User() user: MemberProfile,
+    @TypedQuery() query: AnimationIdQueryDto,
     @TypedBody() dto: CreateLongReviewDto,
   ): Promise<LongReviewResponseDto> {
-    const { memberId, animationId } = query;
+    const { animationId } = query;
     return await this.longReviewService.createLongReview(
-      Number(memberId),
+      Number(user.id),
       Number(animationId),
       dto,
     );
   }
 
   /**
-   * @tag long-reviews
+   * @tag Long Review
    */
   @TypedRoute.Put('/:id')
+  @UseGuards(RolesGuard)
+  @Roles(Role.MEMBER, Role.ADMIN)
   async updateLongReview(
     @TypedParam('id') id: number,
     @TypedBody() dto: UpdateLongReviewDto,
@@ -61,9 +70,11 @@ export class LongReviewController {
   }
 
   /**
-   * @tag long-reviews
+   * @tag Long Review
    */
   @TypedRoute.Delete('/:id')
+  @UseGuards(RolesGuard)
+  @Roles(Role.MEMBER, Role.ADMIN)
   async deleteLongReview(@TypedParam('id') id: number): Promise<string> {
     return await this.longReviewService.deleteLongReview(id);
   }
