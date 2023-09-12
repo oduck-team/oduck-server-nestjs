@@ -1,10 +1,10 @@
-import { TypedBody, TypedParam, TypedRoute } from '@nestia/core';
 import { Controller, UseGuards } from '@nestjs/common';
-import { MemberProfile } from '@prisma/client';
+import { BookmarkService } from './bookmark.service';
+import { TypedBody, TypedParam, TypedRoute } from '@nestia/core';
 import { RolesGuard } from 'src/global/auth/guard/roles.guard';
 import { Roles } from 'src/global/common/decoratror/roles.decorator';
+import { MemberProfile, Role } from '@prisma/client';
 import { User } from 'src/global/common/decoratror/user.decorator';
-import { BookmarkService } from './bookmark.service';
 import { CreateDto } from './dto/bookmark.req.dto';
 
 @Controller('/bookmarks')
@@ -19,7 +19,7 @@ export class BookmarkController {
    */
   @TypedRoute.Post('/')
   @UseGuards(RolesGuard)
-  @Roles('MEMBER')
+  @Roles(Role.MEMBER)
   async handleCreateBookmark(
     @User() user: MemberProfile,
     @TypedBody() body: CreateDto,
@@ -35,7 +35,7 @@ export class BookmarkController {
    */
   @TypedRoute.Delete('/:id')
   @UseGuards(RolesGuard)
-  @Roles('MEMBER')
+  @Roles(Role.MEMBER)
   async handleDeleteBookmark(
     @User() user: MemberProfile,
     @TypedParam('id') id: number,
