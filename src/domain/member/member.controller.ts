@@ -11,11 +11,14 @@ import { RolesGuard } from 'src/global/auth/guard/roles.guard';
 import { Roles } from 'src/global/common/decoratror/roles.decorator';
 import { User } from 'src/global/common/decoratror/user.decorator';
 import { MemberProfileDtoWithCount } from './dto/member.res.dto';
-import { GetBookmarkListDto } from '../bookmark/dto/bookmark.res.dto';
+import { BookmarkService } from '../bookmark/bookmark.service';
 
 @Controller('/members')
 export class MemberController {
-  constructor(private readonly memberService: MemberService) {}
+  constructor(
+    private readonly memberService: MemberService,
+    private readonly bookmarkService: BookmarkService,
+  ) {}
 
   /**
    *
@@ -51,8 +54,8 @@ export class MemberController {
 
   /**
    *
-   * @tag Member
-   * @summary 회원 북마크 조회(내림차순)
+   * @tag Bookmark
+   * @summary 회원 북마크 조회
    * @security apiCookie
    * @description
    * 최초 조회시 lastId를 보내지 않는다.
@@ -68,8 +71,8 @@ export class MemberController {
   async handleGetBookmarks(
     @User() user: MemberProfile,
     @TypedQuery() query: QueryDto,
-  ): Promise<GetBookmarkListDto[]> {
-    return await this.memberService.getBookmarks(user.memberId, query);
+  ) {
+    return await this.bookmarkService.findBookmarks(user.memberId, query);
   }
 
   /**
