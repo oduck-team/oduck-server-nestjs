@@ -18,3 +18,21 @@ export interface UpdateProfileDto extends UpdateNameDto {
    */
   info: string | null;
 }
+
+export interface QueryDto {
+  /**
+   * @example 1
+   * @optional
+   * @description 가져올 데이터의 시작 값
+   */
+  lastId?: number;
+
+  /**
+   * @minimum 1
+   * @maximum 20
+   * @default 20
+   * @example 20
+   * @description 한번에 가져올 데이터의 양
+   */
+  size: number;
+}
