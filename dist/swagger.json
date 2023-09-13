@@ -549,7 +549,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/__type"
+                    "$ref": "#/components/schemas/__type.o1"
                   }
                 }
               }
@@ -1922,6 +1922,11 @@
       "AnimationItemResDto": {
         "type": "object",
         "properties": {
+          "id": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "number"
+          },
           "studios": {
             "x-typia-required": true,
             "x-typia-optional": false,
@@ -2145,6 +2150,7 @@
         },
         "nullable": false,
         "required": [
+          "id",
           "studios",
           "seasons",
           "genres",
@@ -2854,7 +2860,7 @@
         "description": "@minimum 1\n@maximum 20\n@default 20\n@example 20\n@description 한번에 가져올 데이터의 양",
         "x-typia-jsDocTags": []
       },
-      "__type": {
+      "__type.o1": {
         "type": "object",
         "properties": {
           "id": {
@@ -2863,7 +2869,7 @@
             "type": "number"
           },
           "animation": {
-            "$ref": "#/components/schemas/__type.o1"
+            "$ref": "#/components/schemas/__type.o2"
           },
           "createdAt": {
             "x-typia-required": true,
@@ -2880,7 +2886,7 @@
         ],
         "x-typia-jsDocTags": []
       },
-      "__type.o1": {
+      "__type.o2": {
         "type": "object",
         "properties": {
           "id": {

@@ -8,6 +8,7 @@ import {
 } from '@prisma/client';
 
 export interface AnimationItemResDto extends Partial<AnimationBaseDto> {
+  id: number;
   studios: Studio[];
   seasons: Season[];
   genres: Genre[];

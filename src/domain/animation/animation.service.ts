@@ -3,6 +3,7 @@ import { AnimationRepository } from './animation.repository';
 import {
   Animation,
   Genre,
+  MemberProfile,
   OriginalWorker,
   Season,
   Studio,
@@ -16,13 +17,16 @@ import { AnimationItemResDto } from './dto/animation.res.dto';
 export class AnimationService {
   constructor(private repository: AnimationRepository) {}
 
-  async getList(query: AnimationListDto): Promise<AnimationItemResDto[]> {
-    const items = await this.repository.getAnimations(query);
+  async getList(
+    user: MemberProfile,
+    query: AnimationListDto,
+  ): Promise<AnimationItemResDto[]> {
+    const items = await this.repository.getAnimations(user.role, query);
     return this.flattenStudios(items);
   }
 
-  async getOneById(id: number) {
-    const item = await this.repository.getAnimationById(id);
+  async getOneById(user: MemberProfile, id: number) {
+    const item = await this.repository.getAnimationById(user.role, id);
 
     if (!item) throw new NotFoundException();
 

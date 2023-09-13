@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PrismaService } from '../../global/database/prisma/prisma.service';
 import { AnimationListDto } from './dto/animation.req.dto';
 import { AnimationReqDto } from './dto/animation.req.dto';
 import { Sort } from '../../global/common/types/sort';
+import { Role } from '@prisma/client';
 
 @Injectable()
 export class AnimationRepository {
@@ -103,7 +104,7 @@ export class AnimationRepository {
     };
   }
 
-  async getAnimations(params: AnimationListDto) {
+  async getAnimations(role: Role, params: AnimationListDto) {
     const search = {
       OR: [
         { name: { contains: params.search ?? '' } },
@@ -111,6 +112,7 @@ export class AnimationRepository {
         { primaryKeyword: { contains: params.search ?? '' } },
       ],
       status: params.status ?? {},
+      isReleased: role === Role.ADMIN ? {} : true,
     };
 
     return this.prisma.animation.findMany({
@@ -124,11 +126,16 @@ export class AnimationRepository {
     });
   }
 
-  async getAnimationById(id: number) {
-    return this.prisma.animation.findFirst({
+  async getAnimationById(role: Role, id: number) {
+    const animation = await this.prisma.animation.findFirst({
       where: { id },
       include: this.makeCommonIncludeQuery(),
     });
+
+    if (role !== Role.ADMIN && !animation?.isReleased)
+      throw new UnauthorizedException('NotReleased');
+
+    return animation;
   }
 
   async storeAnimation(body: AnimationReqDto) {

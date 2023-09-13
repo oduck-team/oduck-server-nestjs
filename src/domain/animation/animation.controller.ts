@@ -6,7 +6,8 @@ import { ApiOperation } from '@nestjs/swagger';
 import { AnimationItemResDto } from './dto/animation.res.dto';
 import { RolesGuard } from '../../global/auth/guard/roles.guard';
 import { Roles } from '../../global/common/decoratror/roles.decorator';
-import { Role } from '@prisma/client';
+import { MemberProfile, Role } from '@prisma/client';
+import { User } from '../../global/common/decoratror/user.decorator';
 
 @Controller('animation')
 export class AnimationController {
@@ -18,21 +19,25 @@ export class AnimationController {
    */
   @TypedRoute.Get('/')
   @ApiOperation({ summary: 'animation list' })
-  // @UseGuards(RolesGuard)
-  // @Roles(Role.MEMBER, Role.ADMIN)
+  @UseGuards(RolesGuard)
+  @Roles(Role.MEMBER, Role.ADMIN)
   async getList(
+    @User() user: MemberProfile,
     @TypedQuery() query: AnimationListDto,
   ): Promise<AnimationItemResDto[]> {
-    return this.service.getList(query);
+    return this.service.getList(user, query);
   }
 
   /**
    * @tag animation
    */
   @TypedRoute.Get('/:id')
-  // @UseGuards(RolesGuard)
-  // @Roles(Role.MEMBER, Role.ADMIN)
-  async show(@TypedParam('id') id: number): Promise<AnimationItemResDto> {
-    return this.service.getOneById(id);
+  @UseGuards(RolesGuard)
+  @Roles(Role.MEMBER, Role.ADMIN)
+  async show(
+    @User() user: MemberProfile,
+    @TypedParam('id') id: number,
+  ): Promise<AnimationItemResDto> {
+    return this.service.getOneById(user, id);
   }
 }
