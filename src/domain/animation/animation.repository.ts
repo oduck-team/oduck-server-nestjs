@@ -47,6 +47,7 @@ export class AnimationRepository {
 
     return {
       ...animationBody,
+
       studios: {
         deleteMany: id ? { animationId: id } : undefined,
         create: studioNames.map((s) => ({
