@@ -71,6 +71,7 @@ export class MemberController {
   async handleGetBookmarks(
     @User() user: MemberProfile,
     @TypedQuery() query: QueryDto,
+    // TODO: 정렬 추가하기
   ) {
     return await this.bookmarkService.findBookmarks(user.memberId, query);
   }
