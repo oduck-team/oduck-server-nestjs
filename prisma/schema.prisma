@@ -72,57 +72,60 @@ model Animation {
   updatedAt      DateTime      @default(now()) @updatedAt
   deletedAt      DateTime?
 
-  studios AnimationStudio[]
-
-  animationGenres      AnimationGenre[]
-  animationVoiceActors AnimationVoiceActor[]
-  originalWorkers      AnimationOriginalWorker[]
-  keywords             Keyword[]
-  seasons              Season[]
-  bookmarks            Bookmark[]
+  studios         AnimationStudio[]
+  genres          AnimationGenre[]
+  voiceActors     AnimationVoiceActor[]
+  originalWorkers AnimationOriginalWorker[]
+  keywords        Keyword[]
+  seasons         Season[]
+  bookmarks       Bookmark[]
 }
 
 model AnimationGenre {
-  id          Int @id @default(autoincrement())
   animationId Int
   genreId     Int
 
-  animation Animation @relation(fields: [animationId], references: [id])
-  genre     Genre     @relation(fields: [genreId], references: [id])
+  animation Animation @relation(fields: [animationId], references: [id], onDelete: Cascade)
+  genre     Genre     @relation(fields: [genreId], references: [id], onDelete: Cascade)
+
+  @@id([animationId, genreId])
 }
 
 model AnimationStudio {
   animationId Int
   studioId    Int
-  animation   Animation @relation(fields: [animationId], references: [id])
-  studio      Studio    @relation(fields: [studioId], references: [id])
+  animation   Animation @relation(fields: [animationId], references: [id], onDelete: Cascade)
+  studio      Studio    @relation(fields: [studioId], references: [id], onDelete: Cascade)
 
   @@id([animationId, studioId])
 }
 
 model AnimationVoiceActor {
-  id           Int @id @default(autoincrement())
   animationId  Int
   voiceActorId Int
 
-  animation  Animation  @relation(fields: [animationId], references: [id])
-  voiceActor VoiceActor @relation(fields: [voiceActorId], references: [id])
+  animation  Animation  @relation(fields: [animationId], references: [id], onDelete: Cascade)
+  voiceActor VoiceActor @relation(fields: [voiceActorId], references: [id], onDelete: Cascade)
+
+  @@id([animationId, voiceActorId])
 }
 
 model AnimationOriginalWorker {
-  id               Int @id @default(autoincrement())
   animationId      Int
   originalWorkerId Int
 
-  animation      Animation      @relation(fields: [animationId], references: [id])
-  originalWorker OriginalWorker @relation(fields: [originalWorkerId], references: [id])
+  animation      Animation      @relation(fields: [animationId], references: [id], onDelete: Cascade)
+  originalWorker OriginalWorker @relation(fields: [originalWorkerId], references: [id], onDelete: Cascade)
+
+  @@id([animationId, originalWorkerId])
 }
 
 model Genre {
-  id              Int              @id @default(autoincrement())
-  type            GenreType
-  createdAt       DateTime         @default(now())
-  animationGenres AnimationGenre[]
+  id        Int       @id @default(autoincrement())
+  type      GenreType @unique
+  createdAt DateTime  @default(now())
+
+  animations AnimationGenre[]
 }
 
 model Studio {
@@ -135,17 +138,17 @@ model Studio {
 }
 
 model VoiceActor {
-  id                   Int                   @id @default(autoincrement())
-  name                 String
-  createdAt            DateTime              @default(now())
-  animationVoiceActors AnimationVoiceActor[]
+  id         Int                   @id @default(autoincrement())
+  name       String                @unique
+  createdAt  DateTime              @default(now())
+  animations AnimationVoiceActor[]
 }
 
 model OriginalWorker {
-  id                       Int                       @id @default(autoincrement())
-  name                     String
-  createdAt                DateTime                  @default(now())
-  animationOriginalWorkers AnimationOriginalWorker[]
+  id         Int                       @id @default(autoincrement())
+  name       String                    @unique
+  createdAt  DateTime                  @default(now())
+  animations AnimationOriginalWorker[]
 }
 
 model Keyword {
@@ -162,7 +165,7 @@ model Season {
   year        Int       @default(0)
   quarter     Int       @default(0)
   createdAt   DateTime  @default(now())
-  animation   Animation @relation(fields: [animationId], references: [id])
+  animation   Animation @relation(fields: [animationId], references: [id], onDelete: Cascade)
 }
 
 model Review {

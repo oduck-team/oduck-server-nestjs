@@ -1,6 +1,14 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { AnimationRepository } from './animation.repository';
-import { Animation, Studio } from '@prisma/client';
+import {
+  Animation,
+  Genre,
+  MemberProfile,
+  OriginalWorker,
+  Season,
+  Studio,
+  VoiceActor,
+} from '@prisma/client';
 import { AnimationListDto } from './dto/animation.req.dto';
 import { AnimationReqDto, AnimationUpdateDto } from './dto/animation.req.dto';
 import { AnimationItemResDto } from './dto/animation.res.dto';
@@ -9,13 +17,16 @@ import { AnimationItemResDto } from './dto/animation.res.dto';
 export class AnimationService {
   constructor(private repository: AnimationRepository) {}
 
-  async getList(query: AnimationListDto): Promise<AnimationItemResDto[]> {
-    const items = await this.repository.getAnimations(query);
+  async getList(
+    user: MemberProfile,
+    query: AnimationListDto,
+  ): Promise<AnimationItemResDto[]> {
+    const items = await this.repository.getAnimations(user.role, query);
     return this.flattenStudios(items);
   }
 
-  async getOneById(id: number) {
-    const item = await this.repository.getAnimationById(id);
+  async getOneById(user: MemberProfile, id: number) {
+    const item = await this.repository.getAnimationById(user.role, id);
 
     if (!item) throw new NotFoundException();
 
@@ -27,8 +38,9 @@ export class AnimationService {
     return this.flattenStudios([item])[0];
   }
 
-  async updateById(id: number, body: AnimationUpdateDto): Promise<Animation> {
-    return await this.repository.updateAnimation(id, body);
+  async updateById(id: number, body: AnimationReqDto): Promise<Animation> {
+    const item = await this.repository.updateAnimation(id, body);
+    return this.flattenStudios([item])[0];
   }
 
   async destroyById(id: number): Promise<Animation> {
@@ -36,16 +48,41 @@ export class AnimationService {
   }
 
   private flattenStudios(
-    items: (Animation & { studios: { studio: Studio }[] })[],
+    items: (Animation & {
+      studios: { studio: Studio }[];
+      seasons: Season[];
+      genres: { genre: Genre }[];
+      voiceActors: { voiceActor: VoiceActor }[];
+      originalWorkers: { originalWorker: OriginalWorker }[];
+      //TODO: keyword
+    })[],
   ) {
     return items.map((animation) => {
       const studios = animation.studios.map((studio) => {
         return studio.studio;
       });
 
+      const genres = animation.genres.map((genre) => {
+        return genre.genre;
+      });
+
+      const voiceActors = animation.voiceActors.map((vActor) => {
+        return vActor.voiceActor;
+      });
+
+      const originalWorkers = animation.originalWorkers.map((oWorker) => {
+        return oWorker.originalWorker;
+      });
+
+      // TODO: keyword
+
       return {
         ...animation,
         studios,
+        genres,
+        voiceActors,
+        originalWorkers,
+        // TODO: keyword
       };
     });
   }
