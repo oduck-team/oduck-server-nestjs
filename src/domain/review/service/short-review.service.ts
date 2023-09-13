@@ -1,4 +1,9 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  ConflictException,
+  ForbiddenException,
+  Injectable,
+} from '@nestjs/common';
 import {
   CreateShortReviewDto,
   ReviewPageQueryDto,
@@ -11,8 +16,6 @@ import { ShortReviewRepository } from '../repository/short-review.repository';
 export class ShortReviewService {
   constructor(private readonly shortReviewRepository: ShortReviewRepository) {}
 
-  // TODO: 좋아요 순 정렬 방식 추가
-  // TODO: 작성자의 이름, 닉네임, 프로필 사진 추가
   async findShortReviewPageByQuery(
     query: ReviewPageQueryDto,
   ): Promise<ShortReviewResponseDto[]> {
@@ -28,7 +31,10 @@ export class ShortReviewService {
 
     const shortReviewDtoList: ShortReviewResponseDto[] = [];
     shortReviews.forEach((shortReview) => {
-      const shortReviewResponseDto = new ShortReviewResponseDto(shortReview);
+      const shortReviewResponseDto = new ShortReviewResponseDto(
+        shortReview,
+        shortReview.memberProfile,
+      );
       shortReviewDtoList.push(shortReviewResponseDto);
     });
 
@@ -48,7 +54,7 @@ export class ShortReviewService {
 
     if (exist) {
       throw new BadRequestException(
-        `해당 애니메이션에 이미 작성한 한줄 리뷰가 존재합니다.`,
+        `Already exist short review this animation.`,
       );
     }
     return await this.shortReviewRepository.insertShortReview(
@@ -72,6 +78,32 @@ export class ShortReviewService {
       comment,
       hasSpoiler,
     );
+  }
+
+  async likeReview(memberId: number, reviewId: number) {
+    const reviewLike = await this.shortReviewRepository.existShortReviewLikes(
+      memberId,
+      reviewId,
+    );
+
+    if (reviewLike) {
+      throw new ConflictException('Already bookmarked');
+    }
+
+    await this.shortReviewRepository.createShortReviewLikes(memberId, reviewId);
+  }
+
+  async dislikeReview(memberId: number, reviewId: number) {
+    const reviewLike = await this.shortReviewRepository.existShortReviewLikes(
+      memberId,
+      reviewId,
+    );
+
+    if (!reviewLike) {
+      throw new ForbiddenException('Not bookmarked');
+    }
+
+    await this.shortReviewRepository.deleteShortReviewLikes(reviewLike);
   }
 
   // TODO: soft delete 할 때, AttractionPoint 를 삭제하지 않는지??

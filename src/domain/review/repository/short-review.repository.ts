@@ -1,14 +1,16 @@
+import { Injectable } from '@nestjs/common';
 import {
-  Injectable,
-  InternalServerErrorException,
-  NotFoundException,
-} from '@nestjs/common';
-import {
+  IMemberProfile,
   IReviewQuery,
   IShortReview,
   SortCondition,
 } from '../reviews.interface';
-import { AttractionElement, Prisma, ReviewType } from '@prisma/client';
+import {
+  AttractionElement,
+  Prisma,
+  ReviewLike,
+  ReviewType,
+} from '@prisma/client';
 import { PrismaService } from '../../../global/database/prisma/prisma.service';
 
 @Injectable()
@@ -36,12 +38,13 @@ export class ShortReviewRepository {
       sortCondition,
     );
 
-    return this.prisma.review.findMany({
+    const shortReviews: IShortReview[] = await this.prisma.review.findMany({
       select: {
         id: true,
         memberId: true,
         animationId: true,
         rating: true,
+        likeCount: true,
         createdAt: true,
         shortReview: {
           select: {
@@ -52,6 +55,24 @@ export class ShortReviewRepository {
       },
       ...reviewQuery,
     });
+
+    // 한 애니의 한줄 리뷰 목록 조회 시 작성자의 이름, 이미지 조회
+    if (!memberId) {
+      const shortReviewsWithMember: IShortReview[] = [];
+      for (const shortReview of shortReviews) {
+        const memberProfile: IMemberProfile =
+          await this.prisma.memberProfile.findUniqueOrThrow({
+            select: {
+              name: true,
+              imageUrl: true,
+            },
+            where: { id: shortReview.memberId },
+          });
+        shortReviewsWithMember.push({ ...shortReview, ...memberProfile });
+      }
+      return shortReviewsWithMember;
+    }
+    return shortReviews;
   }
 
   async isShortReviewExist(
@@ -134,6 +155,48 @@ export class ShortReviewRepository {
       .then((shortReview) => shortReview.id);
   }
 
+  async createShortReviewLikes(memberId, reviewId) {
+    const shortReview = await this.findShortReviewById(reviewId);
+
+    await this.prisma.$transaction(async (prisma) => {
+      await prisma.reviewLike.create({
+        data: {
+          memberId,
+          reviewId: shortReview!.id,
+        },
+      });
+
+      await prisma.review.update({
+        where: { id: shortReview!.id },
+        data: { likeCount: shortReview!.likeCount + 1 },
+      });
+    });
+  }
+
+  async deleteShortReviewLikes(reviewLike: ReviewLike) {
+    const shortReview = await this.findShortReviewById(reviewLike.reviewId);
+
+    await this.prisma.$transaction(async (prisma) => {
+      await prisma.reviewLike.delete({
+        where: { id: reviewLike.id },
+      });
+
+      await prisma.review.update({
+        where: { id: reviewLike.reviewId },
+        data: { likeCount: shortReview!.likeCount - 1 },
+      });
+    });
+  }
+
+  async existShortReviewLikes(memberId: number, reviewId: number) {
+    return await this.prisma.reviewLike.findFirst({
+      where: {
+        memberId,
+        reviewId,
+      },
+    });
+  }
+
   async softDeleteShortReview(id: number): Promise<number> {
     const review = await this.findShortReviewById(id);
     return await this.prisma.review
@@ -145,26 +208,14 @@ export class ShortReviewRepository {
   }
 
   private async findShortReviewById(id: number) {
-    return await this.prisma.review
-      .findUniqueOrThrow({
-        include: { shortReview: true },
-        where: {
-          id,
-          type: ReviewType.SHORT,
-          deletedAt: null,
-        },
-      })
-      .catch((e) => {
-        if (e instanceof Prisma.PrismaClientKnownRequestError) {
-          if (e.code == 'P2025') {
-            throw new NotFoundException(
-              `해당 리뷰를 찾을 수 없습니다. id: ${id}`,
-            );
-          }
-        } else {
-          throw new InternalServerErrorException(e);
-        }
-      });
+    return this.prisma.review.findUniqueOrThrow({
+      include: { shortReview: true },
+      where: {
+        id,
+        type: ReviewType.SHORT,
+        deletedAt: null,
+      },
+    });
   }
 }
 

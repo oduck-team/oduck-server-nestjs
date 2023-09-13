@@ -174,6 +174,7 @@ model Review {
   animationId Int
   type        ReviewType
   rating      Int        @default(0)
+  likeCount   Int        @default(0)
   createdAt   DateTime   @default(now())
   updatedAt   DateTime   @default(now()) @updatedAt
   deletedAt   DateTime?
@@ -251,8 +252,8 @@ model Bookmark {
   animationId Int
   createdAt   DateTime @default(now())
 
-  member    Member    @relation(fields: [memberId], references: [id])
-  animation Animation @relation(fields: [animationId], references: [id])
+  member    Member    @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  animation Animation @relation(fields: [animationId], references: [id], onDelete: Cascade)
 }
 
 model ReviewLike {

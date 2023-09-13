@@ -1,20 +1,24 @@
-import { Controller } from '@nestjs/common';
+import { Controller, HttpCode, UseGuards } from '@nestjs/common';
 import { TypedBody, TypedParam, TypedQuery, TypedRoute } from '@nestia/core';
 import { ShortReviewService } from '../service/short-review.service';
 import {
+  AnimationIdQueryDto,
   CreateShortReviewDto,
-  MemberAnimationQueryDto,
   ReviewPageQueryDto,
   UpdateShortReviewDto,
 } from '../dto/review-request.dto';
 import { ShortReviewResponseDto } from '../dto/review-response.dto';
+import { RolesGuard } from '../../../global/auth/guard/roles.guard';
+import { Roles } from '../../../global/common/decoratror/roles.decorator';
+import { MemberProfile, Role } from '@prisma/client';
+import { User } from '../../../global/common/decoratror/user.decorator';
 
 @Controller('/short-reviews')
 export class ShortReviewController {
   constructor(private readonly shortReviewService: ShortReviewService) {}
 
   /**
-   * @tag short-reviews
+   * @tag Short Review
    */
   @TypedRoute.Get()
   async getShortReviews(
@@ -24,25 +28,30 @@ export class ShortReviewController {
   }
 
   /**
-   * @tag short-reviews
+   * @tag Short Review
    */
   @TypedRoute.Post()
+  @UseGuards(RolesGuard)
+  @Roles(Role.MEMBER, Role.ADMIN)
   async writeShortReview(
-    @TypedQuery() query: MemberAnimationQueryDto,
+    @User() user: MemberProfile,
+    @TypedQuery() query: AnimationIdQueryDto,
     @TypedBody() dto: CreateShortReviewDto,
   ): Promise<number> {
-    const { memberId, animationId } = query;
+    const { animationId } = query;
     return await this.shortReviewService.createShortReview(
-      Number(memberId),
+      Number(user.id),
       Number(animationId),
       dto,
     );
   }
 
   /**
-   * @tag short-reviews
+   * @tag Short Review
    */
   @TypedRoute.Patch('/:id')
+  @UseGuards(RolesGuard)
+  @Roles(Role.MEMBER, Role.ADMIN)
   async updateShortReview(
     @TypedParam('id') id: number,
     @TypedBody() dto: UpdateShortReviewDto,
@@ -51,9 +60,38 @@ export class ShortReviewController {
   }
 
   /**
-   * @tag short-reviews
+   * @tag Short Review
+   */
+  @TypedRoute.Post('/:id/likes')
+  @UseGuards(RolesGuard)
+  @Roles(Role.MEMBER, Role.ADMIN)
+  async likesOnShortReview(
+    @User() user: MemberProfile,
+    @TypedParam('id') reviewId: number,
+  ) {
+    await this.shortReviewService.likeReview(user.memberId, reviewId);
+  }
+
+  /**
+   * @tag Short Review
+   */
+  @TypedRoute.Delete('/:id/likes')
+  @HttpCode(204)
+  @UseGuards(RolesGuard)
+  @Roles(Role.MEMBER, Role.ADMIN)
+  async unlikesOnShortReview(
+    @User() user: MemberProfile,
+    @TypedParam('id') reviewId: number,
+  ) {
+    await this.shortReviewService.dislikeReview(user.memberId, reviewId);
+  }
+
+  /**
+   * @tag Short Review
    */
   @TypedRoute.Delete('/:id')
+  @UseGuards(RolesGuard)
+  @Roles(Role.MEMBER, Role.ADMIN)
   async deleteShortReview(@TypedParam('id') id: number): Promise<string> {
     return await this.shortReviewService.deleteShortReview(id);
   }

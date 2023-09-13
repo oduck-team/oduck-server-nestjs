@@ -271,6 +271,132 @@
         "x-nestia-method": "GET"
       }
     },
+    "/bookmarks": {
+      "post": {
+        "tags": [
+          "Bookmark"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDto"
+              }
+            }
+          },
+          "required": true,
+          "x-nestia-encrypted": false
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "x-nestia-encrypted": false
+          }
+        },
+        "summary": "북마크 생성",
+        "description": "\n@tag Bookmark\n@summary 북마크 생성\n@security apiCookie",
+        "security": [
+          {
+            "apiCookie": []
+          }
+        ],
+        "x-nestia-namespace": "bookmarks.handleCreateBookmark",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "Bookmark",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "summary",
+            "text": [
+              {
+                "text": "북마크 생성",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "security",
+            "text": [
+              {
+                "text": "apiCookie",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
+        "x-nestia-method": "POST"
+      }
+    },
+    "/bookmarks/{id}": {
+      "delete": {
+        "tags": [
+          "Bookmark"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "schema": {
+              "type": "number"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "x-nestia-encrypted": false
+          }
+        },
+        "summary": "북마크 제거",
+        "description": "\n@tag Bookmark\n@summary 북마크 제거\n@security apiCookie",
+        "security": [
+          {
+            "apiCookie": []
+          }
+        ],
+        "x-nestia-namespace": "bookmarks.handleDeleteBookmark",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "Bookmark",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "summary",
+            "text": [
+              {
+                "text": "북마크 제거",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "security",
+            "text": [
+              {
+                "text": "apiCookie",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
+        "x-nestia-method": "DELETE"
+      }
+    },
     "/members/signup": {
       "post": {
         "tags": [
@@ -295,8 +421,8 @@
             "x-nestia-encrypted": false
           }
         },
-        "summary": "회원가입",
-        "description": "@tag Member\n@summary 회원가입\n@security apiCookie",
+        "summary": "회원 가입",
+        "description": "\n@tag Member\n@summary 회원 가입\n@security apiCookie",
         "security": [
           {
             "apiCookie": []
@@ -317,7 +443,7 @@
             "name": "summary",
             "text": [
               {
-                "text": "회원가입",
+                "text": "회원 가입",
                 "kind": "text"
               }
             ]
@@ -359,7 +485,13 @@
             "x-nestia-encrypted": false
           }
         },
-        "description": "@tag Member",
+        "summary": "회원 프로필 조회",
+        "description": "\n@tag Member\n@summary 회원 프로필 조회\n@security apiCookie",
+        "security": [
+          {
+            "apiCookie": []
+          }
+        ],
         "x-nestia-namespace": "members.profile.handleUpdateProfile",
         "x-nestia-jsDocTags": [
           {
@@ -370,9 +502,126 @@
                 "kind": "text"
               }
             ]
+          },
+          {
+            "name": "summary",
+            "text": [
+              {
+                "text": "회원 프로필 조회",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "security",
+            "text": [
+              {
+                "text": "apiCookie",
+                "kind": "text"
+              }
+            ]
           }
         ],
         "x-nestia-method": "PATCH"
+      }
+    },
+    "/members/bookmarks": {
+      "get": {
+        "tags": [
+          "Bookmark"
+        ],
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "$ref": "#/components/schemas/QueryDto"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/__type"
+                  }
+                }
+              }
+            },
+            "x-nestia-encrypted": false
+          }
+        },
+        "summary": "회원 북마크 조회",
+        "description": "\n@tag Bookmark\n@summary 회원 북마크 조회\n@security apiCookie\n@description\n최초 조회시 lastId를 보내지 않는다.\nlastId는 이전 조회의 마지막 id를 보내준다.\n@example 처음 10개 조회\n/members/bookmarks?size=10\n@example 11번째부터 10개 조회\n/members/bookmarks?size=10&lastId=10",
+        "security": [
+          {
+            "apiCookie": []
+          }
+        ],
+        "x-nestia-namespace": "members.bookmarks.handleGetBookmarks",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "Bookmark",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "summary",
+            "text": [
+              {
+                "text": "회원 북마크 조회",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "security",
+            "text": [
+              {
+                "text": "apiCookie",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "description",
+            "text": [
+              {
+                "text": "최초 조회시 lastId를 보내지 않는다.\nlastId는 이전 조회의 마지막 id를 보내준다.",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "example",
+            "text": [
+              {
+                "text": "처음 10개 조회\n/members/bookmarks?size=10",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "example",
+            "text": [
+              {
+                "text": "11번째부터 10개 조회\n/members/bookmarks?size=10&lastId=10",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
+        "x-nestia-method": "GET"
       }
     },
     "/members/{name}": {
@@ -404,7 +653,13 @@
             "x-nestia-encrypted": false
           }
         },
-        "description": "@tag Member",
+        "summary": "회원 프로필 조회",
+        "description": "\n@tag Member\n@summary 회원 프로필 조회\n@security apiCookie",
+        "security": [
+          {
+            "apiCookie": []
+          }
+        ],
         "x-nestia-namespace": "members.handleGetProfile",
         "x-nestia-jsDocTags": [
           {
@@ -412,6 +667,24 @@
             "text": [
               {
                 "text": "Member",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "summary",
+            "text": [
+              {
+                "text": "회원 프로필 조회",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "security",
+            "text": [
+              {
+                "text": "apiCookie",
                 "kind": "text"
               }
             ]
@@ -432,7 +705,13 @@
             "x-nestia-encrypted": false
           }
         },
-        "description": "@tag Member",
+        "summary": "회원 탈퇴",
+        "description": "\n@tag Member\n@summary 회원 탈퇴\n@security apiCookie",
+        "security": [
+          {
+            "apiCookie": []
+          }
+        ],
         "x-nestia-namespace": "members.withdrawal.handleWithdrawal",
         "x-nestia-jsDocTags": [
           {
@@ -440,6 +719,24 @@
             "text": [
               {
                 "text": "Member",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "summary",
+            "text": [
+              {
+                "text": "회원 탈퇴",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "security",
+            "text": [
+              {
+                "text": "apiCookie",
                 "kind": "text"
               }
             ]
@@ -451,7 +748,7 @@
     "/long-reviews": {
       "get": {
         "tags": [
-          "long-reviews"
+          "Long Review"
         ],
         "parameters": [
           {
@@ -480,14 +777,14 @@
             "x-nestia-encrypted": false
           }
         },
-        "description": "@tag long-reviews",
+        "description": "@tag Long Review",
         "x-nestia-namespace": "long-reviews.getLongReviewPageByAnimation",
         "x-nestia-jsDocTags": [
           {
             "name": "tag",
             "text": [
               {
-                "text": "long-reviews",
+                "text": "Long Review",
                 "kind": "text"
               }
             ]
@@ -497,7 +794,7 @@
       },
       "post": {
         "tags": [
-          "long-reviews"
+          "Long Review"
         ],
         "parameters": [
           {
@@ -505,7 +802,7 @@
             "in": "query",
             "description": "",
             "schema": {
-              "$ref": "#/components/schemas/MemberAnimationQueryDto"
+              "$ref": "#/components/schemas/AnimationIdQueryDto"
             },
             "required": true
           }
@@ -535,14 +832,14 @@
             "x-nestia-encrypted": false
           }
         },
-        "description": "@tag long-reviews",
+        "description": "@tag Long Review",
         "x-nestia-namespace": "long-reviews.writeLongReview",
         "x-nestia-jsDocTags": [
           {
             "name": "tag",
             "text": [
               {
-                "text": "long-reviews",
+                "text": "Long Review",
                 "kind": "text"
               }
             ]
@@ -554,7 +851,7 @@
     "/long-reviews/{id}": {
       "get": {
         "tags": [
-          "long-reviews"
+          "Long Review"
         ],
         "parameters": [
           {
@@ -580,14 +877,14 @@
             "x-nestia-encrypted": false
           }
         },
-        "description": "@tag long-reviews",
+        "description": "@tag Long Review",
         "x-nestia-namespace": "long-reviews.getLongReviewDetail",
         "x-nestia-jsDocTags": [
           {
             "name": "tag",
             "text": [
               {
-                "text": "long-reviews",
+                "text": "Long Review",
                 "kind": "text"
               }
             ]
@@ -597,7 +894,7 @@
       },
       "put": {
         "tags": [
-          "long-reviews"
+          "Long Review"
         ],
         "parameters": [
           {
@@ -635,14 +932,14 @@
             "x-nestia-encrypted": false
           }
         },
-        "description": "@tag long-reviews",
+        "description": "@tag Long Review",
         "x-nestia-namespace": "long-reviews.updateLongReview",
         "x-nestia-jsDocTags": [
           {
             "name": "tag",
             "text": [
               {
-                "text": "long-reviews",
+                "text": "Long Review",
                 "kind": "text"
               }
             ]
@@ -652,7 +949,7 @@
       },
       "delete": {
         "tags": [
-          "long-reviews"
+          "Long Review"
         ],
         "parameters": [
           {
@@ -678,14 +975,14 @@
             "x-nestia-encrypted": false
           }
         },
-        "description": "@tag long-reviews",
+        "description": "@tag Long Review",
         "x-nestia-namespace": "long-reviews.deleteLongReview",
         "x-nestia-jsDocTags": [
           {
             "name": "tag",
             "text": [
               {
-                "text": "long-reviews",
+                "text": "Long Review",
                 "kind": "text"
               }
             ]
@@ -697,7 +994,7 @@
     "/short-reviews": {
       "get": {
         "tags": [
-          "short-reviews"
+          "Short Review"
         ],
         "parameters": [
           {
@@ -726,14 +1023,14 @@
             "x-nestia-encrypted": false
           }
         },
-        "description": "@tag short-reviews",
+        "description": "@tag Short Review",
         "x-nestia-namespace": "short-reviews.getShortReviews",
         "x-nestia-jsDocTags": [
           {
             "name": "tag",
             "text": [
               {
-                "text": "short-reviews",
+                "text": "Short Review",
                 "kind": "text"
               }
             ]
@@ -743,7 +1040,7 @@
       },
       "post": {
         "tags": [
-          "short-reviews"
+          "Short Review"
         ],
         "parameters": [
           {
@@ -751,7 +1048,7 @@
             "in": "query",
             "description": "",
             "schema": {
-              "$ref": "#/components/schemas/MemberAnimationQueryDto"
+              "$ref": "#/components/schemas/AnimationIdQueryDto"
             },
             "required": true
           }
@@ -781,14 +1078,14 @@
             "x-nestia-encrypted": false
           }
         },
-        "description": "@tag short-reviews",
+        "description": "@tag Short Review",
         "x-nestia-namespace": "short-reviews.writeShortReview",
         "x-nestia-jsDocTags": [
           {
             "name": "tag",
             "text": [
               {
-                "text": "short-reviews",
+                "text": "Short Review",
                 "kind": "text"
               }
             ]
@@ -800,7 +1097,7 @@
     "/short-reviews/{id}": {
       "patch": {
         "tags": [
-          "short-reviews"
+          "Short Review"
         ],
         "parameters": [
           {
@@ -838,14 +1135,14 @@
             "x-nestia-encrypted": false
           }
         },
-        "description": "@tag short-reviews",
+        "description": "@tag Short Review",
         "x-nestia-namespace": "short-reviews.updateShortReview",
         "x-nestia-jsDocTags": [
           {
             "name": "tag",
             "text": [
               {
-                "text": "short-reviews",
+                "text": "Short Review",
                 "kind": "text"
               }
             ]
@@ -855,7 +1152,7 @@
       },
       "delete": {
         "tags": [
-          "short-reviews"
+          "Short Review"
         ],
         "parameters": [
           {
@@ -881,14 +1178,88 @@
             "x-nestia-encrypted": false
           }
         },
-        "description": "@tag short-reviews",
+        "description": "@tag Short Review",
         "x-nestia-namespace": "short-reviews.deleteShortReview",
         "x-nestia-jsDocTags": [
           {
             "name": "tag",
             "text": [
               {
-                "text": "short-reviews",
+                "text": "Short Review",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
+        "x-nestia-method": "DELETE"
+      }
+    },
+    "/short-reviews/{id}/likes": {
+      "post": {
+        "tags": [
+          "Short Review"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "schema": {
+              "type": "number"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "",
+            "x-nestia-encrypted": false
+          }
+        },
+        "description": "@tag Short Review",
+        "x-nestia-namespace": "short-reviews.likes.likesOnShortReview",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "Short Review",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
+        "x-nestia-method": "POST"
+      },
+      "delete": {
+        "tags": [
+          "Short Review"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "schema": {
+              "type": "number"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "",
+            "x-nestia-encrypted": false
+          }
+        },
+        "description": "@tag Short Review",
+        "x-nestia-namespace": "short-reviews.likes.unlikesOnShortReview",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "Short Review",
                 "kind": "text"
               }
             ]
@@ -2156,6 +2527,21 @@
         "description": "@enum Status\n@default ONGOING",
         "x-typia-jsDocTags": []
       },
+      "CreateDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "number"
+          }
+        },
+        "nullable": false,
+        "required": [
+          "id"
+        ],
+        "x-typia-jsDocTags": []
+      },
       "UpdateNameDto": {
         "type": "object",
         "properties": {
@@ -2362,6 +2748,165 @@
         "description": "@minLength 0\n@maxLength 100\n@nullable\n@default null\n@example '안녕하세요'",
         "x-typia-jsDocTags": []
       },
+      "QueryDto": {
+        "type": "object",
+        "properties": {
+          "lastId": {
+            "description": "@example 1\n@optional\n@description 가져올 데이터의 시작 값",
+            "x-typia-jsDocTags": [
+              {
+                "name": "example",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "optional"
+              },
+              {
+                "name": "description",
+                "text": [
+                  {
+                    "text": "가져올 데이터의 시작 값",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": false,
+            "x-typia-optional": true,
+            "type": "number"
+          },
+          "size": {
+            "description": "@minimum 1\n@maximum 20\n@default 20\n@example 20\n@description 한번에 가져올 데이터의 양",
+            "x-typia-metaTags": [
+              {
+                "kind": "minimum",
+                "value": 1
+              },
+              {
+                "kind": "maximum",
+                "value": 20
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "minimum",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "maximum",
+                "text": [
+                  {
+                    "text": "20",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "default",
+                "text": [
+                  {
+                    "text": "20",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "example",
+                "text": [
+                  {
+                    "text": "20",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "description",
+                "text": [
+                  {
+                    "text": "한번에 가져올 데이터의 양",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "number",
+            "minimum": 1,
+            "maximum": 20,
+            "default": 20
+          }
+        },
+        "nullable": false,
+        "required": [
+          "size"
+        ],
+        "description": "@minimum 1\n@maximum 20\n@default 20\n@example 20\n@description 한번에 가져올 데이터의 양",
+        "x-typia-jsDocTags": []
+      },
+      "__type": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "number"
+          },
+          "animation": {
+            "$ref": "#/components/schemas/__type.o1"
+          },
+          "createdAt": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "nullable": false,
+        "required": [
+          "id",
+          "animation",
+          "createdAt"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "__type.o1": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "number"
+          },
+          "name": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          },
+          "imageUrl": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string"
+          }
+        },
+        "nullable": false,
+        "required": [
+          "id",
+          "name",
+          "imageUrl"
+        ],
+        "x-typia-jsDocTags": []
+      },
       "MemberProfileDtoWithCount": {
         "type": "object",
         "properties": {
@@ -2558,7 +3103,8 @@
             "enum": [
               "createdAt|desc",
               "rating|desc",
-              "rating|asc"
+              "rating|asc",
+              "likeCount|desc"
             ]
           }
         },
@@ -2609,6 +3155,17 @@
             "x-typia-optional": true,
             "type": "string",
             "format": "date-time"
+          },
+          "memberName": {
+            "x-typia-required": false,
+            "x-typia-optional": true,
+            "type": "string"
+          },
+          "memberImage": {
+            "x-typia-required": false,
+            "x-typia-optional": true,
+            "type": "string",
+            "nullable": true
           }
         },
         "nullable": false,
@@ -2621,32 +3178,9 @@
         ],
         "x-typia-jsDocTags": []
       },
-      "MemberAnimationQueryDto": {
+      "AnimationIdQueryDto": {
         "type": "object",
         "properties": {
-          "memberId": {
-            "description": "@type int",
-            "x-typia-metaTags": [
-              {
-                "kind": "type",
-                "value": "int"
-              }
-            ],
-            "x-typia-jsDocTags": [
-              {
-                "name": "type",
-                "text": [
-                  {
-                    "text": "int",
-                    "kind": "text"
-                  }
-                ]
-              }
-            ],
-            "x-typia-required": false,
-            "x-typia-optional": true,
-            "type": "integer"
-          },
           "animationId": {
             "description": "@type int",
             "x-typia-metaTags": [
@@ -2666,12 +3200,16 @@
                 ]
               }
             ],
-            "x-typia-required": false,
-            "x-typia-optional": true,
+            "x-typia-required": true,
+            "x-typia-optional": false,
             "type": "integer"
           }
         },
         "nullable": false,
+        "required": [
+          "animationId"
+        ],
+        "description": "@type int",
         "x-typia-jsDocTags": []
       },
       "CreateLongReviewDto": {
@@ -3087,6 +3625,17 @@
             "x-typia-optional": true,
             "type": "string",
             "format": "date-time"
+          },
+          "memberName": {
+            "x-typia-required": false,
+            "x-typia-optional": true,
+            "type": "string"
+          },
+          "memberImage": {
+            "x-typia-required": false,
+            "x-typia-optional": true,
+            "type": "string",
+            "nullable": true
           }
         },
         "nullable": false,
