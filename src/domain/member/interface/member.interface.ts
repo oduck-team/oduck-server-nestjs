@@ -1,4 +1,4 @@
-import { AuthSocial, MemberProfile, Role } from '@prisma/client';
+import { MemberProfile, Role } from '@prisma/client';
 
 export interface IMemerProfile extends Omit<MemberProfile, 'id'> {
   memberId: number;
@@ -11,10 +11,15 @@ export interface IMemerProfile extends Omit<MemberProfile, 'id'> {
   updatedAt: Date;
 }
 
-export interface IAuthSocial extends Omit<AuthSocial, 'id' | 'memberId'> {
+export interface IAuthSocial {
   email: string;
   socialId: string;
   type: string;
+}
+
+export interface IAuthPassword {
+  loginId: string;
+  password: string;
 }
 
 export interface IMemberProfileWithCount extends Omit<MemberProfile, 'id'> {

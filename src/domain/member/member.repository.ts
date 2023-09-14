@@ -1,13 +1,17 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { LoginType, Role } from '@prisma/client';
 import { randomUUID } from 'crypto';
-import { IAuthSocial, IMemerProfile } from './interface/member.interface';
+import {
+  IAuthPassword,
+  IAuthSocial,
+  IMemerProfile,
+} from './interface/member.interface';
 import { PrismaService } from '../../global/database/prisma/prisma.service';
 
 @Injectable()
 export class MemberRepository {
   constructor(private readonly prisma: PrismaService) {}
-  async createMember(
+  async createOAuthMember(
     loginType: LoginType,
     details: IAuthSocial,
   ): Promise<{ id: number; loginType: LoginType }> {
@@ -15,6 +19,30 @@ export class MemberRepository {
       data: {
         loginType,
         authSocial: { create: { ...details } },
+        memberProfile: {
+          create: {
+            role: Role.GUEST,
+            name: randomUUID(),
+          },
+        },
+      },
+      select: {
+        id: true,
+        loginType: true,
+      },
+    });
+
+    Logger.log(`Member created: ${JSON.stringify(member)} by ${details.type}`);
+    return member;
+  }
+
+  async createLocalMember(
+    details: IAuthPassword,
+  ): Promise<{ id: number; loginType: LoginType }> {
+    const member = await this.prisma.member.create({
+      data: {
+        loginType: LoginType.LOCAL,
+        authPassword: { create: { ...details, hash: '' } },
         memberProfile: {
           create: {
             role: Role.GUEST,
@@ -51,6 +79,7 @@ export class MemberRepository {
         deletedAt: null,
       },
     });
+
     return member;
   }
 
@@ -62,6 +91,16 @@ export class MemberRepository {
     });
 
     return authSocial;
+  }
+
+  async findAuthPasswordByLoginId(loginId: string) {
+    const authPassword = await this.prisma.authPassword.findUnique({
+      where: {
+        loginId,
+      },
+    });
+
+    return authPassword;
   }
 
   async findMemberProfile(memberId: number) {

@@ -2,6 +2,7 @@ import { MemberProfile, Role } from '@prisma/client';
 import { TypedBody, TypedParam, TypedQuery, TypedRoute } from '@nestia/core';
 import { Controller, HttpCode, UseGuards } from '@nestjs/common';
 import {
+  CreateMemberDto,
   QueryDto,
   UpdateNameDto,
   UpdateProfileDto,
@@ -19,6 +20,17 @@ export class MemberController {
     private readonly memberService: MemberService,
     private readonly bookmarkService: BookmarkService,
   ) {}
+
+  /**
+   *
+   * @tag Member
+   * @summary 회원 생성
+   * @security apiCookie
+   */
+  @TypedRoute.Post('/')
+  async handleCreateMember(@TypedBody() body: CreateMemberDto) {
+    await this.memberService.createLocalMember(body);
+  }
 
   /**
    *
