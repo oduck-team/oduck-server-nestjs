@@ -1,4 +1,5 @@
-import { TypedRoute } from '@nestia/core';
+import { LocalAuthGuard } from './guard/local.auth.guard';
+import { TypedBody, TypedRoute } from '@nestia/core';
 import {
   Controller,
   InternalServerErrorException,
@@ -67,6 +68,12 @@ export class AuthController {
   @TypedRoute.Get('kakao/callback')
   @UseGuards(KakaoAuthGuard)
   handleKakaoCallback(@Res() res: Response) {
+    res.status(302).redirect(this.CLIENT_URL + this.CLIENT_CALBACK);
+  }
+
+  @TypedRoute.Post('login')
+  @UseGuards(LocalAuthGuard)
+  handleLogin(@Res() res: Response) {
     res.status(302).redirect(this.CLIENT_URL + this.CLIENT_CALBACK);
   }
 

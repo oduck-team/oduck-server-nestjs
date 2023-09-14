@@ -6,6 +6,7 @@ import { KakaoStrategy } from './strategy/kakao.strategy';
 import { MemberModule } from '../../domain/member/member.module';
 import { SessionSerializer } from './serializer';
 import { AuthService } from './auth.service';
+import { LocalStrategy } from './strategy/local.strategy';
 
 @Module({
   imports: [MemberModule],
@@ -14,6 +15,7 @@ import { AuthService } from './auth.service';
     GoogleStrategy,
     NaverStrategy,
     KakaoStrategy,
+    LocalStrategy,
     SessionSerializer,
     AuthService,
   ],

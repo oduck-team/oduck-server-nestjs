@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { LoginType } from '@prisma/client';
 import { MemberService } from '../../domain/member/member.service';
-import { IAuthSocial } from 'src/domain/member/interface/member.interface';
+import {
+  IAuthPassword,
+  IAuthSocial,
+} from 'src/domain/member/interface/member.interface';
 
 @Injectable()
 export class AuthService {
@@ -16,6 +19,19 @@ export class AuthService {
       return await this.memberService.findMemberById(member.memberId);
     }
 
-    return await this.memberService.createMember(LoginType.SOCIAL, details);
+    return await this.memberService.createOAuthMember(
+      LoginType.SOCIAL,
+      details,
+    );
+  }
+
+  async validateUserByPassword(details: IAuthPassword) {
+    const member = await this.memberService.findAuthPasswordByLoginId(
+      details.loginId,
+    );
+
+    if (member && member.password === details.password) {
+      return await this.memberService.findMemberById(member.memberId);
+    }
   }
 }
