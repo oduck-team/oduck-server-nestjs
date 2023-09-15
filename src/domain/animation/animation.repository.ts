@@ -1,4 +1,8 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { PrismaService } from '../../global/database/prisma/prisma.service';
 import { AnimationListDto } from './dto/animation.req.dto';
 import { AnimationReqDto } from './dto/animation.req.dto';
@@ -127,15 +131,13 @@ export class AnimationRepository {
   }
 
   async getAnimationById(role: Role, id: number) {
-    const animation = await this.prisma.animation.findFirst({
-      where: { id },
+    return this.prisma.animation.findFirstOrThrow({
+      where: {
+        id,
+        isReleased: role === Role.ADMIN ? {} : true,
+      },
       include: this.makeCommonIncludeQuery(),
     });
-
-    if (role !== Role.ADMIN && !animation?.isReleased)
-      throw new UnauthorizedException('NotReleased');
-
-    return animation;
   }
 
   async storeAnimation(body: AnimationReqDto) {

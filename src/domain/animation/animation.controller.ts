@@ -19,8 +19,6 @@ export class AnimationController {
    */
   @TypedRoute.Get('/')
   @ApiOperation({ summary: 'animation list' })
-  @UseGuards(RolesGuard)
-  @Roles(Role.MEMBER, Role.ADMIN)
   async getList(
     @User() user: MemberProfile,
     @TypedQuery() query: AnimationListDto,
@@ -32,8 +30,6 @@ export class AnimationController {
    * @tag animation
    */
   @TypedRoute.Get('/:id')
-  @UseGuards(RolesGuard)
-  @Roles(Role.MEMBER, Role.ADMIN)
   async show(
     @User() user: MemberProfile,
     @TypedParam('id') id: number,

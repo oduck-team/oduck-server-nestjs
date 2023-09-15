@@ -22,32 +22,30 @@ export class AnimationService {
     query: AnimationListDto,
   ): Promise<AnimationItemResDto[]> {
     const items = await this.repository.getAnimations(user.role, query);
-    return this.flattenStudios(items);
+    return this.flattenRelations(items);
   }
 
   async getOneById(user: MemberProfile, id: number) {
     const item = await this.repository.getAnimationById(user.role, id);
 
-    if (!item) throw new NotFoundException();
-
-    return this.flattenStudios([item])[0];
+    return this.flattenRelations([item])[0];
   }
 
   async store(body: AnimationReqDto) {
     const item = await this.repository.storeAnimation(body);
-    return this.flattenStudios([item])[0];
+    return this.flattenRelations([item])[0];
   }
 
   async updateById(id: number, body: AnimationReqDto): Promise<Animation> {
     const item = await this.repository.updateAnimation(id, body);
-    return this.flattenStudios([item])[0];
+    return this.flattenRelations([item])[0];
   }
 
   async destroyById(id: number): Promise<Animation> {
     return await this.repository.destroyById(Number(id));
   }
 
-  private flattenStudios(
+  private flattenRelations(
     items: (Animation & {
       studios: { studio: Studio }[];
       seasons: Season[];
