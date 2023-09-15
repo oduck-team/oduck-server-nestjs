@@ -39,6 +39,7 @@
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/swagger": "^7.1.4",
     "@prisma/client": "^5.0.0",
+    "bcrypt": "^5.1.1",
     "connect-redis": "^7.1.0",
     "dotenv-cli": "^7.2.1",
     "express-session": "^1.17.3",
