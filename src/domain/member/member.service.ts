@@ -11,6 +11,7 @@ import {
   IMemerProfile,
 } from './interface/member.interface';
 import { LoginType } from '@prisma/client';
+import { hashPassword } from 'src/global/utils/bcrypt';
 
 @Injectable()
 export class MemberService {
@@ -27,7 +28,12 @@ export class MemberService {
       throw new ConflictException('already exist loginId');
     }
 
-    return await this.memberRepository.createLocalMember(details);
+    const password = await hashPassword(details.password);
+
+    return await this.memberRepository.createLocalMember({
+      ...details,
+      password,
+    });
   }
 
   async signup(id: number, name: string) {

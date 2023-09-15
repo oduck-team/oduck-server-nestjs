@@ -5,6 +5,7 @@ import {
   IAuthPassword,
   IAuthSocial,
 } from 'src/domain/member/interface/member.interface';
+import { comparePassword } from '../utils/bcrypt';
 
 @Injectable()
 export class AuthService {
@@ -30,7 +31,7 @@ export class AuthService {
       details.loginId,
     );
 
-    if (member && member.password === details.password) {
+    if (member && (await comparePassword(details.password, member.password))) {
       return await this.memberService.findMemberById(member.memberId);
     }
   }
