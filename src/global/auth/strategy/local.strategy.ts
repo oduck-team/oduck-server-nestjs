@@ -16,6 +16,6 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
       password,
     };
 
-    return (await this.authService.validateUserByPassword(member)) || null;
+    return (await this.authService.validateMemberByPassword(member)) || null;
   }
 }

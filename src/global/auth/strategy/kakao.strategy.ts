@@ -25,6 +25,6 @@ export class KakaoStrategy extends PassportStrategy(Strategy) {
       },
     };
 
-    return (await this.authService.validateUser(member.socialInfo)) || null;
+    return (await this.authService.validateMember(member.socialInfo)) || null;
   }
 }
