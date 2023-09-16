@@ -6,7 +6,7 @@
       "description": "Local Server"
     },
     {
-      "url": "http://localhost:3030/api/v20230821",
+      "url": "http://localhost:8000/api/v20230821",
       "description": "Local Server no docker"
     }
   ],
@@ -397,6 +397,68 @@
         "x-nestia-method": "DELETE"
       }
     },
+    "/members": {
+      "post": {
+        "tags": [
+          "Member"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {}
+            }
+          },
+          "required": true,
+          "x-nestia-encrypted": false
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "x-nestia-encrypted": false
+          }
+        },
+        "summary": "회원 생성",
+        "description": "\n@tag Member\n@summary 회원 생성\n@security apiCookie",
+        "security": [
+          {
+            "apiCookie": []
+          }
+        ],
+        "x-nestia-namespace": "members.handleCreateMember",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "Member",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "summary",
+            "text": [
+              {
+                "text": "회원 생성",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "security",
+            "text": [
+              {
+                "text": "apiCookie",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
+        "x-nestia-method": "POST"
+      }
+    },
     "/members/signup": {
       "post": {
         "tags": [
@@ -549,7 +611,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/__type.o1"
+                    "$ref": "#/components/schemas/GetBookmarkListDto"
                   }
                 }
               }
@@ -1483,6 +1545,80 @@
         "x-nestia-method": "GET"
       }
     },
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "",
+            "x-nestia-encrypted": false
+          }
+        },
+        "description": "@tag Auth\n@description\n로컬 로그인",
+        "x-nestia-namespace": "auth.login.handleLogin",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "Auth",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "description",
+            "text": [
+              {
+                "text": " 로컬 로그인",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
+        "x-nestia-method": "POST"
+      }
+    },
+    "/auth/login/admin": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "",
+            "x-nestia-encrypted": false
+          }
+        },
+        "description": "@tag Auth\n@description\n관리자 로그인",
+        "x-nestia-namespace": "auth.login.admin.handleAdminLogin",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "Auth",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "description",
+            "text": [
+              {
+                "text": "관리자 로그인",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
+        "x-nestia-method": "POST"
+      }
+    },
     "/auth/logout": {
       "delete": {
         "tags": [
@@ -1523,7 +1659,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Omit_lt_GetResult_lt__blt__space_id:_space_number;_space_memberId:_space_number;_space_name:_space_string;_space_info:_space_string_space__or__space_null;_space_role:_space_Role;_space_imageUrl:_space_string_space__or__space_null;_space_point:_space_number;_space_createdAt:_space_Date;_space_updatedAt:_space_Date;_space__bgt__comma__space_unknown_gt__space__and__space__blt__bgt__comma__space__doublequote_id_doublequote__gt_"
+                  "$ref": "#/components/schemas/MemberProfileDto"
                 }
               }
             },
@@ -2860,7 +2996,7 @@
         "description": "@minimum 1\n@maximum 20\n@default 20\n@example 20\n@description 한번에 가져올 데이터의 양",
         "x-typia-jsDocTags": []
       },
-      "__type.o1": {
+      "GetBookmarkListDto": {
         "type": "object",
         "properties": {
           "id": {
@@ -2869,7 +3005,7 @@
             "type": "number"
           },
           "animation": {
-            "$ref": "#/components/schemas/__type.o2"
+            "$ref": "#/components/schemas/__type.o1"
           },
           "createdAt": {
             "x-typia-required": true,
@@ -2886,7 +3022,7 @@
         ],
         "x-typia-jsDocTags": []
       },
-      "__type.o2": {
+      "__type.o1": {
         "type": "object",
         "properties": {
           "id": {
@@ -3950,19 +4086,38 @@
         "description": "@default 가이낙스",
         "x-typia-jsDocTags": []
       },
-      "Omit_lt_GetResult_lt__blt__space_id:_space_number;_space_memberId:_space_number;_space_name:_space_string;_space_info:_space_string_space__or__space_null;_space_role:_space_Role;_space_imageUrl:_space_string_space__or__space_null;_space_point:_space_number;_space_createdAt:_space_Date;_space_updatedAt:_space_Date;_space__bgt__comma__space_unknown_gt__space__and__space__blt__bgt__comma__space__doublequote_id_doublequote__gt_": {
+      "MemberProfileDto": {
         "type": "object",
         "properties": {
+          "memberId": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "number"
+          },
           "name": {
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string"
+          },
+          "info": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "nullable": true
+          },
+          "role": {
+            "$ref": "#/components/schemas/Role"
           },
           "imageUrl": {
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string",
             "nullable": true
+          },
+          "point": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "number"
           },
           "createdAt": {
             "x-typia-required": true,
@@ -3975,37 +4130,18 @@
             "x-typia-optional": false,
             "type": "string",
             "format": "date-time"
-          },
-          "memberId": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "number"
-          },
-          "info": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string",
-            "nullable": true
-          },
-          "role": {
-            "$ref": "#/components/schemas/Role"
-          },
-          "point": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "number"
           }
         },
         "nullable": false,
         "required": [
-          "name",
-          "imageUrl",
-          "createdAt",
-          "updatedAt",
           "memberId",
+          "name",
           "info",
           "role",
-          "point"
+          "imageUrl",
+          "point",
+          "createdAt",
+          "updatedAt"
         ],
         "x-typia-jsDocTags": []
       }
