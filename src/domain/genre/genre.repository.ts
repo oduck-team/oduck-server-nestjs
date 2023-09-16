@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../global/database/prisma/prisma.service';
 import { GenreCreateDto } from './dto/genre.create.dto';
-import { Genre, GenreType } from '@prisma/client';
+import { Genre } from '@prisma/client';
 
 @Injectable()
 export class GenreRepository {
@@ -13,5 +13,5 @@ export class GenreRepository {
     });
   }
 
-  async firstOrCreate(type: GenreType, prisma: PrismaService = this.prisma) {}
+  async firstOrCreate(name: string, prisma: PrismaService = this.prisma) {}
 }

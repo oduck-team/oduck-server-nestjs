@@ -1,8 +1,4 @@
-import {
-  Injectable,
-  NotFoundException,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../global/database/prisma/prisma.service';
 import { AnimationListDto } from './dto/animation.req.dto';
 import { AnimationReqDto } from './dto/animation.req.dto';
@@ -36,7 +32,6 @@ export class AnimationRepository {
         },
       },
       // TODO: keywords
-      seasons: true,
     };
   }
 
@@ -46,7 +41,6 @@ export class AnimationRepository {
       genres,
       voiceActors,
       originalWorkers,
-      seasons,
       ...animationBody
     } = body;
 
@@ -69,8 +63,8 @@ export class AnimationRepository {
         create: genres.map((g) => ({
           genre: {
             connectOrCreate: {
-              where: { type: g },
-              create: { type: g },
+              where: { name: g },
+              create: { name: g },
             },
           },
         })),
@@ -97,13 +91,6 @@ export class AnimationRepository {
           },
         })),
       },
-      seasons: {
-        deleteMany: id ? { animationId: id } : undefined,
-        create: seasons.map((s) => ({
-          year: s.year,
-          quarter: s.quarter,
-        })),
-      },
       // TODO: keywords
     };
   }
@@ -112,6 +99,7 @@ export class AnimationRepository {
     const search = {
       OR: [
         { name: { contains: params.search ?? '' } },
+        { seriesGroup: { contains: params.search ?? '' } },
         { plot: { contains: params.search ?? '' } },
         { primaryKeyword: { contains: params.search ?? '' } },
       ],

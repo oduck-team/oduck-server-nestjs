@@ -65,20 +65,25 @@ model Animation {
   rating         Rating
   primaryKeyword String
   status         Status
-  isReleased     Boolean       @default(false)
-  viewCount      Int           @default(0)
-  reviewCount    Int           @default(0)
-  createdAt      DateTime      @default(now())
-  updatedAt      DateTime      @default(now()) @updatedAt
-  deletedAt      DateTime?
+
+  seasonYear    Int     @default(dbgenerated("DATE_PART('year', now())"))
+  seasonQuarter Int     @default(dbgenerated("CEIL(DATE_PART('month', now()) / 4)"))
+  seriesGroup   String? /// 특정시리즈 이름. 가장 대포적인 이름. [사이버포뮬러11, zero, 신....] -> 사이버포뮬러 | [에반게리온 Q, 파, 오리지널...] -> 에반게리온
+
+  isReleased  Boolean   @default(false)
+  viewCount   Int       @default(0)
+  reviewCount Int       @default(0)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @default(now()) @updatedAt
+  deletedAt   DateTime?
 
   studios         AnimationStudio[]
   genres          AnimationGenre[]
   voiceActors     AnimationVoiceActor[]
   originalWorkers AnimationOriginalWorker[]
   keywords        Keyword[]
-  seasons         Season[]
-  bookmarks       Bookmark[]
+
+  bookmarks Bookmark[]
 }
 
 model AnimationGenre {
@@ -121,9 +126,9 @@ model AnimationOriginalWorker {
 }
 
 model Genre {
-  id        Int       @id @default(autoincrement())
-  type      GenreType @unique
-  createdAt DateTime  @default(now())
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  createdAt DateTime @default(now())
 
   animations AnimationGenre[]
 }
@@ -157,15 +162,6 @@ model Keyword {
   keyword     String
   createdAt   DateTime  @default(now())
   animation   Animation @relation(fields: [animationId], references: [id])
-}
-
-model Season {
-  id          Int       @id @default(autoincrement())
-  animationId Int
-  year        Int       @default(0)
-  quarter     Int       @default(0)
-  createdAt   DateTime  @default(now())
-  animation   Animation @relation(fields: [animationId], references: [id], onDelete: Cascade)
 }
 
 model Review {
@@ -296,20 +292,6 @@ enum Status {
   ONGOING
   UPCOMING
   UNKNOWN
-}
-
-enum GenreType {
-  FANTASY
-  SF
-  ROMANCE
-  ACTION
-  ADVANTURE
-  ANOTHER_WORLD
-  FAMILY
-  GAG
-  TOUCHING
-  CRIME
-  DRAMA
 }
 
 enum ReviewType {

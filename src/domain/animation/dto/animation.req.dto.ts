@@ -1,4 +1,4 @@
-import { BroadcastType, GenreType, Rating, Status } from '@prisma/client';
+import { BroadcastType, Rating, Status } from '@prisma/client';
 
 export interface AnimationListDto {
   /**
@@ -41,15 +41,9 @@ export interface AnimationRelationDto {
   studioNames: string[];
 
   /**
-   * @default 가이낙스
-   * */
-  seasons: { year: number; quarter: number }[];
-
-  /**
    * @default FANTASY
-   * @enum GenreType
    * */
-  genres: GenreType[];
+  genres: string[];
 
   /**
    * @default 타네다 리사
@@ -100,6 +94,23 @@ export interface AnimationBaseDto {
    * @default ONGOING
    * */
   status: Status;
+
+  /**
+   * @default 2023
+   * */
+  seasonYear: number;
+
+  /**
+   * @default 1
+   * @enum [1, 2, 3, 4]
+   * */
+  seasonQuarter: number;
+
+  /**
+   * @default 에반게리온
+   * @description 시리즈인 경우 대표적인 이름. ex) [에반게리온 서, 파, Q] -> 에반게리온
+   * */
+  seriesGroup: string | null;
 
   /**
    * @default true

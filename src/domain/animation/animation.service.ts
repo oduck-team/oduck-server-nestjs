@@ -1,16 +1,15 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { AnimationRepository } from './animation.repository';
 import {
   Animation,
   Genre,
   MemberProfile,
   OriginalWorker,
-  Season,
   Studio,
   VoiceActor,
 } from '@prisma/client';
 import { AnimationListDto } from './dto/animation.req.dto';
-import { AnimationReqDto, AnimationUpdateDto } from './dto/animation.req.dto';
+import { AnimationReqDto } from './dto/animation.req.dto';
 import { AnimationItemResDto } from './dto/animation.res.dto';
 
 @Injectable()
@@ -48,7 +47,6 @@ export class AnimationService {
   private flattenRelations(
     items: (Animation & {
       studios: { studio: Studio }[];
-      seasons: Season[];
       genres: { genre: Genre }[];
       voiceActors: { voiceActor: VoiceActor }[];
       originalWorkers: { originalWorker: OriginalWorker }[];

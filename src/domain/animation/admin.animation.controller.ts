@@ -13,7 +13,8 @@ export class AdminAnimationController {
 
   /**
    * @tag admin/animation
-   * @enum season.quarter: [1, 2, 3, 4]
+   * @enum seasonQuarter: [1, 2, 3, 4]
+   * @seriesGroup 시리즈인 경우 대표적인 이름. ex) [에반게리온 서, 파, Q] -> 에반게리온
    */
   @TypedRoute.Post('/')
   // @UseGuards(RolesGuard)
