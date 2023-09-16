@@ -1,7 +1,9 @@
-import { AnimationBaseDto } from 'src/domain/animation/dto/animation.req.dto';
-
 export interface GetBookmarkListDto {
   id: number;
-  animation: AnimationBaseDto;
+  animation: {
+    id: number;
+    name: string;
+    imageUrl: string;
+  };
   createdAt: Date;
 }

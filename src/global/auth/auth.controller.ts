@@ -15,6 +15,7 @@ import { KakaoAuthGuard } from './guard/kakao.auth.guard';
 import { Request, Response } from 'express';
 import { RolesGuard } from './guard/roles.guard';
 import { Roles } from '../common/decoratror/roles.decorator';
+import { MemberProfileDto } from 'src/domain/member/dto/member.res.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -99,7 +100,7 @@ export class AuthController {
   @TypedRoute.Get('status')
   @UseGuards(RolesGuard)
   @Roles(Role.GUEST, Role.MEMBER, Role.ADMIN)
-  handleStatus(@User() user: MemberProfile): Omit<MemberProfile, 'id'> {
+  handleStatus(@User() user: MemberProfile): MemberProfileDto {
     return user;
   }
 }

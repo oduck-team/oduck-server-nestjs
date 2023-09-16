@@ -13,6 +13,7 @@ import { Roles } from 'src/global/common/decoratror/roles.decorator';
 import { User } from 'src/global/common/decoratror/user.decorator';
 import { MemberProfileDtoWithCount } from './dto/member.res.dto';
 import { BookmarkService } from '../bookmark/bookmark.service';
+import { GetBookmarkListDto } from '../bookmark/dto/bookmark.res.dto';
 
 @Controller('/members')
 export class MemberController {
@@ -28,7 +29,7 @@ export class MemberController {
    * @security apiCookie
    */
   @TypedRoute.Post('/')
-  async handleCreateMember(@TypedBody() body: CreateMemberDto) {
+  async handleCreateMember(@TypedBody() body: any) {
     await this.memberService.createLocalMember(body);
   }
 
@@ -84,7 +85,7 @@ export class MemberController {
     @User() user: MemberProfile,
     @TypedQuery() query: QueryDto,
     // TODO: 정렬 추가하기
-  ) {
+  ): Promise<GetBookmarkListDto[]> {
     return await this.bookmarkService.findBookmarks(user.memberId, query);
   }
 
