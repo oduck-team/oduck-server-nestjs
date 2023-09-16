@@ -16,6 +16,7 @@ import { Request, Response } from 'express';
 import { RolesGuard } from './guard/roles.guard';
 import { Roles } from '../common/decoratror/roles.decorator';
 import { MemberProfileDto } from 'src/domain/member/dto/member.res.dto';
+import { AdminAuthGuard } from './guard/admin.auth.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -72,9 +73,25 @@ export class AuthController {
     res.status(302).redirect(this.CLIENT_URL + this.CLIENT_CALBACK);
   }
 
+  /**
+   * @tag Auth
+   * @description
+   *  로컬 로그인
+   */
   @TypedRoute.Post('login')
   @UseGuards(LocalAuthGuard)
   handleLogin(@Res() res: Response) {
+    res.status(302).redirect(this.CLIENT_URL + this.CLIENT_CALBACK);
+  }
+
+  /**
+   * @tag Auth
+   * @description
+   * 관리자 로그인
+   */
+  @TypedRoute.Post('login/admin')
+  @UseGuards(AdminAuthGuard)
+  handleAdminLogin(@Res() res: Response) {
     res.status(302).redirect(this.CLIENT_URL + this.CLIENT_CALBACK);
   }
 

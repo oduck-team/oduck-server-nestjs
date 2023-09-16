@@ -7,6 +7,7 @@ import { MemberModule } from '../../domain/member/member.module';
 import { SessionSerializer } from './serializer';
 import { AuthService } from './auth.service';
 import { LocalStrategy } from './strategy/local.strategy';
+import { AdminStrategy } from './strategy/admin.strategy';
 
 @Module({
   imports: [MemberModule],
@@ -16,6 +17,7 @@ import { LocalStrategy } from './strategy/local.strategy';
     NaverStrategy,
     KakaoStrategy,
     LocalStrategy,
+    AdminStrategy,
     SessionSerializer,
     AuthService,
   ],
