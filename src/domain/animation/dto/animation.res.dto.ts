@@ -1,8 +1,20 @@
 import { AnimationBaseDto } from './animation.req.dto';
-import { Studio } from '@prisma/client';
+import {
+  Genre,
+  OriginalWorker,
+  Season,
+  Studio,
+  VoiceActor,
+} from '@prisma/client';
 
 export interface AnimationItemResDto extends Partial<AnimationBaseDto> {
+  id: number;
   studios: Studio[];
+  seasons: Season[];
+  genres: Genre[];
+  voiceActors: VoiceActor[];
+  originalWorkers: OriginalWorker[];
+  // TODO: add keywords
 }
 
 export interface AnimationListResDto {

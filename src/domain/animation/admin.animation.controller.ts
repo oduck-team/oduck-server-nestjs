@@ -13,6 +13,7 @@ export class AdminAnimationController {
 
   /**
    * @tag admin/animation
+   * @enum season.quarter: [1, 2, 3, 4]
    */
   @TypedRoute.Post('/')
   // @UseGuards(RolesGuard)
@@ -27,11 +28,11 @@ export class AdminAnimationController {
    * @tag admin/animation
    */
   @TypedRoute.Put('/:id')
-  @UseGuards(RolesGuard)
-  @Roles(Role.ADMIN)
+  // @UseGuards(RolesGuard)
+  // @Roles(Role.ADMIN)
   async update(
     @TypedParam('id') id: number,
-    @TypedBody() body: AnimationUpdateDto,
+    @TypedBody() body: AnimationReqDto,
   ): Promise<Animation> {
     return this.service.updateById(id, body);
   }
@@ -40,8 +41,8 @@ export class AdminAnimationController {
    * @tag admin/animation
    */
   @TypedRoute.Delete('/:id')
-  @UseGuards(RolesGuard)
-  @Roles(Role.ADMIN)
+  // @UseGuards(RolesGuard)
+  // @Roles(Role.ADMIN)
   async destroy(@TypedParam('id') id: number): Promise<Animation> {
     return this.service.destroyById(id);
   }

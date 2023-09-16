@@ -1,24 +1,119 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { PrismaService } from '../../global/database/prisma/prisma.service';
 import { AnimationListDto } from './dto/animation.req.dto';
-import { AnimationReqDto, AnimationUpdateDto } from './dto/animation.req.dto';
-import { AnimationItemResDto } from './dto/animation.res.dto';
+import { AnimationReqDto } from './dto/animation.req.dto';
 import { Sort } from '../../global/common/types/sort';
+import { Role } from '@prisma/client';
 
 @Injectable()
 export class AnimationRepository {
   constructor(private prisma: PrismaService) {}
 
-  async getAnimations(params: AnimationListDto) {
-    const search = params.search
-      ? {
-          OR: [
-            { name: { contains: params.search } },
-            { plot: { contains: params.search } },
-            { primaryKeyword: { contains: params.search } },
-          ],
-        }
-      : {};
+  private makeCommonIncludeQuery() {
+    return {
+      studios: {
+        select: {
+          studio: true,
+        },
+      },
+      genres: {
+        select: {
+          genre: true,
+        },
+      },
+      voiceActors: {
+        select: {
+          voiceActor: true,
+        },
+      },
+      originalWorkers: {
+        select: {
+          originalWorker: true,
+        },
+      },
+      // TODO: keywords
+      seasons: true,
+    };
+  }
+
+  private makeCommonBodyQuery(body: AnimationReqDto, id?: number) {
+    const {
+      studioNames,
+      genres,
+      voiceActors,
+      originalWorkers,
+      seasons,
+      ...animationBody
+    } = body;
+
+    return {
+      ...animationBody,
+
+      studios: {
+        deleteMany: id ? { animationId: id } : undefined,
+        create: studioNames.map((s) => ({
+          studio: {
+            connectOrCreate: {
+              where: { name: s },
+              create: { name: s },
+            },
+          },
+        })),
+      },
+      genres: {
+        deleteMany: id ? { animationId: id } : undefined,
+        create: genres.map((g) => ({
+          genre: {
+            connectOrCreate: {
+              where: { type: g },
+              create: { type: g },
+            },
+          },
+        })),
+      },
+      voiceActors: {
+        deleteMany: id ? { animationId: id } : undefined,
+        create: voiceActors.map((v) => ({
+          voiceActor: {
+            connectOrCreate: {
+              where: { name: v },
+              create: { name: v },
+            },
+          },
+        })),
+      },
+      originalWorkers: {
+        deleteMany: id ? { animationId: id } : undefined,
+        create: originalWorkers.map((o) => ({
+          originalWorker: {
+            connectOrCreate: {
+              where: { name: o },
+              create: { name: o },
+            },
+          },
+        })),
+      },
+      seasons: {
+        deleteMany: id ? { animationId: id } : undefined,
+        create: seasons.map((s) => ({
+          year: s.year,
+          quarter: s.quarter,
+        })),
+      },
+      // TODO: keywords
+    };
+  }
+
+  async getAnimations(role: Role, params: AnimationListDto) {
+    const search = {
+      OR: [
+        { name: { contains: params.search ?? '' } },
+        { plot: { contains: params.search ?? '' } },
+        { primaryKeyword: { contains: params.search ?? '' } },
+      ],
+      status: params.status ?? {},
+      isReleased: role === Role.ADMIN ? {} : true,
+    };
 
     return this.prisma.animation.findMany({
       skip: params.lastId ? 1 : 0,
@@ -27,62 +122,36 @@ export class AnimationRepository {
         [params.sortBy ?? 'createdAt']: params.sortOrder ?? Sort.DESC,
       },
       where: search,
-      include: {
-        studios: {
-          select: {
-            studio: true,
-          },
-        },
-      },
+      include: this.makeCommonIncludeQuery(),
     });
   }
 
-  async getAnimationById(id: number) {
-    return this.prisma.animation.findFirst({
+  async getAnimationById(role: Role, id: number) {
+    const animation = await this.prisma.animation.findFirst({
       where: { id },
-      include: { studios: { select: { studio: true } } },
+      include: this.makeCommonIncludeQuery(),
     });
+
+    if (role !== Role.ADMIN && !animation?.isReleased)
+      throw new UnauthorizedException('NotReleased');
+
+    return animation;
   }
 
   async storeAnimation(body: AnimationReqDto) {
-    // TODO: modify to store voice_actor, studio.... transaction
-    const { studioNames, ...animationBody } = body;
-
     return this.prisma.animation.create({
-      data: {
-        ...animationBody,
-        studios: {
-          create: studioNames.map((s) => ({
-            studio: {
-              connectOrCreate: {
-                where: { name: s },
-                create: { name: s },
-              },
-            },
-          })),
-        },
-        // TODO: other relations
-        // TODO: other relations
-        // TODO: other relations
-      },
-      include: {
-        studios: {
-          select: {
-            studio: true,
-          },
-        },
-        // TODO: other relations
-        // TODO: other relations
-        // TODO: other relations
-        // TODO: other relations
-      },
+      data: this.makeCommonBodyQuery(body),
+      include: this.makeCommonIncludeQuery(),
     });
   }
 
-  async updateAnimation(id: number, body: AnimationUpdateDto) {
-    return this.prisma.animation.update({
-      where: { id },
-      data: body,
+  async updateAnimation(id: number, body: AnimationReqDto) {
+    return this.prisma.$transaction(async (tx) => {
+      return tx.animation.update({
+        where: { id },
+        data: this.makeCommonBodyQuery(body, id),
+        include: this.makeCommonIncludeQuery(),
+      });
     });
   }
 

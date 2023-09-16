@@ -1,4 +1,4 @@
-import { BroadcastType, Rating, Status } from '@prisma/client';
+import { BroadcastType, GenreType, Rating, Status } from '@prisma/client';
 
 export interface AnimationListDto {
   /**
@@ -26,6 +26,12 @@ export interface AnimationListDto {
    * @default 바키
    * */
   search?: string;
+
+  /**
+   * @enum Status
+   * @default ONGOING
+   * */
+  status?: string;
 }
 
 export interface AnimationRelationDto {
@@ -33,6 +39,30 @@ export interface AnimationRelationDto {
    * @default 가이낙스
    * */
   studioNames: string[];
+
+  /**
+   * @default 가이낙스
+   * */
+  seasons: { year: number; quarter: number }[];
+
+  /**
+   * @default FANTASY
+   * @enum GenreType
+   * */
+  genres: GenreType[];
+
+  /**
+   * @default 타네다 리사
+   * */
+  voiceActors: string[];
+
+  /**
+   * @type string[]
+   * @default 데즈카 오사무
+   * */
+  originalWorkers: string[];
+
+  //TODO: add keywords
 }
 
 export interface AnimationBaseDto {
