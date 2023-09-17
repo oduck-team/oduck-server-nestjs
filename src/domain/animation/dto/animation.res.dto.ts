@@ -9,13 +9,3 @@ export interface AnimationItemResDto extends Partial<AnimationBaseDto> {
   originalWorkers: OriginalWorker[];
   // TODO: add keywords
 }
-
-export interface AnimationListResDto {
-  items: AnimationItemResDto[];
-  cursor: string;
-  page: number;
-  size: number;
-  nextPage: number;
-  lastPage: number;
-  total: number;
-}

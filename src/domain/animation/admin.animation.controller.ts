@@ -1,4 +1,4 @@
-import { Controller, UseGuards } from '@nestjs/common';
+import { Controller, HttpCode, UseGuards } from '@nestjs/common';
 import { AnimationService } from './animation.service';
 import { TypedBody, TypedParam, TypedRoute } from '@nestia/core';
 import { Animation, Role } from '@prisma/client';
@@ -6,6 +6,7 @@ import { AnimationReqDto, AnimationUpdateDto } from './dto/animation.req.dto';
 import { AnimationItemResDto } from './dto/animation.res.dto';
 import { Roles } from '../../global/common/decoratror/roles.decorator';
 import { RolesGuard } from '../../global/auth/guard/roles.guard';
+import { ApiNoContentResponse } from '@nestjs/swagger';
 
 @Controller('/animation')
 export class AdminAnimationController {
@@ -34,7 +35,7 @@ export class AdminAnimationController {
   async update(
     @TypedParam('id') id: number,
     @TypedBody() body: AnimationReqDto,
-  ): Promise<Animation> {
+  ): Promise<AnimationItemResDto> {
     return this.service.updateById(id, body);
   }
 
@@ -42,9 +43,10 @@ export class AdminAnimationController {
    * @tag admin/animation
    */
   @TypedRoute.Delete('/:id')
+  @HttpCode(204)
   // @UseGuards(RolesGuard)
   // @Roles(Role.ADMIN)
-  async destroy(@TypedParam('id') id: number): Promise<Animation> {
+  async destroy(@TypedParam('id') id: number): Promise<void> {
     return this.service.destroyById(id);
   }
 }

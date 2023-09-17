@@ -35,12 +35,15 @@ export class AnimationService {
     return this.flattenRelations([item])[0];
   }
 
-  async updateById(id: number, body: AnimationReqDto): Promise<Animation> {
+  async updateById(
+    id: number,
+    body: AnimationReqDto,
+  ): Promise<AnimationItemResDto> {
     const item = await this.repository.updateAnimation(id, body);
     return this.flattenRelations([item])[0];
   }
 
-  async destroyById(id: number): Promise<Animation> {
+  async destroyById(id: number): Promise<void> {
     return await this.repository.destroyById(Number(id));
   }
 

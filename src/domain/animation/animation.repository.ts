@@ -110,6 +110,7 @@ export class AnimationRepository {
     return this.prisma.animation.findMany({
       skip: params.lastId ? 1 : 0,
       take: params.pageSize ?? 20,
+      cursor: params.lastId ? { id: params.lastId } : undefined,
       orderBy: {
         [params.sortBy ?? 'createdAt']: params.sortOrder ?? Sort.DESC,
       },
@@ -136,16 +137,14 @@ export class AnimationRepository {
   }
 
   async updateAnimation(id: number, body: AnimationReqDto) {
-    return this.prisma.$transaction(async (tx) => {
-      return tx.animation.update({
-        where: { id },
-        data: this.makeCommonBodyQuery(body, id),
-        include: this.makeCommonIncludeQuery(),
-      });
+    return this.prisma.animation.update({
+      where: { id },
+      data: this.makeCommonBodyQuery(body, id),
+      include: this.makeCommonIncludeQuery(),
     });
   }
 
   async destroyById(id: number) {
-    return this.prisma.animation.delete({ where: { id } });
+    await this.prisma.animation.delete({ where: { id } });
   }
 }
