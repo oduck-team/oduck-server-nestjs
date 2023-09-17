@@ -106,7 +106,7 @@ export class AuthService {
     const nowTime = ('0' + now.getHours()).slice(-2);
     const nowMinutes = ('0' + now.getMinutes()).slice(-2);
 
-    if (inputTime === `${nowTime}${nowMinutes}`) {
+    if (inputTime !== `${nowTime}${nowMinutes}`) {
       throw new NotFoundException('Member not found');
     }
   }
