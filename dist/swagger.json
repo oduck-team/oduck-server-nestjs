@@ -47,8 +47,8 @@
             "x-nestia-encrypted": false
           }
         },
-        "summary": "@tag admin/animation\n@enum season",
-        "description": "@tag admin/animation\n@enum season.quarter: [1, 2, 3, 4]",
+        "summary": "@tag admin/animation\n@enum seasonQuarter: [1, 2, 3, 4]\n@seriesGroup 시리즈인 경우 대표적인 이름",
+        "description": "@tag admin/animation\n@enum seasonQuarter: [1, 2, 3, 4]\n@seriesGroup 시리즈인 경우 대표적인 이름. ex) [에반게리온 서, 파, Q] -> 에반게리온",
         "x-nestia-namespace": "animation.store",
         "x-nestia-jsDocTags": [
           {
@@ -65,6 +65,15 @@
             "text": [
               {
                 "text": ": [1, 2, 3, 4]",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "seriesGroup",
+            "text": [
+              {
+                "text": "시리즈인 경우 대표적인 이름. ex) [에반게리온 서, 파, Q] -> 에반게리온",
                 "kind": "text"
               }
             ]
@@ -162,7 +171,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/GetResult_lt__blt__space_id:_space_number;_space_name:_space_string;_space_plot:_space_string;_space_broadcastType:_space_BroadcastType;_space_episodeNumber:_space_number;_space_imageUrl:_space_string;_space_rating:_space_Rating;_space_primaryKeyword:_space_string;_space_status:_space_Status;_space_..._space_5_space_more_space_...;_space_deletedAt:_space_Date_space__or__space_null;_space__bgt__comma__space_unknown_gt__space__and__space__blt__bgt_"
+                  "$ref": "#/components/schemas/AnimationItemResDto"
                 }
               }
             },
@@ -200,15 +209,8 @@
           }
         ],
         "responses": {
-          "200": {
+          "204": {
             "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetResult_lt__blt__space_id:_space_number;_space_name:_space_string;_space_plot:_space_string;_space_broadcastType:_space_BroadcastType;_space_episodeNumber:_space_number;_space_imageUrl:_space_string;_space_rating:_space_Rating;_space_primaryKeyword:_space_string;_space_status:_space_Status;_space_..._space_5_space_more_space_...;_space_deletedAt:_space_Date_space__or__space_null;_space__bgt__comma__space_unknown_gt__space__and__space__blt__bgt_"
-                }
-              }
-            },
             "x-nestia-encrypted": false
           }
         },
@@ -397,6 +399,53 @@
         "x-nestia-method": "DELETE"
       }
     },
+    "/studio": {
+      "post": {
+        "tags": [
+          "admin/studio"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "description": "",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StudioCreateDto"
+              }
+            }
+          },
+          "required": true,
+          "x-nestia-encrypted": false
+        },
+        "responses": {
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetResult_lt__blt__space_id:_space_number;_space_name:_space_string;_space_createdAt:_space_Date;_space_updatedAt:_space_Date;_space__bgt__comma__space_unknown_gt__space__and__space__blt__bgt_"
+                }
+              }
+            },
+            "x-nestia-encrypted": false
+          }
+        },
+        "description": "@tag admin/studio",
+        "x-nestia-namespace": "studio.store",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "admin/studio",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
+        "x-nestia-method": "POST"
+      }
+    },
     "/members/signup": {
       "post": {
         "tags": [
@@ -549,7 +598,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/__type.o1"
+                    "$ref": "#/components/schemas/__type"
                   }
                 }
               }
@@ -1268,53 +1317,6 @@
         "x-nestia-method": "DELETE"
       }
     },
-    "/studio": {
-      "post": {
-        "tags": [
-          "admin/studio"
-        ],
-        "parameters": [],
-        "requestBody": {
-          "description": "",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/StudioCreateDto"
-              }
-            }
-          },
-          "required": true,
-          "x-nestia-encrypted": false
-        },
-        "responses": {
-          "201": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/GetResult_lt__blt__space_id:_space_number;_space_name:_space_string;_space_createdAt:_space_Date;_space_updatedAt:_space_Date;_space__bgt__comma__space_unknown_gt__space__and__space__blt__bgt_"
-                }
-              }
-            },
-            "x-nestia-encrypted": false
-          }
-        },
-        "description": "@tag admin/studio",
-        "x-nestia-namespace": "studio.store",
-        "x-nestia-jsDocTags": [
-          {
-            "name": "tag",
-            "text": [
-              {
-                "text": "admin/studio",
-                "kind": "text"
-              }
-            ]
-          }
-        ],
-        "x-nestia-method": "POST"
-      }
-    },
     "/auth/google/login": {
       "get": {
         "tags": [
@@ -1633,6 +1635,73 @@
           "status": {
             "$ref": "#/components/schemas/Status"
           },
+          "seasonYear": {
+            "description": "@default 2023",
+            "x-typia-jsDocTags": [
+              {
+                "name": "default",
+                "text": [
+                  {
+                    "text": "2023",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "number",
+            "default": 2023
+          },
+          "seasonQuarter": {
+            "description": "@default 1\n@enum [1, 2, 3, 4]",
+            "x-typia-jsDocTags": [
+              {
+                "name": "default",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "enum"
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "number",
+            "default": 1
+          },
+          "seriesGroup": {
+            "description": "@default 에반게리온\n@description 시리즈인 경우 대표적인 이름. ex) [에반게리온 서, 파, Q] -> 에반게리온",
+            "x-typia-jsDocTags": [
+              {
+                "name": "default",
+                "text": [
+                  {
+                    "text": "에반게리온",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "description",
+                "text": [
+                  {
+                    "text": "시리즈인 경우 대표적인 이름. ex) [에반게리온 서, 파, Q] -> 에반게리온",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "default": "에반게리온",
+            "nullable": true
+          },
           "isReleased": {
             "description": "@default true",
             "x-typia-jsDocTags": [
@@ -1704,28 +1773,8 @@
               "default": "가이낙스"
             }
           },
-          "seasons": {
-            "description": "@default 가이낙스",
-            "x-typia-jsDocTags": [
-              {
-                "name": "default",
-                "text": [
-                  {
-                    "text": "가이낙스",
-                    "kind": "text"
-                  }
-                ]
-              }
-            ],
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/__type"
-            }
-          },
           "genres": {
-            "description": "@default FANTASY\n@enum GenreType",
+            "description": "@default FANTASY",
             "x-typia-jsDocTags": [
               {
                 "name": "default",
@@ -1735,16 +1784,28 @@
                     "kind": "text"
                   }
                 ]
-              },
-              {
-                "name": "enum"
               }
             ],
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/GenreType"
+              "description": "@default FANTASY",
+              "x-typia-jsDocTags": [
+                {
+                  "name": "default",
+                  "text": [
+                    {
+                      "text": "FANTASY",
+                      "kind": "text"
+                    }
+                  ]
+                }
+              ],
+              "x-typia-required": true,
+              "x-typia-optional": false,
+              "type": "string",
+              "default": "FANTASY"
             }
           },
           "voiceActors": {
@@ -1845,10 +1906,12 @@
           "rating",
           "primaryKeyword",
           "status",
+          "seasonYear",
+          "seasonQuarter",
+          "seriesGroup",
           "isReleased",
           "imageUrl",
           "studioNames",
-          "seasons",
           "genres",
           "voiceActors",
           "originalWorkers"
@@ -1882,43 +1945,6 @@
           "UNKNOWN"
         ]
       },
-      "__type": {
-        "type": "object",
-        "properties": {
-          "year": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "number"
-          },
-          "quarter": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "number"
-          }
-        },
-        "nullable": false,
-        "required": [
-          "year",
-          "quarter"
-        ],
-        "x-typia-jsDocTags": []
-      },
-      "GenreType": {
-        "type": "string",
-        "enum": [
-          "FANTASY",
-          "SF",
-          "ROMANCE",
-          "ACTION",
-          "ADVANTURE",
-          "ANOTHER_WORLD",
-          "FAMILY",
-          "GAG",
-          "TOUCHING",
-          "CRIME",
-          "DRAMA"
-        ]
-      },
       "AnimationItemResDto": {
         "type": "object",
         "properties": {
@@ -1935,23 +1961,7 @@
               "$ref": "#/components/schemas/GetResult_lt__blt__space_id:_space_number;_space_name:_space_string;_space_createdAt:_space_Date;_space_updatedAt:_space_Date;_space__bgt__comma__space_unknown_gt__space__and__space__blt__bgt_"
             }
           },
-          "seasons": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/GetResult_lt__blt__space_id:_space_number;_space_animationId:_space_number;_space_year:_space_number;_space_quarter:_space_number;_space_createdAt:_space_Date;_space__bgt__comma__space_unknown_gt__space__and__space__blt__bgt_"
-            }
-          },
           "genres": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/GetResult_lt__blt__space_id:_space_number;_space_type:_space_GenreType;_space_createdAt:_space_Date;_space__bgt__comma__space_unknown_gt__space__and__space__blt__bgt_"
-            }
-          },
-          "voiceActors": {
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "array",
@@ -1959,12 +1969,20 @@
               "$ref": "#/components/schemas/GetResult_lt__blt__space_id:_space_number;_space_name:_space_string;_space_createdAt:_space_Date;_space__bgt__comma__space_unknown_gt__space__and__space__blt__bgt_"
             }
           },
-          "originalWorkers": {
+          "voiceActors": {
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/GetResult_lt__blt__space_id:_space_number;_space_name:_space_string;_space_createdAt:_space_Date;_space__bgt__comma__space_unknown_gt__space__and__space__blt__bgt_.o1"
+            }
+          },
+          "originalWorkers": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/GetResult_lt__blt__space_id:_space_number;_space_name:_space_string;_space_createdAt:_space_Date;_space__bgt__comma__space_unknown_gt__space__and__space__blt__bgt_.o2"
             }
           },
           "name": {
@@ -2111,6 +2129,73 @@
             ],
             "default": "ONGOING"
           },
+          "seasonYear": {
+            "description": "@default 2023",
+            "x-typia-jsDocTags": [
+              {
+                "name": "default",
+                "text": [
+                  {
+                    "text": "2023",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": false,
+            "x-typia-optional": false,
+            "type": "number",
+            "default": 2023
+          },
+          "seasonQuarter": {
+            "description": "@default 1\n@enum [1, 2, 3, 4]",
+            "x-typia-jsDocTags": [
+              {
+                "name": "default",
+                "text": [
+                  {
+                    "text": "1",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "enum"
+              }
+            ],
+            "x-typia-required": false,
+            "x-typia-optional": false,
+            "type": "number",
+            "default": 1
+          },
+          "seriesGroup": {
+            "description": "@default 에반게리온\n@description 시리즈인 경우 대표적인 이름. ex) [에반게리온 서, 파, Q] -> 에반게리온",
+            "x-typia-jsDocTags": [
+              {
+                "name": "default",
+                "text": [
+                  {
+                    "text": "에반게리온",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "description",
+                "text": [
+                  {
+                    "text": "시리즈인 경우 대표적인 이름. ex) [에반게리온 서, 파, Q] -> 에반게리온",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": false,
+            "x-typia-optional": false,
+            "type": "string",
+            "default": "에반게리온",
+            "nullable": true
+          },
           "isReleased": {
             "description": "@default true",
             "x-typia-jsDocTags": [
@@ -2152,7 +2237,6 @@
         "required": [
           "id",
           "studios",
-          "seasons",
           "genres",
           "voiceActors",
           "originalWorkers"
@@ -2191,72 +2275,6 @@
           "name",
           "createdAt",
           "updatedAt"
-        ],
-        "x-typia-jsDocTags": []
-      },
-      "GetResult_lt__blt__space_id:_space_number;_space_animationId:_space_number;_space_year:_space_number;_space_quarter:_space_number;_space_createdAt:_space_Date;_space__bgt__comma__space_unknown_gt__space__and__space__blt__bgt_": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "number"
-          },
-          "createdAt": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string",
-            "format": "date-time"
-          },
-          "animationId": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "number"
-          },
-          "year": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "number"
-          },
-          "quarter": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "number"
-          }
-        },
-        "nullable": false,
-        "required": [
-          "id",
-          "createdAt",
-          "animationId",
-          "year",
-          "quarter"
-        ],
-        "x-typia-jsDocTags": []
-      },
-      "GetResult_lt__blt__space_id:_space_number;_space_type:_space_GenreType;_space_createdAt:_space_Date;_space__bgt__comma__space_unknown_gt__space__and__space__blt__bgt_": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "number"
-          },
-          "createdAt": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string",
-            "format": "date-time"
-          },
-          "type": {
-            "$ref": "#/components/schemas/GenreType"
-          }
-        },
-        "nullable": false,
-        "required": [
-          "id",
-          "createdAt",
-          "type"
         ],
         "x-typia-jsDocTags": []
       },
@@ -2316,7 +2334,7 @@
         ],
         "x-typia-jsDocTags": []
       },
-      "GetResult_lt__blt__space_id:_space_number;_space_name:_space_string;_space_plot:_space_string;_space_broadcastType:_space_BroadcastType;_space_episodeNumber:_space_number;_space_imageUrl:_space_string;_space_rating:_space_Rating;_space_primaryKeyword:_space_string;_space_status:_space_Status;_space_..._space_5_space_more_space_...;_space_deletedAt:_space_Date_space__or__space_null;_space__bgt__comma__space_unknown_gt__space__and__space__blt__bgt_": {
+      "GetResult_lt__blt__space_id:_space_number;_space_name:_space_string;_space_createdAt:_space_Date;_space__bgt__comma__space_unknown_gt__space__and__space__blt__bgt_.o2": {
         "type": "object",
         "properties": {
           "id": {
@@ -2329,63 +2347,7 @@
             "x-typia-optional": false,
             "type": "string"
           },
-          "plot": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string"
-          },
-          "broadcastType": {
-            "$ref": "#/components/schemas/BroadcastType"
-          },
-          "episodeNumber": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "number"
-          },
-          "imageUrl": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string"
-          },
-          "rating": {
-            "$ref": "#/components/schemas/Rating"
-          },
-          "primaryKeyword": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string"
-          },
-          "status": {
-            "$ref": "#/components/schemas/Status"
-          },
-          "isReleased": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "boolean"
-          },
-          "viewCount": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "number"
-          },
-          "reviewCount": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "number"
-          },
           "createdAt": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string",
-            "format": "date-time"
-          },
-          "updatedAt": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string",
-            "format": "date-time"
-          },
-          "deletedAt": {
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string",
@@ -2396,19 +2358,7 @@
         "required": [
           "id",
           "name",
-          "plot",
-          "broadcastType",
-          "episodeNumber",
-          "imageUrl",
-          "rating",
-          "primaryKeyword",
-          "status",
-          "isReleased",
-          "viewCount",
-          "reviewCount",
-          "createdAt",
-          "updatedAt",
-          "deletedAt"
+          "createdAt"
         ],
         "x-typia-jsDocTags": []
       },
@@ -2546,6 +2496,35 @@
         "required": [
           "id"
         ],
+        "x-typia-jsDocTags": []
+      },
+      "GenreCreateDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "description": "@default GenreType",
+            "x-typia-jsDocTags": [
+              {
+                "name": "default",
+                "text": [
+                  {
+                    "text": "GenreType",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "default": "GenreType"
+          }
+        },
+        "nullable": false,
+        "required": [
+          "name"
+        ],
+        "description": "@default GenreType",
         "x-typia-jsDocTags": []
       },
       "UpdateNameDto": {
@@ -2860,7 +2839,7 @@
         "description": "@minimum 1\n@maximum 20\n@default 20\n@example 20\n@description 한번에 가져올 데이터의 양",
         "x-typia-jsDocTags": []
       },
-      "__type.o1": {
+      "__type": {
         "type": "object",
         "properties": {
           "id": {
@@ -2869,7 +2848,7 @@
             "type": "number"
           },
           "animation": {
-            "$ref": "#/components/schemas/__type.o2"
+            "$ref": "#/components/schemas/__type.o1"
           },
           "createdAt": {
             "x-typia-required": true,
@@ -2886,7 +2865,7 @@
         ],
         "x-typia-jsDocTags": []
       },
-      "__type.o2": {
+      "__type.o1": {
         "type": "object",
         "properties": {
           "id": {
@@ -2945,19 +2924,7 @@
             "x-typia-optional": false,
             "type": "string"
           },
-          "imageUrl": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string",
-            "nullable": true
-          },
           "createdAt": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string",
-            "format": "date-time"
-          },
-          "updatedAt": {
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string",
@@ -2977,10 +2944,22 @@
           "role": {
             "$ref": "#/components/schemas/Role"
           },
+          "imageUrl": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "nullable": true
+          },
           "point": {
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "number"
+          },
+          "updatedAt": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "format": "date-time"
           }
         },
         "nullable": false,
@@ -2988,13 +2967,13 @@
           "reviews",
           "reviewLikes",
           "name",
-          "imageUrl",
           "createdAt",
-          "updatedAt",
           "memberId",
           "info",
           "role",
-          "point"
+          "imageUrl",
+          "point",
+          "updatedAt"
         ],
         "description": "\n@nullable\n@session\n",
         "x-typia-jsDocTags": []
@@ -3807,11 +3786,11 @@
       "AttractionElement": {
         "type": "string",
         "enum": [
-          "ACTION",
           "PAINTING",
           "STORY",
           "BGM",
           "CHARACTER",
+          "ACTION",
           "IMMERSIBILITY"
         ]
       },
@@ -3958,19 +3937,7 @@
             "x-typia-optional": false,
             "type": "string"
           },
-          "imageUrl": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string",
-            "nullable": true
-          },
           "createdAt": {
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string",
-            "format": "date-time"
-          },
-          "updatedAt": {
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string",
@@ -3990,22 +3957,34 @@
           "role": {
             "$ref": "#/components/schemas/Role"
           },
+          "imageUrl": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "nullable": true
+          },
           "point": {
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "number"
+          },
+          "updatedAt": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "format": "date-time"
           }
         },
         "nullable": false,
         "required": [
           "name",
-          "imageUrl",
           "createdAt",
-          "updatedAt",
           "memberId",
           "info",
           "role",
-          "point"
+          "imageUrl",
+          "point",
+          "updatedAt"
         ],
         "x-typia-jsDocTags": []
       }

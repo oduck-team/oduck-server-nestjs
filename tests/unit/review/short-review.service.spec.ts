@@ -93,8 +93,8 @@ describe('ShortReviewService', () => {
   });
 
   describe('createShortReview', () => {
-    const memberId: number = 123;
-    const reviewId: number = 456;
+    const memberId = 123;
+    const reviewId = 456;
     const dto: CreateShortReviewDto = {
       rating: 5,
       comment: 'This is test',
@@ -125,9 +125,7 @@ describe('ShortReviewService', () => {
       await expect(
         async () => await service.createShortReview(memberId, reviewId, dto),
       ).rejects.toThrowError(
-        new BadRequestException(
-          `해당 애니메이션에 이미 작성한 한줄 리뷰가 존재합니다.`,
-        ),
+        new BadRequestException(`Already exist short review this animation.`),
       );
     });
   });
@@ -135,7 +133,7 @@ describe('ShortReviewService', () => {
   describe('updateShortReview', () => {
     it('한줄 리뷰 수정', async () => {
       // given
-      const reviewId: number = 1;
+      const reviewId = 1;
       const dto: UpdateShortReviewDto = {
         rating: 5,
         comment: 'This is test',
@@ -157,8 +155,8 @@ describe('ShortReviewService', () => {
   describe('deleteShortReview', () => {
     it('한줄 리뷰 삭제', async () => {
       // given
-      const reviewId: number = 456;
-      const msg: string = `해당 한줄 리뷰를 성공적으로 삭제하였습니다. id = ${reviewId}`;
+      const reviewId = 456;
+      const msg = `해당 한줄 리뷰를 성공적으로 삭제하였습니다. id = ${reviewId}`;
 
       jest
         .spyOn(repository, 'softDeleteShortReview')

@@ -11,6 +11,7 @@ import { PrismaModule } from './global/database/prisma/prisma.module';
 import { HttpExceptionFilter } from './global/common/filter/http-exception.filter';
 import { PrismaExceptionFilter } from './global/common/filter/prisma-exception.filter';
 import { BookmarkModule } from './domain/bookmark/bookmark.module';
+import { GenreModule } from './domain/genre/genre.module';
 
 @Module({
   imports: [
@@ -32,6 +33,7 @@ import { BookmarkModule } from './domain/bookmark/bookmark.module';
     MemberModule,
     AnimationModule,
     StudioModule,
+    GenreModule,
     ReviewsModule,
     BookmarkModule,
   ],
