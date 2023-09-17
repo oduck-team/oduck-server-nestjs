@@ -58,7 +58,7 @@ export class AuthService {
     );
   }
 
-  private async findMemberProfile(memberId: number) {
+  async findMemberProfile(memberId: number) {
     const memberProfile = await this.memberRepository.findMemberProfile(
       memberId,
     );
