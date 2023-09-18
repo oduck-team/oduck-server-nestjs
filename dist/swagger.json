@@ -1584,43 +1584,6 @@
         "x-nestia-method": "POST"
       }
     },
-    "/auth/login/admin": {
-      "post": {
-        "tags": [
-          "Auth"
-        ],
-        "parameters": [],
-        "responses": {
-          "201": {
-            "description": "",
-            "x-nestia-encrypted": false
-          }
-        },
-        "description": "@tag Auth\n@description\n관리자 로그인",
-        "x-nestia-namespace": "auth.login.admin.handleAdminLogin",
-        "x-nestia-jsDocTags": [
-          {
-            "name": "tag",
-            "text": [
-              {
-                "text": "Auth",
-                "kind": "text"
-              }
-            ]
-          },
-          {
-            "name": "description",
-            "text": [
-              {
-                "text": "관리자 로그인",
-                "kind": "text"
-              }
-            ]
-          }
-        ],
-        "x-nestia-method": "POST"
-      }
-    },
     "/auth/logout": {
       "delete": {
         "tags": [
