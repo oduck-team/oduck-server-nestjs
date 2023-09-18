@@ -22,25 +22,27 @@ export class AuthService {
   }
 
   async validateMemberByPassword(details: IAuthPassword) {
-    const memberAuth = await this.getAuthPassword(details);
+    const memberAuth = await this.getAuthPassword(details.loginId);
 
-    await this.comparePassword(details.password, memberAuth.password);
+    let password = details.password;
+
+    const memberProfile = await this.findMemberProfile(memberAuth.memberId);
+    if (memberProfile.role === Role.ADMIN) {
+      password = await this.extractAdminPasswrd(details.password);
+    }
+
+    await this.comparePassword(password, memberAuth.password);
 
     return this.findMemberById(memberAuth.memberId);
   }
 
-  async validateAdminByPassword(details: IAuthPassword) {
-    const memberAuth = await this.getAuthPassword(details);
-
-    await this.validateRole(memberAuth.memberId);
-
-    const inputTime = details.password.slice(0, 4);
-    const inputPassword = details.password.slice(4);
+  async extractAdminPasswrd(password: string) {
+    const inputTime = password.slice(0, 4);
+    const inputPassword = password.slice(4);
 
     await this.compareTime(inputTime);
-    await this.comparePassword(inputPassword, memberAuth.password);
 
-    return this.findMemberById(memberAuth.memberId);
+    return inputPassword;
   }
 
   private async findAuthSocialBySocialId(socialId: string) {
@@ -80,9 +82,9 @@ export class AuthService {
     return member;
   }
 
-  private async getAuthPassword(details: IAuthPassword): Promise<AuthPassword> {
+  private async getAuthPassword(loginId: string): Promise<AuthPassword> {
     const memberAuth = await this.memberRepository.findAuthPasswordByLoginId(
-      details.loginId,
+      loginId,
     );
 
     if (!memberAuth) {
@@ -90,14 +92,6 @@ export class AuthService {
     }
 
     return memberAuth;
-  }
-
-  private async validateRole(memberId: number) {
-    const memberProfile = await this.findMemberProfile(memberId);
-
-    if (memberProfile.role !== Role.ADMIN) {
-      throw new NotFoundException('Member not found');
-    }
   }
 
   private async compareTime(inputTime: string) {
