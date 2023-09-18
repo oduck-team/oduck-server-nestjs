@@ -407,7 +407,9 @@
           "description": "",
           "content": {
             "application/json": {
-              "schema": {}
+              "schema": {
+                "$ref": "#/components/schemas/CreateMemberDto"
+              }
             }
           },
           "required": true,
@@ -2682,6 +2684,140 @@
         "required": [
           "id"
         ],
+        "x-typia-jsDocTags": []
+      },
+      "CreateMemberDto": {
+        "type": "object",
+        "properties": {
+          "loginId": {
+            "description": "@minLength 6\n@maxLength 12\n@pattern ^[A-Za-z0-9]{4,16}$\n@description 영문, 숫자 포함 6-12자",
+            "x-typia-metaTags": [
+              {
+                "kind": "minLength",
+                "value": 6
+              },
+              {
+                "kind": "maxLength",
+                "value": 12
+              },
+              {
+                "kind": "pattern",
+                "value": "^[A-Za-z0-9]{4,16}$"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "minLength",
+                "text": [
+                  {
+                    "text": "6",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "maxLength",
+                "text": [
+                  {
+                    "text": "12",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "pattern",
+                "text": [
+                  {
+                    "text": "^[A-Za-z0-9]{4,16}$",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "description",
+                "text": [
+                  {
+                    "text": "영문, 숫자 포함 6-12자",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "minLength": 6,
+            "maxLength": 12,
+            "pattern": "^[A-Za-z0-9]{4,16}$"
+          },
+          "password": {
+            "description": "@minLength 8\n@maxLength 20\n@pattern ^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,20}$\n@description 영문, 숫자, 특수문자를 포함 8-20자",
+            "x-typia-metaTags": [
+              {
+                "kind": "minLength",
+                "value": 8
+              },
+              {
+                "kind": "maxLength",
+                "value": 20
+              },
+              {
+                "kind": "pattern",
+                "value": "^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,20}$"
+              }
+            ],
+            "x-typia-jsDocTags": [
+              {
+                "name": "minLength",
+                "text": [
+                  {
+                    "text": "8",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "maxLength",
+                "text": [
+                  {
+                    "text": "20",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "pattern",
+                "text": [
+                  {
+                    "text": "^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,20}$",
+                    "kind": "text"
+                  }
+                ]
+              },
+              {
+                "name": "description",
+                "text": [
+                  {
+                    "text": "영문, 숫자, 특수문자를 포함 8-20자",
+                    "kind": "text"
+                  }
+                ]
+              }
+            ],
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "string",
+            "minLength": 8,
+            "maxLength": 20,
+            "pattern": "^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,20}$"
+          }
+        },
+        "nullable": false,
+        "required": [
+          "loginId",
+          "password"
+        ],
+        "description": "@minLength 8\n@maxLength 20\n@pattern ^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,20}$\n@description 영문, 숫자, 특수문자를 포함 8-20자",
         "x-typia-jsDocTags": []
       },
       "UpdateNameDto": {
