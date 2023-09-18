@@ -29,7 +29,7 @@ export class MemberController {
    * @security apiCookie
    */
   @TypedRoute.Post('/')
-  async handleCreateMember(@TypedBody() body: any) {
+  async handleCreateMember(@TypedBody() body: CreateMemberDto) {
     await this.memberService.createLocalMember(body);
   }
 
