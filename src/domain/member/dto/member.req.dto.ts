@@ -1,6 +1,19 @@
-import { IAuthPassword } from '../interface/member.interface';
-
-export interface CreateMemberDto extends IAuthPassword {}
+export interface CreateMemberDto {
+  /**
+   * @minLength 6
+   * @maxLength 12
+   * @pattern ^[A-Za-z0-9]{4,16}$
+   * @description 영문, 숫자 포함 6-12자
+   */
+  loginId: string;
+  /**
+   * @minLength 8
+   * @maxLength 20
+   * @pattern ^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,20}$
+   * @description 영문, 숫자, 특수문자를 포함 8-20자
+   */
+  password: string;
+}
 
 export interface UpdateNameDto {
   /**
