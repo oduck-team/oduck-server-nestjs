@@ -2,6 +2,7 @@ import { MemberProfile, Role } from '@prisma/client';
 import { TypedBody, TypedParam, TypedQuery, TypedRoute } from '@nestia/core';
 import { Controller, HttpCode, UseGuards } from '@nestjs/common';
 import {
+  CreateMemberDto,
   QueryDto,
   UpdateNameDto,
   UpdateProfileDto,
@@ -12,6 +13,7 @@ import { Roles } from 'src/global/common/decoratror/roles.decorator';
 import { User } from 'src/global/common/decoratror/user.decorator';
 import { MemberProfileDtoWithCount } from './dto/member.res.dto';
 import { BookmarkService } from '../bookmark/bookmark.service';
+import { GetBookmarkListDto } from '../bookmark/dto/bookmark.res.dto';
 
 @Controller('/members')
 export class MemberController {
@@ -19,6 +21,17 @@ export class MemberController {
     private readonly memberService: MemberService,
     private readonly bookmarkService: BookmarkService,
   ) {}
+
+  /**
+   *
+   * @tag Member
+   * @summary 회원 생성
+   * @security apiCookie
+   */
+  @TypedRoute.Post('/')
+  async handleCreateMember(@TypedBody() body: any) {
+    await this.memberService.createLocalMember(body);
+  }
 
   /**
    *
@@ -72,7 +85,7 @@ export class MemberController {
     @User() user: MemberProfile,
     @TypedQuery() query: QueryDto,
     // TODO: 정렬 추가하기
-  ) {
+  ): Promise<GetBookmarkListDto[]> {
     return await this.bookmarkService.findBookmarks(user.memberId, query);
   }
 

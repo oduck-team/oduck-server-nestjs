@@ -1,3 +1,7 @@
+import { IAuthPassword } from '../interface/member.interface';
+
+export interface CreateMemberDto extends IAuthPassword {}
+
 export interface UpdateNameDto {
   /**
    * @minLength 2

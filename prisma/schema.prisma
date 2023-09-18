@@ -48,6 +48,7 @@ model AuthSocial {
 model AuthPassword {
   id        Int      @id @default(autoincrement())
   memberId  Int      @unique
+  loginId   String   @unique
   hash      String
   password  String
   createdAt DateTime @default(now())

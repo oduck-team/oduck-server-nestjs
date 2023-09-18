@@ -1,4 +1,5 @@
-import { TypedRoute } from '@nestia/core';
+import { LocalAuthGuard } from './guard/local.auth.guard';
+import { TypedBody, TypedRoute } from '@nestia/core';
 import {
   Controller,
   InternalServerErrorException,
@@ -14,6 +15,8 @@ import { KakaoAuthGuard } from './guard/kakao.auth.guard';
 import { Request, Response } from 'express';
 import { RolesGuard } from './guard/roles.guard';
 import { Roles } from '../common/decoratror/roles.decorator';
+import { MemberProfileDto } from 'src/domain/member/dto/member.res.dto';
+import { AdminAuthGuard } from './guard/admin.auth.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -72,6 +75,28 @@ export class AuthController {
 
   /**
    * @tag Auth
+   * @description
+   *  로컬 로그인
+   */
+  @TypedRoute.Post('login')
+  @UseGuards(LocalAuthGuard)
+  handleLogin(@Res() res: Response) {
+    res.status(302).redirect(this.CLIENT_URL + this.CLIENT_CALBACK);
+  }
+
+  /**
+   * @tag Auth
+   * @description
+   * 관리자 로그인
+   */
+  @TypedRoute.Post('login/admin')
+  @UseGuards(AdminAuthGuard)
+  handleAdminLogin(@Res() res: Response) {
+    res.status(302).redirect(this.CLIENT_URL + this.CLIENT_CALBACK);
+  }
+
+  /**
+   * @tag Auth
    */
   @TypedRoute.Delete('logout')
   @UseGuards(RolesGuard)
@@ -92,7 +117,7 @@ export class AuthController {
   @TypedRoute.Get('status')
   @UseGuards(RolesGuard)
   @Roles(Role.GUEST, Role.MEMBER, Role.ADMIN)
-  handleStatus(@User() user: MemberProfile): Omit<MemberProfile, 'id'> {
+  handleStatus(@User() user: MemberProfile): MemberProfileDto {
     return user;
   }
 }
