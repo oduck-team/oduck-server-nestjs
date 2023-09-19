@@ -16,6 +16,7 @@ services:
     # docer 환경에서는 localhost가 아닌 redis 컨테이너 이름으로 접근
     environment:
       - REDIS_HOST=redis
+      - TZ=Asia/Seoul
     depends_on:
       - redis
     ports:
