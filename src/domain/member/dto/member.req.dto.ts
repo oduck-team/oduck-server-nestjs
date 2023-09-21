@@ -37,6 +37,10 @@ export interface UpdateProfileDto extends UpdateNameDto {
   info: string | null;
 }
 
+export interface GetBookmarkDto {
+  animationId: number;
+}
+
 export interface QueryDto {
   /**
    * @example 1

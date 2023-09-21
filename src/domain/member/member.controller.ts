@@ -3,6 +3,7 @@ import { TypedBody, TypedParam, TypedQuery, TypedRoute } from '@nestia/core';
 import { Controller, HttpCode, UseGuards } from '@nestjs/common';
 import {
   CreateMemberDto,
+  GetBookmarkDto,
   QueryDto,
   UpdateProfileDto,
 } from './dto/member.req.dto';
@@ -70,6 +71,23 @@ export class MemberController {
     // TODO: 정렬 추가하기
   ): Promise<GetBookmarkListDto[]> {
     return await this.bookmarkService.findBookmarks(user.memberId, query);
+  }
+
+  /**
+   *
+   * @tag Bookmark
+   * @summary 회원 북마크 여부 조회
+   * @security apiCookie
+   */
+  @TypedRoute.Get('/bookmarks/check')
+  @UseGuards(RolesGuard)
+  @Roles(Role.MEMBER)
+  async handleGetBookmark(
+    @User() user: MemberProfile,
+    @TypedQuery() query: GetBookmarkDto,
+    // TODO: 정렬 추가하기
+  ) {
+    await this.bookmarkService.findBookmark(user.memberId, query.animationId);
   }
 
   /**

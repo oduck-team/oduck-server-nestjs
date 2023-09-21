@@ -2,6 +2,7 @@ import {
   ConflictException,
   ForbiddenException,
   Injectable,
+  NotFoundException,
 } from '@nestjs/common';
 import { BookmarkRepository } from './bookmark.repository';
 
@@ -10,7 +11,7 @@ export class BookmarkService {
   constructor(private readonly bookmarkRepository: BookmarkRepository) {}
 
   async createBookmark(memberId: number, aniId: number) {
-    const bookmark = await this.findBookmark(memberId, aniId);
+    const bookmark = await this.existBookmark(memberId, aniId);
 
     if (bookmark) {
       throw new ConflictException('Already bookmarked');
@@ -20,6 +21,17 @@ export class BookmarkService {
   }
 
   async findBookmark(memberId: number, aniId: number) {
+    const bookmark = await this.bookmarkRepository.findBookmark(
+      memberId,
+      aniId,
+    );
+
+    if (!bookmark) {
+      throw new NotFoundException('Not bookmarked');
+    }
+  }
+
+  async existBookmark(memberId: number, aniId: number) {
     return await this.bookmarkRepository.findBookmark(memberId, aniId);
   }
 
@@ -28,10 +40,10 @@ export class BookmarkService {
   }
 
   async deleteBookmark(memberId: number, aniId: number) {
-    const bookmark = await this.findBookmark(memberId, aniId);
+    const bookmark = await this.existBookmark(memberId, aniId);
 
     if (!bookmark) {
-      throw new ForbiddenException('Not bookmarked');
+      throw new NotFoundException('Not bookmarked');
     }
 
     await this.bookmarkRepository.deleteBookmark(memberId, aniId);
