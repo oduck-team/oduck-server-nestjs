@@ -3,6 +3,7 @@ import {
   Catch,
   ExceptionFilter,
   HttpStatus,
+  Logger,
 } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 
@@ -18,10 +19,10 @@ export class PrismaExceptionFilter implements ExceptionFilter {
     host: ArgumentsHost,
   ): void {
     const response = host.switchToHttp().getResponse();
-    let message: string;
+    const message = exception.message.replace(/\n/g, '');
     let status: number;
 
-    message = exception.message.replace(/\n/g, '');
+    Logger.error(exception);
     if (exception instanceof Prisma.PrismaClientKnownRequestError) {
       switch (exception.code) {
         case 'P2002':
@@ -37,9 +38,7 @@ export class PrismaExceptionFilter implements ExceptionFilter {
           status = HttpStatus.NOT_FOUND;
           break;
         default:
-          const code = exception.code;
           status = HttpStatus.INTERNAL_SERVER_ERROR;
-          message = `${code} : ${exception.message.replace(/\n/g, '')}`;
       }
     } else {
       status = HttpStatus.INTERNAL_SERVER_ERROR;
