@@ -624,6 +624,68 @@
         "x-nestia-method": "GET"
       }
     },
+    "/members/bookmarks/check": {
+      "get": {
+        "tags": [
+          "Bookmark"
+        ],
+        "parameters": [
+          {
+            "name": "query",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "$ref": "#/components/schemas/GetBookmarkDto"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "x-nestia-encrypted": false
+          }
+        },
+        "summary": "회원 북마크 여부 조회",
+        "description": "\n@tag Bookmark\n@summary 회원 북마크 여부 조회\n@security apiCookie",
+        "security": [
+          {
+            "apiCookie": []
+          }
+        ],
+        "x-nestia-namespace": "members.bookmarks.check.handleGetBookmark",
+        "x-nestia-jsDocTags": [
+          {
+            "name": "tag",
+            "text": [
+              {
+                "text": "Bookmark",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "summary",
+            "text": [
+              {
+                "text": "회원 북마크 여부 조회",
+                "kind": "text"
+              }
+            ]
+          },
+          {
+            "name": "security",
+            "text": [
+              {
+                "text": "apiCookie",
+                "kind": "text"
+              }
+            ]
+          }
+        ],
+        "x-nestia-method": "GET"
+      }
+    },
     "/members/{name}": {
       "get": {
         "tags": [
@@ -2588,8 +2650,8 @@
       "CreateMemberDto": {
         "type": "object",
         "properties": {
-          "loginId": {
-            "description": "@minLength 6\n@maxLength 12\n@pattern ^[A-Za-z0-9]{4,16}$\n@description 영문, 숫자 포함 6-12자",
+          "email": {
+            "description": "@minLength 6\n@maxLength 320\n@format email\n@description 이메일 형식",
             "x-typia-metaTags": [
               {
                 "kind": "minLength",
@@ -2597,11 +2659,11 @@
               },
               {
                 "kind": "maxLength",
-                "value": 12
+                "value": 320
               },
               {
-                "kind": "pattern",
-                "value": "^[A-Za-z0-9]{4,16}$"
+                "kind": "format",
+                "value": "email"
               }
             ],
             "x-typia-jsDocTags": [
@@ -2618,16 +2680,16 @@
                 "name": "maxLength",
                 "text": [
                   {
-                    "text": "12",
+                    "text": "320",
                     "kind": "text"
                   }
                 ]
               },
               {
-                "name": "pattern",
+                "name": "format",
                 "text": [
                   {
-                    "text": "^[A-Za-z0-9]{4,16}$",
+                    "text": "email",
                     "kind": "text"
                   }
                 ]
@@ -2636,7 +2698,7 @@
                 "name": "description",
                 "text": [
                   {
-                    "text": "영문, 숫자 포함 6-12자",
+                    "text": "이메일 형식",
                     "kind": "text"
                   }
                 ]
@@ -2645,9 +2707,9 @@
             "x-typia-required": true,
             "x-typia-optional": false,
             "type": "string",
+            "format": "email",
             "minLength": 6,
-            "maxLength": 12,
-            "pattern": "^[A-Za-z0-9]{4,16}$"
+            "maxLength": 320
           },
           "password": {
             "description": "@minLength 8\n@maxLength 20\n@pattern ^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,20}$\n@description 영문, 숫자, 특수문자를 포함 8-20자",
@@ -2713,7 +2775,7 @@
         },
         "nullable": false,
         "required": [
-          "loginId",
+          "email",
           "password"
         ],
         "description": "@minLength 8\n@maxLength 20\n@pattern ^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,20}$\n@description 영문, 숫자, 특수문자를 포함 8-20자",
@@ -3009,6 +3071,21 @@
           "id",
           "name",
           "imageUrl"
+        ],
+        "x-typia-jsDocTags": []
+      },
+      "GetBookmarkDto": {
+        "type": "object",
+        "properties": {
+          "animationId": {
+            "x-typia-required": true,
+            "x-typia-optional": false,
+            "type": "number"
+          }
+        },
+        "nullable": false,
+        "required": [
+          "animationId"
         ],
         "x-typia-jsDocTags": []
       },
