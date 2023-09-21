@@ -4,7 +4,6 @@ import { Controller, HttpCode, UseGuards } from '@nestjs/common';
 import {
   CreateMemberDto,
   QueryDto,
-  UpdateNameDto,
   UpdateProfileDto,
 } from './dto/member.req.dto';
 import { MemberService } from './member.service';
@@ -25,28 +24,12 @@ export class MemberController {
   /**
    *
    * @tag Member
-   * @summary 회원 생성
+   * @summary 회원 가입
    * @security apiCookie
    */
   @TypedRoute.Post('/')
   async handleCreateMember(@TypedBody() body: CreateMemberDto) {
     await this.memberService.createLocalMember(body);
-  }
-
-  /**
-   *
-   * @tag Member
-   * @summary 회원 가입
-   * @security apiCookie
-   */
-  @TypedRoute.Post('/signup')
-  @UseGuards(RolesGuard)
-  @Roles(Role.GUEST)
-  async handleSignup(
-    @User() user: MemberProfile,
-    @TypedBody() body: UpdateNameDto,
-  ) {
-    await this.memberService.signup(user.memberId, body.name);
   }
 
   /**

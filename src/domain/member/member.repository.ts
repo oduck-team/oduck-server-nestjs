@@ -1,28 +1,26 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { LoginType, Role } from '@prisma/client';
-import { randomUUID } from 'crypto';
 import {
   IAuthPassword,
   IAuthSocial,
   IMemerProfile,
 } from './interface/member.interface';
 import { PrismaService } from '../../global/database/prisma/prisma.service';
+import { generateNickname } from '../../global/utils/nameGenerator';
 
 @Injectable()
 export class MemberRepository {
   constructor(private readonly prisma: PrismaService) {}
   async createOAuthMember(
-    loginType: LoginType,
     details: IAuthSocial,
   ): Promise<{ id: number; loginType: LoginType }> {
     const member = await this.prisma.member.create({
       data: {
-        loginType,
+        loginType: LoginType.SOCIAL,
         authSocial: { create: { ...details } },
         memberProfile: {
           create: {
-            role: Role.GUEST,
-            name: randomUUID(),
+            name: generateNickname(),
           },
         },
       },
@@ -42,11 +40,10 @@ export class MemberRepository {
     const member = await this.prisma.member.create({
       data: {
         loginType: LoginType.LOCAL,
-        authPassword: { create: { ...details, hash: '' } },
+        authPassword: { create: { ...details } },
         memberProfile: {
           create: {
-            role: Role.GUEST,
-            name: randomUUID(),
+            name: generateNickname(),
           },
         },
       },
@@ -58,18 +55,6 @@ export class MemberRepository {
 
     Logger.log(`Member created: ${JSON.stringify(member)}`);
     return member;
-  }
-
-  async signup(id: number, name: string): Promise<void> {
-    await this.prisma.memberProfile.update({
-      where: {
-        memberId: id,
-      },
-      data: {
-        name,
-        role: Role.MEMBER,
-      },
-    });
   }
 
   async findMemberById(id: number) {
@@ -93,10 +78,10 @@ export class MemberRepository {
     return authSocial;
   }
 
-  async findAuthPasswordByLoginId(loginId: string) {
+  async findAuthPasswordByLoginId(email: string) {
     const authPassword = await this.prisma.authPassword.findUnique({
       where: {
-        loginId,
+        email,
       },
     });
 

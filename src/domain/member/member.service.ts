@@ -6,23 +6,17 @@ import {
 import { MemberRepository } from './member.repository';
 import {
   IAuthPassword,
-  IAuthSocial,
   IMemberProfileWithCount,
   IMemerProfile,
 } from './interface/member.interface';
-import { LoginType } from '@prisma/client';
 import { hashPassword } from 'src/global/utils/bcrypt';
 
 @Injectable()
 export class MemberService {
   constructor(private readonly memberRepository: MemberRepository) {}
 
-  async createOAuthMember(loginType: LoginType, details: IAuthSocial) {
-    return await this.memberRepository.createOAuthMember(loginType, details);
-  }
-
   async createLocalMember(details: IAuthPassword) {
-    const member = await this.findAuthPasswordByLoginId(details.loginId);
+    const member = await this.findAuthPasswordByLoginId(details.email);
 
     if (member) {
       throw new ConflictException('already exist loginId');
@@ -34,11 +28,6 @@ export class MemberService {
       ...details,
       password,
     });
-  }
-
-  async signup(id: number, name: string) {
-    await this.existsMemberProfileByName(name);
-    await this.memberRepository.signup(id, name);
   }
 
   async updateProfile(
