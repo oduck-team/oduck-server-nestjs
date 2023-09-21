@@ -28,7 +28,7 @@ model MemberProfile {
   memberId  Int      @unique
   name      String
   info      String?  @db.VarChar(100)
-  role      Role     @default(GUEST)
+  role      Role     @default(MEMBER)
   imageUrl  String?
   point     Int      @default(0)
   createdAt DateTime @default(now())
@@ -48,8 +48,7 @@ model AuthSocial {
 model AuthPassword {
   id        Int      @id @default(autoincrement())
   memberId  Int      @unique
-  loginId   String   @unique
-  hash      String
+  email     String   @unique
   password  String
   createdAt DateTime @default(now())
   updatedAt DateTime @default(now()) @updatedAt
