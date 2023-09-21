@@ -421,70 +421,6 @@
             "x-nestia-encrypted": false
           }
         },
-        "summary": "회원 생성",
-        "description": "\n@tag Member\n@summary 회원 생성\n@security apiCookie",
-        "security": [
-          {
-            "apiCookie": []
-          }
-        ],
-        "x-nestia-namespace": "members.handleCreateMember",
-        "x-nestia-jsDocTags": [
-          {
-            "name": "tag",
-            "text": [
-              {
-                "text": "Member",
-                "kind": "text"
-              }
-            ]
-          },
-          {
-            "name": "summary",
-            "text": [
-              {
-                "text": "회원 생성",
-                "kind": "text"
-              }
-            ]
-          },
-          {
-            "name": "security",
-            "text": [
-              {
-                "text": "apiCookie",
-                "kind": "text"
-              }
-            ]
-          }
-        ],
-        "x-nestia-method": "POST"
-      }
-    },
-    "/members/signup": {
-      "post": {
-        "tags": [
-          "Member"
-        ],
-        "parameters": [],
-        "requestBody": {
-          "description": "",
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateNameDto"
-              }
-            }
-          },
-          "required": true,
-          "x-nestia-encrypted": false
-        },
-        "responses": {
-          "201": {
-            "description": "",
-            "x-nestia-encrypted": false
-          }
-        },
         "summary": "회원 가입",
         "description": "\n@tag Member\n@summary 회원 가입\n@security apiCookie",
         "security": [
@@ -492,7 +428,7 @@
             "apiCookie": []
           }
         ],
-        "x-nestia-namespace": "members.signup.handleSignup",
+        "x-nestia-namespace": "members.handleCreateMember",
         "x-nestia-jsDocTags": [
           {
             "name": "tag",
@@ -2783,78 +2719,6 @@
         "description": "@minLength 8\n@maxLength 20\n@pattern ^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,20}$\n@description 영문, 숫자, 특수문자를 포함 8-20자",
         "x-typia-jsDocTags": []
       },
-      "UpdateNameDto": {
-        "type": "object",
-        "properties": {
-          "name": {
-            "description": "@minLength 2\n@maxLength 10\n@pattern ^[가-힣A-Za-z0-9]{2,10}$\n@example '홍길동'",
-            "x-typia-metaTags": [
-              {
-                "kind": "minLength",
-                "value": 2
-              },
-              {
-                "kind": "maxLength",
-                "value": 10
-              },
-              {
-                "kind": "pattern",
-                "value": "^[가-힣A-Za-z0-9]{2,10}$"
-              }
-            ],
-            "x-typia-jsDocTags": [
-              {
-                "name": "minLength",
-                "text": [
-                  {
-                    "text": "2",
-                    "kind": "text"
-                  }
-                ]
-              },
-              {
-                "name": "maxLength",
-                "text": [
-                  {
-                    "text": "10",
-                    "kind": "text"
-                  }
-                ]
-              },
-              {
-                "name": "pattern",
-                "text": [
-                  {
-                    "text": "^[가-힣A-Za-z0-9]{2,10}$",
-                    "kind": "text"
-                  }
-                ]
-              },
-              {
-                "name": "example",
-                "text": [
-                  {
-                    "text": "'홍길동'",
-                    "kind": "text"
-                  }
-                ]
-              }
-            ],
-            "x-typia-required": true,
-            "x-typia-optional": false,
-            "type": "string",
-            "minLength": 2,
-            "maxLength": 10,
-            "pattern": "^[가-힣A-Za-z0-9]{2,10}$"
-          }
-        },
-        "nullable": false,
-        "required": [
-          "name"
-        ],
-        "description": "@minLength 2\n@maxLength 10\n@pattern ^[가-힣A-Za-z0-9]{2,10}$\n@example '홍길동'",
-        "x-typia-jsDocTags": []
-      },
       "UpdateProfileDto": {
         "type": "object",
         "properties": {
@@ -2920,7 +2784,7 @@
             "nullable": true
           },
           "name": {
-            "description": "@minLength 2\n@maxLength 10\n@pattern ^[가-힣A-Za-z0-9]{2,10}$\n@example '홍길동'",
+            "description": "@minLength 2\n@maxLength 10\n@pattern ^[가-힣A-Za-z0-9_]{2,10}$\n@example '홍길동'",
             "x-typia-metaTags": [
               {
                 "kind": "minLength",
@@ -2932,7 +2796,7 @@
               },
               {
                 "kind": "pattern",
-                "value": "^[가-힣A-Za-z0-9]{2,10}$"
+                "value": "^[가-힣A-Za-z0-9_]{2,10}$"
               }
             ],
             "x-typia-jsDocTags": [
@@ -2958,7 +2822,7 @@
                 "name": "pattern",
                 "text": [
                   {
-                    "text": "^[가-힣A-Za-z0-9]{2,10}$",
+                    "text": "^[가-힣A-Za-z0-9_]{2,10}$",
                     "kind": "text"
                   }
                 ]
@@ -2978,7 +2842,7 @@
             "type": "string",
             "minLength": 2,
             "maxLength": 10,
-            "pattern": "^[가-힣A-Za-z0-9]{2,10}$"
+            "pattern": "^[가-힣A-Za-z0-9_]{2,10}$"
           }
         },
         "nullable": false,
