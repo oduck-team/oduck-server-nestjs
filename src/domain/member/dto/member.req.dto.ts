@@ -1,11 +1,12 @@
 export interface CreateMemberDto {
   /**
    * @minLength 6
-   * @maxLength 12
-   * @pattern ^[A-Za-z0-9]{4,16}$
-   * @description 영문, 숫자 포함 6-12자
+   * @maxLength 320
+   * @format email
+   * @description 이메일 형식
    */
-  loginId: string;
+  email: string;
+
   /**
    * @minLength 8
    * @maxLength 20
@@ -19,7 +20,7 @@ export interface UpdateNameDto {
   /**
    * @minLength 2
    * @maxLength 10
-   * @pattern ^[가-힣A-Za-z0-9]{2,10}$
+   * @pattern ^[가-힣A-Za-z0-9_]{2,10}$
    * @example '홍길동'
    */
   name: string;

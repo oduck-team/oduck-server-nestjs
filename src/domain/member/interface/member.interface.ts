@@ -18,7 +18,7 @@ export interface IAuthSocial {
 }
 
 export interface IAuthPassword {
-  loginId: string;
+  email: string;
   password: string;
 }
 

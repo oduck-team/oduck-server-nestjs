@@ -22,7 +22,7 @@ export class AuthService {
   }
 
   async validateMemberByPassword(details: IAuthPassword) {
-    const memberAuth = await this.getAuthPassword(details.loginId);
+    const memberAuth = await this.getAuthPassword(details.email);
 
     let password = details.password;
 
@@ -54,10 +54,7 @@ export class AuthService {
   }
 
   private async createOAuthMember(details: IAuthSocial) {
-    return await this.memberRepository.createOAuthMember(
-      LoginType.SOCIAL,
-      details,
-    );
+    return await this.memberRepository.createOAuthMember(details);
   }
 
   async findMemberProfile(memberId: number) {
